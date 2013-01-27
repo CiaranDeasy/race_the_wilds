@@ -1,0 +1,45 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="top"
+    tools:context=".MainMenu" >
+
+    <Button
+        android:id="@+id/worldButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="77dp"
+        android:layout_marginTop="40dp"
+        android:text="@string/worldMap" />
+
+    <Button
+        android:id="@+id/collectionButton"
+        android:layout_width="wrap_content"
+        android:onClick="moveToCollection"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/worldButton"
+        android:layout_centerHorizontal="true"
+        android:text="@string/collection" />
+
+    <Button
+        android:id="@+id/checkinButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/collectionButton"
+        android:layout_centerHorizontal="true"
+        android:text="@string/checkIn" />
+
+    <TextView
+        android:id="@+id/infoText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/checkinButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="28dp"
+        android:text="Check-in text placeholder"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+</RelativeLayout>
