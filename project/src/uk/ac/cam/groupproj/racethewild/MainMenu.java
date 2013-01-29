@@ -25,6 +25,13 @@ public class MainMenu extends Activity {
 		//intent.putExtra(ENGINE_MESSAGE, engine);  //for when we start sending around Engine.
 		startActivity(intent);
 	}
+	
+	public void moveToNodeMap(View view) {
+		Intent intent = new Intent(this, ScrollMapScene.class);  //TODO: change to NodeMapScene when implemented properly!
+		
+		//intent.putExtra(ENGINE_MESSAGE, engine);  //for when we start sending around Engine.
+		startActivity(intent);
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
