@@ -23,7 +23,7 @@ public class ScrollMapScene extends Activity implements OnTouchListener{
 	ScrollViewer mapDisplay;
 	Bitmap background;
 	Engine e;
-	ArrayList<Bitmap> animals;  //Change to a special displayAnimal class in future.
+	ArrayList<BitmapDisplayAnimal> animals;  //Change to a special displayAnimal class in future.
 	
 	float currentCenterx;  //current center of the screen, in terms of (0,0) being the top leftmost part of the bg image.
 	float currentCentery;
