@@ -22,48 +22,42 @@
 % Main document
 \section{Introduction}
 
-For this IB Group Project, the client, Mr Craig Mills of the United Nations Environment Programme World Conservation Monitoring Centre, has requested a smartphone application that
-
-\begin{quote}
-uses both animal tracking data and location tracking to educate users and raise awareness about animals.
-\end{quote}
-
-This specification document outlines an idea that aims to turn this concept into a product that people will find appealing and enjoy using.
+For this IB Group Project, the client, Mr Craig Mills of the United Nations Environment Programme World Conservation Monitoring Centre, has requested a smartphone application that uses both animal tracking data and location tracking to educate users and raise awareness about animals. This specification document outlines an idea that aims to turn this concept into a product that people will find appealing and enjoy using.
 
 \section{General investigation of the problem and its \\ background}
 \subsection{Context}
 
 The project arises out of a desire to improve public engagement with wildlife, in a way which promotes understanding, knowledge and imagination, via a smartphone application.
 
-TODO (general bg info) - include some conservation facts e.t.c.
+%TODO (general bg info) - include some conservation facts e.t.c.
 
 \subsection{Technical concepts}
 It is clear that satellite tracking is a key aspect of the project.
 The group must therefore design modules to collect information based on the player's movements.
-However, it is somewhat less obvious how to encorporate this information into a fun, easy-to-use product.
+However, it is somewhat less obvious how to incorporate this information into a fun, easy-to-use product.
 The main innovation of the group is to use the approach of comparing the player's movements to a database of historic animal tracking data.
-New animals are released into a virtual world inside the application based on the similarity of distance travelled.          % this sentence needs rewording - make it clear what distances are being compared
-The user can collect and learn facts about the animals based on this information.   % very hastily worded sentence - redo
+Based on a comparison between the total distance travelled by the player and the travel distances recorded for animals, the player is deemed to have moved ``similarly to'' an animal, which is then released into a virtual world inside the application.
+The aim of the game, then, is to find these animals in the virtual world, to add them to the player's collection.
 
-To allow them to move around between various habitats in this virtual world to find animals, users will also receive movement points from their check-in based on how far they have travelled.   % again, too hasty, needs rewording slightly
-Using this method in its simplest form would, however, be fundamentally flawed, since users could receive a large number of points simply by driving to work in a car, riding on a train between cities or even flying between continents in an aeroplane.    % i really need to stop writing so quickly. this is terrible.
-TODO: sentence explaining why such movement is bad
-Such [extraneous] behaviour can be avoided by using an algorithm that rewards more movement points for [movement] it detects as walking or cycling.   % again, draft wording
+To allow them to move around between various habitats in this virtual world, players will also receive movement points from their check-in based on how far they have travelled. 
+Using this method in its simplest form would, however, be fundamentally flawed, since players could receive a large number of points simply by driving to work in a car, riding on a train between cities or even flying between continents in an aeroplane.
+Such behaviour would go against the spirit of the game, and should not be rewarded.
+The effect can be mitigated by using an algorithm that rewards more movement points for distance travelled in a time that is plausibly attributable to walking or cycling.
 
-The world map will be presented as a simple touch-based graph interface, with users paying movement points to travel between nodes.
-Once an animal is available to find, the user will have to guess / work out which habitat the animal is most suited to (perhaps via research), and can then move to the correct location to find it.
+The world map will be presented as a simple touch-based graph interface, with players paying movement points to travel between nodes.
+Once an animal is available to find, the player will have to guess / work out which habitat the animal is most suited to (perhaps via research), and can then move to the correct location to find it.
 
-Once in a location, the user will be presented with a 2D environment.
-Using a touch interface, they can scroll around in an attempt to find any animals that have been released but not yet found.
-Animals which have already been found will also be in the area, to give the game a slight difficulty curve, and to give a sense of progression as the user's collection grows.
+Once in a location, the player will be presented with a 2D environment.
+Using a touch interface, they can scroll around and try to find any animals that have been released but not yet found.
+Animals which have already been found will also be in the area, to give the game a slight difficulty curve, and to give a sense of progression as the player's collection grows.
 Once the animal has been found, it can be touched to add it to the collection.
-As a reward for finding an animal, the user will be presented with some interesting facts about it.
+As a reward for finding an animal, the player will be presented with a photo and some interesting facts about it.
 
-To see their progress, or find information on animals that have been released but not found, the user can visit the collection screen.
+To see their progress, or find information on animals that have been released but not found, the player can visit the collection screen.
 This will give them access to hints about unfound animals, as well as the facts about each animal they have collected already.
 This will be navigable by a scrolling touch interface.
 
-Possible extensions to the project are a separate application to add new animals to the program via a simple PC graphical user interface, or a mission based system to, for example, find food for animals in the user's collection, to educate on the diets of animals.
+Possible extensions to the project are a separate application to add new animals to the program via a simple PC graphical user interface, or a mission based system to, for example, find food for animals in the player's collection, to educate on the diets of animals.
 The project is also ripe for extension based on other data we may receive, provided it can integrate well with the rest of the design.
 
 It is clear that the target audience would be late primary / secondary school children, as that is the audience most likely to be interested in such a collecting-focused game.
@@ -92,20 +86,20 @@ This will provide a central interface, insulating components from each other.
 The engine itself won't require deep technical knowledge of Android.
 
 \subsection{Satellite Tracker}
-The satellite tracker needs to run as a background process on the system, as the user will want to track their movements even when the application is not their focus.
+The satellite tracker needs to run as a background process on the system, as the player will want to track their movements even when the application is not their focus.
 This means that the tracker needs to have a separate lifecycle, communicating with the main process using Android's IPC (Inter-Process Communication) feature.
-We note, however, that satellite navigation is very battery-intensive; this means we need to give the user an easy method of turning the feature off when they don't wish to be tracked, such as a button in the application's main menu.
-It also means we shouldn't continuously track the user; a sufficient sleeping time for the feature, perhaps 5 minutes, should be used to balance accuracy of tracking with the realities of finite battery life.
+We note, however, that satellite navigation is very battery-intensive; this means we need to give the player an easy method of turning the feature off when they don't wish to be tracked, such as a button in the application's main menu.
+It also means we shouldn't continuously track the player; a sufficient sleeping time for the feature, perhaps 5 minutes, should be used to balance accuracy of tracking with the realities of finite battery life.
 
 
 It is proposed that the component will be split up into three layers.
 At the bottom will be a raw data layer, which directly interfaces with the satellite navigation system, exporting a (coordinate, time) tuple when movement has been confirmed (outside of an error range).
 The second layer will perform calculations of distance and average speed of movement between points, which can then be exported to the following layer.
-The top layer will use these calculations to determine the ``movement points'' and travel distance to give the player.
+The top layer will use these calculations to determine the movement points and travel distance to award the player.
 
 
 All of this will be repeated at regular intervals (probably five minutes) and the results accumulated.
-On request from the main application, this data can then be parcelled into a \textit{(Distance, Movement Points)} pair and sent using the Parcelable interface and Android's IPC (inter-process communication) feature.
+On request from the main application, this data can then be parcelled into a \textit{(Distance, Movement Points)} pair and sent using the Parcelable interface and Android's IPC feature.
 
 \subsection{User Interface}
 The user interface needs to be designed using Android's activity system for different scenes.
@@ -126,7 +120,7 @@ These systems both also require an extensive amount of image assets to be functi
 
 The node based map will allow players to move between the above environments by spending their ``movement points''.
 This means a touchable graph should be constructed with links between different environments with associated costs to move between each node.
-Ideally a realtime implementation of Djikstra could be used to give costs, but since we have limited time a stored, imprecise cost between each node is instead likely to be used, as this probably won't affect the end user.
+Ideally a real-time implementation of Dijkstra could be used to give costs, but since we have limited time a stored, imprecise cost between each node is instead likely to be used, as this probably won't affect the end user.
 This system is also likely to need extensive OpenGL calls, as it's a fairly heavyweight system for the stock Activity interface.
 
 \subsection{Scrolling Map}
@@ -142,7 +136,7 @@ Multiple different environments must be created like this, to allow the player t
 The animal collection, as well as the interface described above, needs to have a dictionary of content.
 It is proposed that we store this as a Java Map of \verb|<Integer,Animal>| that can be loaded at runtime; the reason being for this is that potentially information could be added to this via a separate application designed to record animals, which could then be added into the game automatically.
 This means definition of an Animal class is needed.
-This should store basic data such as location in game world, movement data, and a string of a sprite location, but not the full sprite: as we keep the whole dictionary in memory at all times it is wasteful to store every sprite we have all the time, and we would quickly run out of memory.
+This should store basic data such as location in game world, movement data, and a string of a sprite location. It should not store the actual sprite data: as we keep the whole dictionary in memory at all times it is wasteful to store every sprite we have all the time, and we would quickly run out of memory.
 
 
 Of course, if the user is to make progression using this system, we will need to store save data on the Android storage.
@@ -152,8 +146,8 @@ This can then be loaded back in at runtime, and saved when any changes to these 
 We will also have to save the data tracked by the sat-nav process in the event of it being forcefully closed by the user or the system.
 This can be achieved by saving the required information when closing, and reloading if this has been the case when the process is restarted.
 
-\section{Project Setup}
-In terms of acceptance criteria, the product needs to be stable on release.
+\section{Acceptance Criteria}
+Most importantly, the product needs to be stable on release.
 This means there should be no path through the program which causes the application to hang in any way.
 We also need to take steps to avoid loss of data or corruption as a result of the program, meaning when data is saved it should not be able to corrupt existing data without being consistent itself.
 The finished product should have a fully functioning satellite navigation tracker in place that records distance information, though it does not need to be accurate to within a reasonable error.
@@ -170,27 +164,43 @@ It is not deemed, however, that all content should be in place.
 A proof of concept, with enough assets to show all the necessary features of the application, is enough, as the project is not about asset creation and is instead a technical one.
 The product also needs to be aesthetically functional though it does not need to be attractive; again, a proof of concept is all that is necessary.
 
-\section{Project management and individual responsibilities of group members}
-\subsection{A cleverly worded title}
+\section{Project Management}
 
-\begin{table}[H]
+\subsection{Group Responsibilities}
+
+%\begin{table}[H]
 \begin{tabular}{|l|l|}
 \hline
-Group member&Responsibilities\\
+\textbf{Group member} & \textbf{Responsibilities}\\
 \hline
-$\vdots$&$\vdots$\\
+Ciaran Deasy & Core Engine, Sat-Nav\\
 \hline
-$\vdots$&$\vdots$\\
+Christopher Wheelhouse & Local and World Map\\
+\hline
+Andrew Sheriff & Menu, Check-in System, IPC\\
+\hline
+Tom McCarthy & Animal Screen, Player Data\\
+\hline
+Sam Ainsworth & Local and World Maps\\
+\hline
+Matthew Ireland & Animal Collection and Fact Database\\
 \hline
 \end{tabular}
-\caption{TODO}
-\end{table}
+%\caption{TODO}
+%\end{table}
 
-\section{A cleverly worded title}
-% may want to make this a subsection of the above?
+\subsection{Schedule}
 The project will be implemented iteratively.
 A total of four prototypes will be created, with deadlines of Thursday, February 7th, 14th, 21st and 28th respectively.
 The client will have an opportunity to see, either in person at a meeting or by means of a short video demonstration, each completed prototype running, and a typical use case will be demonstrated.
 This model will allow the client to provide feedback on the project during its development to ensure that it is satisfactory.
+
+The first prototype will implement the core of the game. By this point, it should be possible to collect animals from the game world. Graphics will be place-holder only, and the sat-nav will not be implemented.
+
+The second prototype will implement the sat-nav portion of the application, completing the core technical aspects of the game. Content will be expanded, but graphics will remain place-holders only.
+
+The third prototype will focus on presentation, implementing graphics to an acceptable, shippable standard, although the earlier caveat remains that this is a primarily technical project. Some final ``bells and whistles'' may be added.
+
+The final build will meet all acceptance criteria outlined above. This build should conform to the specifications outlined in this document, subject to client feedback from previous prototype phases.
 
 \end{document}
