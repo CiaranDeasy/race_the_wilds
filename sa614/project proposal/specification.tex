@@ -27,7 +27,8 @@ For this IB Group Project, the client, Mr Craig Mills of the United Nations Envi
 \section{General investigation of the problem and its \\ background}
 \subsection{Context}
 
-The project arises out of a desire to improve public engagement with wildlife, in a way which promotes understanding, knowledge and imagination, via a smartphone application.
+The project arises out of a desire to improve public engagement with wildlife, in a way which promotes understanding, knowledge and imagination, via a smartphone application. 
+The idea is that by using real world data users can compare their own lives and movements with those of wildlife, to promote empathy with animals.
 
 %TODO (general bg info) - include some conservation facts e.t.c.
 
@@ -64,7 +65,7 @@ It is clear that the target audience would be late primary / secondary school ch
 However it is intended that the game would have as wide an appeal as possible; indeed it is likely that University level students could also be interested in using the application.
 
 As the project should be written in Java, the natural platform of choice is Android.
-Though this sacrifices the ability to have it run on as many platforms as possible (ruling out Windows Phone 7 and iOS), it does allow speedy development and also allows us to use some of the advanced features Android permits, such as OpenGL.
+Though this sacrifices the ability to have it run on as many platforms as possible (ruling out Windows Phone 7 and iOS), it does allow speedy development and also allows us to use some of the advanced features Android permits, such as its well defined Activity system to implement user interfaces.
 We have decided to target Android 2.2 onwards, in line with Google's recommendations, and also to support over 90\% of the Android smartphones in active use\footnote{Sourced from http://developer.android.com/about/dashboards/index.html on 28/01/2013}.
 
 \section{Technical Specifications}
@@ -113,20 +114,20 @@ This all requires very platform specific knowledge of Android, so should be impl
 
 \subsection{Node Map}
 The scrolling map system and the node-based world map are more complicated.
-It is likely that these will be implemented using drawing calls provided by OpenGL ES 2.0, the embedded systems graphics library available for Android.
+These will be implemented using Android's SurfaceView object, which allows frame buffer rendering and event processing with a great deal of customisation.
 These systems will also require buttons and text boxes provided by Android's Activity system, so can be counted as a specific instance of the user interface system.
-Both of these will require knowledge, therefore, of OpenGL.
+
 These systems both also require an extensive amount of image assets to be functional; in an ideal system there would be a great many of these for the project, but since we have a limited amount of time and intend this to be a technical rather than art project, it is likely that we will provide a subset of assets for a potential full release version, with the capability of easy expansion should new assets become available.
 
 The node based map will allow players to move between the above environments by spending their ``movement points''.
 This means a touchable graph should be constructed with links between different environments with associated costs to move between each node.
 Ideally a real-time implementation of Dijkstra could be used to give costs, but since we have limited time a stored, imprecise cost between each node is instead likely to be used, as this probably won't affect the end user.
-This system is also likely to need extensive OpenGL calls, as it's a fairly heavyweight system for the stock Activity interface.
+This system is also likely to need fairly involved rendering code, as it's a fairly heavyweight system for the stock Activity interface.
 
 \subsection{Scrolling Map}
 The scrolling map will be based on one large image background (larger than the screen itself) per environment.
 It is noted that the file size of this in memory will be fairly large; it may be decided to load this in parts depending on which area of the screen is shown at the time.
-The other option would be to create tile based maps, but this is likely to require extensive knowledge of the OpenGL API, and require a lot of time commitment, though would potentially allow for smaller assets.
+The other option would be to create tile based maps, but this is likely to require extensive programming time, and a lot of time commitment for asset definition and creation, though would potentially allow for smaller assets.
 On this, animals already collected in that habitat will be laid out randomly across the screen, with the intent to fill it relatively densely.
 Animals found by the check-in system but not yet in the virtual world will be placed in the habitats they should exist in, but only one of each type will exist at any one point in each compatible habitat.
 Touching one of these new animals will trigger a call to add the animal to the collection, as well as move the player to the collection interface to receive facts.
