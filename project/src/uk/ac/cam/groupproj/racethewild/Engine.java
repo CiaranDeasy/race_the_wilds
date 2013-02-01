@@ -5,12 +5,16 @@ import java.util.Map;
 
 public abstract class Engine {
 
-	private Stack<Scene> sceneStack;
+	
+	
+	public final static String NODEPASS_MESSAGE = "uk.ac.cam.groupproj.racethewild.NODEPASS";
 	private PlayerStats stats;
 	private Map<NodeType, Node> nodes; // Maps an enumerated nodeType to the actual node object.
 	private Map<Integer, Animal> animalDictionary; // This will only ever be loaded, never saved,
                                             //so we can do weird stuff with the animals
                                             // at launch time, e.g. load sprites into them.
+	
+	
 
 	public PlayerStats getStats() { return stats; }
 

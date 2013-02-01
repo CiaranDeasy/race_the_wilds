@@ -10,6 +10,7 @@ import android.view.View;
 public class MainMenu extends Activity {
 	
 	//public final static String ENGINE_MESSAGE = "uk.ac.cam.groupproj.racethewild.ENGINE";
+
 	//Engine engine;
 	
 	@Override
@@ -28,6 +29,7 @@ public class MainMenu extends Activity {
 	
 	public void moveToNodeMap(View view) {
 		Intent intent = new Intent(this, ScrollMapScene.class);  //TODO: change to NodeMapScene when implemented properly!
+		intent.putExtra(Engine.NODEPASS_MESSAGE,new Node("island.jpg"));
 		
 		//intent.putExtra(ENGINE_MESSAGE, engine);  //for when we start sending around Engine.
 		startActivity(intent);
