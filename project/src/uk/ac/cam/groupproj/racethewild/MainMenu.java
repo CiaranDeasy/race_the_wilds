@@ -3,6 +3,7 @@ package uk.ac.cam.groupproj.racethewild;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
@@ -17,7 +18,7 @@ public class MainMenu extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_menu);
-		engine = new Engine();
+		engine = new Engine(getResources());
 	}
 	
 	public void moveToCollection(View view) {
@@ -43,4 +44,3 @@ public class MainMenu extends Activity {
 	}
 
 }
-// Random change to test commits via Eclipse.

@@ -1,7 +1,7 @@
 package uk.ac.cam.groupproj.racethewild;
 
 public enum Colour {
-	Black, // Undiscovered.
+	Black, // Found.
 	Grey,  // Discovered but not found.
-	White  // Found,
+	White  // Undiscovered,
 }

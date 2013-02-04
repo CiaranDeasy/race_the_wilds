@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animaldictionary>
+    <animal>
+        <id>1</id>
+        <name>Giraffe</name>
+        <description>A series of plausible giraffe facts.</description>
+        <hint>An appropriate arctic hint.</hint>
+        <photo>donkey.png</photo>
+        <sprite>donkey.png</sprite>
+    </animal>
+    <animal>
+        <id>2</id>
+        <name>Zebra</name>
+        <description>A series of plausible zebra facts.</description>
+        <hint>An appropriate arctic hint.</hint>
+        <photo>donkey.png</photo>
+        <sprite>donkey.png</sprite>
+    </animal>
+    <animal>
+        <id>3</id>
+        <name>Kangaroo</name>
+        <description>A series of plausible kangaroo facts.</description>
+        <hint>An appropriate arctic hint.</hint>
+        <photo>donkey.png</photo>
+        <sprite>donkey.png</sprite>
+    </animal>
+    <animal>
+        <id>4</id>
+        <name>Dog</name>
+        <description>A series of plausible dog facts.</description>
+        <hint>An appropriate arctic hint.</hint>
+        <photo>donkey.png</photo>
+        <sprite>donkey.png</sprite>
+    </animal>
+    <animal>
+        <id>5</id>
+        <name>Hippo</name>
+        <description>A series of plausible hippo facts.</description>
+        <hint>An appropriate arctic hint.</hint>
+        <photo>donkey.png</photo>
+        <sprite>donkey.png</sprite>
+    </animal>
+    
+</animaldictionary>

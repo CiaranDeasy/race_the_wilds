@@ -11,6 +11,7 @@ public class Animal implements Comparable<Animal> {
 	private String description;
 	private List<Node> nodes;
 	private Colour colour;
+	private String hint;
 	
 	public int getID() { return id; }
 	public String getGraphicPath() { return graphic; }
@@ -19,20 +20,24 @@ public class Animal implements Comparable<Animal> {
 	public String getFacts() { return description; }
 	public List<Node> getNodes() { return nodes; }
 	public Colour getColour() { return colour; }
+	public String getHint() { return hint; }
 	
 	public int compareTo(Animal other) {
 		return this.id - other.id;
 	}
 	
-	// Temporary, incomplete constructor.
-	public Animal(int id, String name, Colour colour) {
+	public void setGrey() { colour = Colour.Grey; }
+	public void setBlack() { colour = Colour.Black; }
+	
+	public Animal(int id, String name, String description, String hint, String graphic, 
+			String sprite) {
 		this.id = id;
-		this.graphic = "";
-		this.sprite = "";
 		this.name = name;
-		this.description = "Placeholder";
-		this.nodes = null;
-		this.colour = colour;
+		this.description = description;
+		this.hint = hint;
+		this.graphic = graphic;
+		this.sprite = sprite;
+		this.colour = Colour.White; // Default to unfound, and update from save data later.
 	}
 	
 }
