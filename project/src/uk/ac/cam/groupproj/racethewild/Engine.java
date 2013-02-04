@@ -1,6 +1,5 @@
 package uk.ac.cam.groupproj.racethewild;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -8,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import android.content.Context;
 import android.content.res.Resources;
 
 public class Engine {
@@ -56,7 +54,7 @@ public class Engine {
 		// TODO: Start the sat-nav process, if not running.
 		// Load animal data.
 		try {
-			animalDictionary = XmlParser.createDictionary(resources.getXml(R.xml.testxml));
+			animalDictionary = XmlParser.createDictionary(resources.getXml(R.xml.animaldata));
 		} catch(DictionaryReadException e) {
 			System.err.println(e.getMessage());
 			System.err.println("No animal dictionary, so expect badness!");
