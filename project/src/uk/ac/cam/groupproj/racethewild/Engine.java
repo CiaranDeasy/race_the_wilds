@@ -12,6 +12,8 @@ import android.content.res.Resources;
 public class Engine {
 	
 	public final static String NODEPASS_MESSAGE = "uk.ac.cam.groupproj.racethewild.NODEPASS";
+	public final static String ANIMAL_NUMBER_MESSAGE = "uk.ac.cam.groupproj.racethewild.ANIMAL_NUMBER";
+
 	private PlayerStats stats;
 	private Map<NodeType, Node> nodes; // Maps an enumerated nodeType to the actual node object.
 	private Map<Integer, Animal> animalDictionary; // This will only ever be loaded, never saved,

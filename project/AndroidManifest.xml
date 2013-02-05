@@ -32,7 +32,16 @@
         </activity>
         <activity
             android:name="uk.ac.cam.groupproj.racethewild.ScrollMapScene"
-            android:label="@string/title_activity_scroll_map_scene" android:parentActivityName="uk.ac.cam.groupproj.racethewild.MainMenu">
+            android:label="@string/title_activity_scroll_map_scene"
+            android:parentActivityName="uk.ac.cam.groupproj.racethewild.MainMenu" >
+        </activity>
+        <activity
+            android:name="uk.ac.cam.groupproj.racethewild.NodeScene"
+            android:label="@string/title_activity_node_scene"
+            android:parentActivityName="uk.ac.cam.groupproj.racethewild.MainMenu" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="uk.ac.cam.groupproj.racethewild.MainMenu" />
         </activity>
     </application>
 

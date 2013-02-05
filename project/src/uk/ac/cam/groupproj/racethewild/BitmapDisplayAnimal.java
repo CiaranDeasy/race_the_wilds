@@ -9,18 +9,22 @@ import android.graphics.Canvas;
 
 public class BitmapDisplayAnimal {
 	
-	public Bitmap bitmap;
-	public float x;
-	public float y;
+	private Bitmap bitmap;
+	private float x;
+	private float y;
 	public final int animalCode;
+	public Colour colour;
 	
-	public BitmapDisplayAnimal(float xcoord, float ycoord, int animalCode, Bitmap bitMap )
+	public BitmapDisplayAnimal(float xcoord, float ycoord, int animalCode, Bitmap bitMap, Colour colour )
 	{
 		this.animalCode=animalCode;
 		
 		x = xcoord;
 		y = ycoord;
 		bitmap = bitMap;
+		
+		this.colour = colour;
+		
 	}
 	
 	public void onDraw(Canvas c, float viewCenterx, float viewCentery, float screenWidth, float screenHeight){

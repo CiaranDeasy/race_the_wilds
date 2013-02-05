@@ -18,7 +18,7 @@ public class MainMenu extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_menu);
-		engine = new Engine(getResources());
+		engine = Engine.get();
 	}
 	
 	public void moveToCollection(View view) {
@@ -30,9 +30,7 @@ public class MainMenu extends Activity {
 	
 	public void moveToNodeMap(View view) {
 		Intent intent = new Intent(this, ScrollMapScene.class);  //TODO: change to NodeMapScene when implemented properly!
-		intent.putExtra(Engine.NODEPASS_MESSAGE,new Node("island.jpg"));
-		
-		//intent.putExtra(ENGINE_MESSAGE, engine);  //for when we start sending around Engine.
+		engine.setCurrentNode(String name); //TODO: make name variable, name is the name of the node
 		startActivity(intent);
 	}
 

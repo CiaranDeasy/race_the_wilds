@@ -10,5 +10,7 @@
     <string name="title_activity_animal_collection">Animal Collection</string>
     <string name="title_activity_scroll_map_scene">ScrollMapScene</string>
     <string name="collectionStringName">Animal Collection</string>
-
+    <string name="title_activity_node_scene">NodeScene</string>
+    <string name="go_to_node_button">Go to Node</string>
+    
 </resources>
