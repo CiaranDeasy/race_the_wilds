@@ -7,6 +7,8 @@
         <hint>An appropriate arctic hint.</hint>
         <photo>donkey.png</photo>
         <sprite>donkey.png</sprite>
+        <node>Arctic</node>
+        <node>Island</node>
     </animal>
     <animal>
         <id>2</id>
@@ -15,6 +17,8 @@
         <hint>An appropriate arctic hint.</hint>
         <photo>donkey.png</photo>
         <sprite>donkey.png</sprite>
+        <node>Arctic</node>
+        <node>Island</node>
     </animal>
     <animal>
         <id>3</id>
@@ -23,6 +27,7 @@
         <hint>An appropriate arctic hint.</hint>
         <photo>donkey.png</photo>
         <sprite>donkey.png</sprite>
+        <node>Arctic</node>
     </animal>
     <animal>
         <id>4</id>
@@ -31,6 +36,7 @@
         <hint>An appropriate arctic hint.</hint>
         <photo>donkey.png</photo>
         <sprite>donkey.png</sprite>
+        <node>Island</node>
     </animal>
     <animal>
         <id>5</id>
@@ -39,6 +45,8 @@
         <hint>An appropriate arctic hint.</hint>
         <photo>donkey.png</photo>
         <sprite>donkey.png</sprite>
+        <node>Arctic</node>
+        <node>Island</node>
     </animal>
     
 </animaldictionary>

@@ -13,7 +13,7 @@ public class Engine {
 	
 	public final static String NODEPASS_MESSAGE = "uk.ac.cam.groupproj.racethewild.NODEPASS";
 	private PlayerStats stats;
-	private Map<NodeType, Node> nodes; // Maps an enumerated nodeType to the actual node object.
+	private List<Node> nodes; // Maps an enumerated nodeType to the actual node object.
 	private Map<Integer, Animal> animalDictionary; // This will only ever be loaded, never saved,
                                             //so we can do weird stuff with the animals
                                             // at launch time, e.g. load sprites into them.
@@ -24,6 +24,7 @@ public class Engine {
 	public static Engine get() { return engine; }
 	public static void initEngine(Resources resources) {
 		engine = new Engine(resources);
+		engine.initialise();
 	}
 	
 
@@ -58,6 +59,11 @@ public class Engine {
 	public void initialise() { // Initial setup when app is started.
 		// TODO: Load the player's stats.
 		// TODO: Start the sat-nav process, if not running.
+		// TODO: Load node data.
+		// Temporary hard-coded implementation.
+		nodes = new ArrayList<Node>();
+		nodes.add(new Node("Island", "island.jpg", "N/A"));
+		nodes.add(new Node("Arctic", "arcticsample.jpg", "N/A"));
 		// Load animal data.
 		try {
 			animalDictionary = XmlParser.createDictionary(resources.getXml(R.xml.animaldata));
@@ -66,19 +72,56 @@ public class Engine {
 			System.err.println("No animal dictionary, so expect badness!");
 			animalDictionary = null;
 		}
-		// TODO: Load node data.
-		// TODO: Populate nodes with animals. (separate method)
-		
+		// Rig a few colours, for the lolz. TODO: Remove.
+		this.getAnimal(1).setColour(Colour.White);
+		this.getAnimal(2).setColour(Colour.Grey);
+		this.getAnimal(3).setColour(Colour.Black);
+		this.getAnimal(4).setColour(Colour.Grey);
+		this.getAnimal(5).setColour(Colour.Black);
+		// Populate nodes with animals. (separate method)
+		List<Animal> animals = this.getAllAnimals();
+		for (Animal animal : animals) this.populateAnimal(animal);
+	}
+	
+	/** Sets the colour of the animal with the given ID to the given colour. */
+	public void changeColour(int animalID, Colour colour) {
+		// Update the Animal object.
+		Animal animal = this.getAnimal(animalID);
+		animal.setColour(colour);
+		// If from white, add to nodes.
+		if (colour == Colour.Grey) populateAnimal(animal);
+		// TODO: Update in PlayerStats.
+	}
+	
+	/** Updates the player's current in-game location. */
+	public void setCurrentNode() {
+		// TODO!
+	}
+	
+	/** Takes the name of a node, and returns the object associated with it. */
+	public Node lookupNode(String name) throws NodeNotFoundException {
+		for (Node node : nodes) {
+			if (node.hasName(name)) return node;
+		}
+		// Fail if the node isn't found.
+		throw new NodeNotFoundException();
 	}
 	
 	/** Part of initialisation. Adds animals to their correct nodes. */
-	protected void populateAnimal(Animal animal, boolean isWhite) {};
+	protected void populateAnimal(Animal animal) {
+		// Don't populate undiscovered animals.
+		if (animal.getColour() == Colour.White) return;
+		
+		Node[] animalNodes = animal.getNodes();
+		for (int i = 0; i < animalNodes.length; i++) {
+			animalNodes[i].addAnimal(animal);
+		}
+	};
 				//Add an animal to the Nodes in which it should appear.
 
 	/** Create the engine at app start.
 	 *  Takes a Resources reference to access resource files. */
 	private Engine(Resources resources) {
 		this.resources = resources;
-		initialise();
 	}
 }

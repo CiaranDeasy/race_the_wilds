@@ -1,14 +1,13 @@
 package uk.ac.cam.groupproj.racethewild;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
-
-import android.util.Xml;
 
 public class XmlParser {
 	
@@ -62,7 +61,7 @@ public class XmlParser {
 	
 	/** Parse XML animal data, given a parser pointing at the opening tag of the first data item. 
 	 * */
-	public static Animal readNewAnimal(XmlPullParser parser) 
+	private static Animal readNewAnimal(XmlPullParser parser) 
 			throws IOException, XmlPullParserException, DictionaryReadException {
 		int id = 0;
 		// Parse each data item in turn.
@@ -77,13 +76,14 @@ public class XmlParser {
 		String hint = parseTag(parser, "hint");
 		String photo = parseTag(parser, "photo");
 		String sprite = parseTag(parser, "sprite");
+		List<String> nodes = parseSequence(parser, "node");
 		// And return a new Animal object containing the extracted data.
-		return new Animal(id, name, description, hint, photo, sprite);
+		return new Animal(id, name, description, hint, photo, sprite, nodes);
 	}
 	
 	/** Parse a single data item with the given tag, assuming the parser points to the opening tag
 	 *  of that data item. */
-	public static String parseTag(XmlPullParser parser, String tag) 
+	private static String parseTag(XmlPullParser parser, String tag) 
 			throws IOException, XmlPullParserException, DictionaryReadException {
 		// Check that the opening tag is correct.
 		if(!parser.getName().equals(tag)) throw new DictionaryReadException(
@@ -102,6 +102,28 @@ public class XmlParser {
 		parser.next();
 		// And return the extracted data.
 		return text;
+	}
+	
+	/** Parses a variable-length (possibly empty) sequence of the same tag. */
+	private static List<String> parseSequence(XmlPullParser parser, String tag) 
+			throws XmlPullParserException, IOException, DictionaryReadException {
+		List<String> list = new ArrayList<String>();
+		// Loop as long as there's another matching tag.
+		while(parser.getName().equals(tag)) {
+			// Extract the content.
+			parser.next();
+			list.add(parser.getText());
+			// Check the closing tag.
+			parser.next();
+			if (!(parser.getEventType() == XmlPullParser.END_TAG &&
+					parser.getName().equals(tag))) throw new DictionaryReadException(
+							"Expected closing tag </" + tag + ">, found tag \"" + 
+									parser.getName() + "\".");
+			// Step onto the next tag.
+			parser.next();
+		}
+		// Return the list of extracted strings.
+		return list;
 	}
 	
 }

@@ -1,5 +1,6 @@
 package uk.ac.cam.groupproj.racethewild;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Animal implements Comparable<Animal> {
@@ -9,7 +10,7 @@ public class Animal implements Comparable<Animal> {
 	private String sprite; // The sprite shown on the scrolly map.
 	private String name;
 	private String description;
-	private List<Node> nodes;
+	private Node[] nodes;
 	private Colour colour;
 	private String hint;
 	
@@ -18,19 +19,18 @@ public class Animal implements Comparable<Animal> {
 	public String getSpritePath() { return sprite; }
 	public String getName() { return name; }
 	public String getFacts() { return description; }
-	public List<Node> getNodes() { return nodes; }
+	public Node[] getNodes() { return nodes; }
 	public Colour getColour() { return colour; }
 	public String getHint() { return hint; }
 	
 	public int compareTo(Animal other) {
 		return this.id - other.id;
 	}
-	
-	public void setGrey() { colour = Colour.Grey; }
-	public void setBlack() { colour = Colour.Black; }
+
+	public void setColour(Colour colour) { this.colour = colour; }
 	
 	public Animal(int id, String name, String description, String hint, String graphic, 
-			String sprite) {
+			String sprite, List<String> nodeNames) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -38,6 +38,14 @@ public class Animal implements Comparable<Animal> {
 		this.graphic = graphic;
 		this.sprite = sprite;
 		this.colour = Colour.White; // Default to unfound, and update from save data later.
+		this.nodes = new Node[nodeNames.size()];
+		for (int i = 0; i < nodeNames.size(); i++)
+			try {
+				nodes[i] = Engine.get().lookupNode(nodeNames.get(i));
+			} catch(NodeNotFoundException e) {
+				System.err.println("Attempted to add animal " + name + "<#" + id + 
+						"> to invalid node \"" + nodeNames.get(i) + "\".");
+			}
 	}
 	
 }

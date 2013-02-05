@@ -52,7 +52,7 @@ public class ScrollMapScene extends Activity implements OnTouchListener{
 		thisNode = (Node) intent.getSerializableExtra(Engine.NODEPASS_MESSAGE);
 
 		try {
-			InputStream BGinputstream = getAssets().open(thisNode.scrollMapGraphic);
+			InputStream BGinputstream = getAssets().open(thisNode.getBackground());
 
 			background = BitmapFactory.decodeStream(BGinputstream);
 		} catch (IOException e1) {

@@ -28,7 +28,7 @@ public class MainMenu extends Activity {
 	
 	public void moveToNodeMap(View view) {
 		Intent intent = new Intent(this, ScrollMapScene.class);  //TODO: change to NodeMapScene when implemented properly!
-		intent.putExtra(Engine.NODEPASS_MESSAGE,new Node("island.jpg"));
+		intent.putExtra(Engine.NODEPASS_MESSAGE,new Node("", "island.jpg", ""));
 		
 		//intent.putExtra(ENGINE_MESSAGE, engine);  //for when we start sending around Engine.
 		startActivity(intent);
