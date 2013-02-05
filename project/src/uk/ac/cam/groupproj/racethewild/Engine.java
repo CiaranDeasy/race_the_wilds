@@ -19,6 +19,12 @@ public class Engine {
                                             // at launch time, e.g. load sprites into them.
 	private Resources resources;
 	
+	private static Engine engine;
+	
+	public static Engine get() { return engine; }
+	public static void initEngine(Resources resources) {
+		engine = new Engine(resources);
+	}
 	
 
 	public PlayerStats getStats() { return stats; }
@@ -71,7 +77,7 @@ public class Engine {
 
 	/** Create the engine at app start.
 	 *  Takes a Resources reference to access resource files. */
-	public Engine(Resources resources) {
+	private Engine(Resources resources) {
 		this.resources = resources;
 		initialise();
 	}

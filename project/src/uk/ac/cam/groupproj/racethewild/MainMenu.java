@@ -11,14 +11,12 @@ import android.view.View;
 public class MainMenu extends Activity {
 	
 	//public final static String ENGINE_MESSAGE = "uk.ac.cam.groupproj.racethewild.ENGINE";
-
-	Engine engine;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_menu);
-		engine = new Engine(getResources());
+		Engine.initEngine(getResources()); // Initialise the engine.
 	}
 	
 	public void moveToCollection(View view) {
