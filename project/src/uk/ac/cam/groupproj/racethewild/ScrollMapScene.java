@@ -40,18 +40,28 @@ public class ScrollMapScene extends Activity implements OnTouchListener{
 	float RelTouchx;
 	float PreTouchy;
 	float RelTouchy; //most recent touch point.
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
+		e = Engine.get();
 		super.onCreate(savedInstanceState);
 		mapDisplay = new ScrollViewer(this);
 		mapDisplay.setOnTouchListener(this);
 
-		thisNode = e.getNode(e.getStats().currentNode);
+		try {
+			// TODO thisNode = e.lookupNode(e.getStats().currentNode);
+			thisNode = e.lookupNode("Arctic");
+		} catch (NodeNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		try {
-			InputStream BGinputstream = getAssets().open(thisNode.scrollMapGraphic);
+
+			InputStream BGinputstream = getAssets().open(thisNode.getBackground());
+
 			background = BitmapFactory.decodeStream(BGinputstream);
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
@@ -65,29 +75,34 @@ public class ScrollMapScene extends Activity implements OnTouchListener{
 
 		animals = new ArrayList<BitmapDisplayAnimal>();
 
-		for(Animal a : thisNode.black) //TODO: change to animal list
+		for(Animal a : thisNode.getAnimalList()) //TODO: change to animal list
 		{
-			if(a.getColour()==Colour.Grey)
-			{
-				float xcoord = (float) (Math.random()*background.getWidth());
-				float ycoord = (float) (Math.random()*background.getHeight());
-				InputStream is = getAssets().open(a.getSpritePath());
-				Bitmap bitmap = BitmapFactory.decodeStream(is);
-				BitmapDisplayAnimal animal = new BitmapDisplayAnimal(xcoord, ycoord, a.getID(), bitmap,a.getColour());
-				animals.add(animal);
-			}
-			else if(a.getColour()==Colour.Black)
-			{
-				InputStream is = getAssets().open(a.getSpritePath());
-				Bitmap bitmap = BitmapFactory.decodeStream(is);
-				
-				for(int x=0; x<10; x++)
+			try {
+				if(a.getColour()==Colour.Grey)
 				{
 					float xcoord = (float) (Math.random()*background.getWidth());
 					float ycoord = (float) (Math.random()*background.getHeight());
+					InputStream is = getAssets().open(a.getSpritePath());
+					Bitmap bitmap = BitmapFactory.decodeStream(is);
 					BitmapDisplayAnimal animal = new BitmapDisplayAnimal(xcoord, ycoord, a.getID(), bitmap,a.getColour());
 					animals.add(animal);
 				}
+				else if(a.getColour()==Colour.Black)
+				{
+					InputStream is = getAssets().open(a.getSpritePath());
+					Bitmap bitmap = BitmapFactory.decodeStream(is);
+					
+					for(int x=0; x<10; x++)
+					{
+						float xcoord = (float) (Math.random()*background.getWidth());
+						float ycoord = (float) (Math.random()*background.getHeight());
+						BitmapDisplayAnimal animal = new BitmapDisplayAnimal(xcoord, ycoord, a.getID(), bitmap,a.getColour());
+						animals.add(animal);
+					}
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 			
 			
@@ -217,18 +232,15 @@ public class ScrollMapScene extends Activity implements OnTouchListener{
 						e.changeColour(a.animalCode, Colour.Black);//Call to engine to change the colour of the Animal
 						a.colour = Colour.Black;
 						
-						Intent intent = new Intent(this, AnimalScene.class);  
+						/*Intent intent = new Intent(this, AnimalScene.class);  
 						//TODO: change to proper scene when implemented properly!
 						intent.putExtra(Engine.ANIMAL_NUMBER_MESSAGE, a.animalCode);
-						startActivity(intent);
+						startActivity(intent);*/
 						
 					}
 					
 					//TODO: Implement the real method here which moves us to animal screen.
-					//This remove as is causes concurrency bugs; add synchronized here and in graphics thread.
 
-					animals.remove(a);
-					break;
 				}
 			}
 

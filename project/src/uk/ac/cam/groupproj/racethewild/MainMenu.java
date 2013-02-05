@@ -18,6 +18,7 @@ public class MainMenu extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_menu);
+		Engine.initEngine(getResources()); // Initialise the engine.
 		engine = Engine.get();
 	}
 	
@@ -30,7 +31,7 @@ public class MainMenu extends Activity {
 	
 	public void moveToNodeMap(View view) {
 		Intent intent = new Intent(this, ScrollMapScene.class);  //TODO: change to NodeMapScene when implemented properly!
-		engine.setCurrentNode(String name); //TODO: make name variable, name is the name of the node
+		engine.setCurrentNode("Arctic"); //TODO: make name variable, name is the name of the node
 		startActivity(intent);
 	}
 
