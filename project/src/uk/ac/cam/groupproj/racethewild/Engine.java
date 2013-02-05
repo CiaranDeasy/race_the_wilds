@@ -32,6 +32,10 @@ public class Engine {
 
 	public PlayerStats getStats() { return stats; }
 	
+	public List<Node> getNodeList() {
+		return nodes;
+	}
+	
 	/** Get data from the sat-nav process. */
 	public SatNavUpdate fetchSatNavData() {
 		// Temporary implementation generates random update.
@@ -64,8 +68,8 @@ public class Engine {
 		// TODO: Load node data.
 		// Temporary hard-coded implementation.
 		nodes = new ArrayList<Node>();
-		nodes.add(new Node("Island", "island.jpg", "N/A"));
-		nodes.add(new Node("Arctic", "arcticsample.jpg", "N/A"));
+		nodes.add(new Node("Island", "island.jpg", "sample_node.png", 0.3f, 0.3f));
+		nodes.add(new Node("Arctic", "arcticsample.jpg", "sample_node.png", 0.6f, 0.6f));
 		// Load animal data.
 		try {
 			animalDictionary = XmlParser.createDictionary(resources.getXml(R.xml.animaldata));
@@ -96,8 +100,9 @@ public class Engine {
 	}
 	
 	/** Updates the player's current in-game location. */
-	public void setCurrentNode(String name) {
+	public void setCurrentNode(String name) {  //Thanks for not implementing this Ciaran. We forgot, and had to bugfix for half an hour to fix a nonexistant bug in our code.
 		// TODO!
+		
 	}
 	
 	/** Takes the name of a node, and returns the object associated with it. */

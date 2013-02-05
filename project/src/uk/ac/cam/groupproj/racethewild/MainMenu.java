@@ -1,6 +1,5 @@
 package uk.ac.cam.groupproj.racethewild;
 
-
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
@@ -9,11 +8,12 @@ import android.view.Menu;
 import android.view.View;
 
 public class MainMenu extends Activity {
-	
-	//public final static String ENGINE_MESSAGE = "uk.ac.cam.groupproj.racethewild.ENGINE";
+
+	// public final static String ENGINE_MESSAGE =
+	// "uk.ac.cam.groupproj.racethewild.ENGINE";
 
 	Engine engine;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -21,17 +21,17 @@ public class MainMenu extends Activity {
 		Engine.initEngine(getResources()); // Initialise the engine.
 		engine = Engine.get();
 	}
-	
+
 	public void moveToCollection(View view) {
 		Intent intent = new Intent(this, AnimalCollection.class);
-		
-		//intent.putExtra(ENGINE_MESSAGE, engine);  //for when we start sending around Engine.
+
+		// intent.putExtra(ENGINE_MESSAGE, engine); //for when we start sending
+		// around Engine.
 		startActivity(intent);
 	}
-	
+
 	public void moveToNodeMap(View view) {
-		Intent intent = new Intent(this, ScrollMapScene.class);  //TODO: change to NodeMapScene when implemented properly!
-		engine.setCurrentNode("Arctic"); //TODO: make name variable, name is the name of the node
+		Intent intent = new Intent(this, NodeScene.class); 
 		startActivity(intent);
 	}
 

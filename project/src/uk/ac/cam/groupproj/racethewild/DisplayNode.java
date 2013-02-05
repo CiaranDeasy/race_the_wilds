@@ -21,9 +21,9 @@ public class DisplayNode {
 		
 	}
 	
-	public void onDraw(Canvas c, float viewCenterx, float viewCentery, float screenWidth, float screenHeight){
+	public void onDraw(Canvas c, float viewCentery, float screenWidth, float screenHeight){
 		
-		float xCoord = x - viewCenterx + screenWidth/2 - bitmap.getWidth()/2;
+		float xCoord = x - bitmap.getWidth()/2;
 		c.drawBitmap(bitmap,xCoord,y - viewCentery + screenHeight/2 - bitmap.getHeight()/2, null);
 		
 	}

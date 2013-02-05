@@ -1,13 +1,16 @@
 package uk.ac.cam.groupproj.racethewild;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
-import uk.ac.cam.groupproj.racethewild.ScrollMapScene.ScrollViewer;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.util.DisplayMetrics;
@@ -18,6 +21,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.widget.RelativeLayout;
 import android.support.v4.app.NavUtils;
 
 public class NodeScene extends Activity implements OnTouchListener {
@@ -25,8 +29,9 @@ public class NodeScene extends Activity implements OnTouchListener {
 
 	NodeViewer nodeDisplay;
 	Engine e;
-	Bitmap background;
-	ArrayList<Node> nodes;
+	Bitmap worldMapBG;
+	ArrayList<DisplayNode> displayNodes;
+	Node selectedScene;
 
 	//current center of the screen, in terms of (0,0) being the top leftmost part of the bg image.
 	float currentCentery;
@@ -42,11 +47,46 @@ public class NodeScene extends Activity implements OnTouchListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		e = Engine.get();
 
 		nodeDisplay = new NodeViewer(this);
 		nodeDisplay.setOnTouchListener(this);
+		
+		try {
 
-		setContentView(R.layout.activity_node_scene); //TODO Change this
+			InputStream BGinputstream = getAssets().open("sample_node_scene.png");
+
+			worldMapBG = BitmapFactory.decodeStream(BGinputstream);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		List<Node> nodes = e.getNodeList();
+		displayNodes = new ArrayList<DisplayNode>();
+		for(Node n: nodes)
+		{
+			InputStream is;
+			try {
+				is = getAssets().open(n.getSprite());
+			
+			Bitmap bitmap = BitmapFactory.decodeStream(is);
+			
+			
+			
+			displayNodes.add(new DisplayNode(n.getRelX()*worldMapBG.getWidth(),
+					n.getRelY()*worldMapBG.getHeight(), n.getName(), bitmap));
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		
+		
+		RelativeLayout layout =  (RelativeLayout)View.inflate(this, R.layout.activity_node_scene, null);
+		layout.addView(nodeDisplay,0);
+
+		setContentView(layout); 
 	}
 
 	@Override
@@ -74,6 +114,17 @@ public class NodeScene extends Activity implements OnTouchListener {
 	}
 
 
+	public void moveToScrollMap(View view) {
+		if(selectedScene!=null) 
+		{
+			
+			Intent intent = new Intent(this, ScrollMapScene.class); 
+			e.setCurrentNode(selectedScene.getName());
+
+			startActivity(intent);
+		}
+	}
+	
 	@Override
 	protected void onPause()
 	{
@@ -102,6 +153,9 @@ public class NodeScene extends Activity implements OnTouchListener {
 			getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
 			screenwidth = displaymetrics.widthPixels;
 			screenheight = displaymetrics.heightPixels;
+			
+			currentCentery = screenheight/2;
+			
 		}
 
 		public void pause(){
@@ -136,14 +190,14 @@ public class NodeScene extends Activity implements OnTouchListener {
 				}
 
 				Canvas c = holder.lockCanvas();
-				//				c.drawBitmap(background, new Rect((int)currentCenterx - (screenwidth>>1),
-				//						(int)currentCentery - (screenheight>>1),
-				//						(int)currentCenterx + (screenwidth>>1),
-				//						(int)currentCentery + (screenheight>>1)), new Rect(0,0,screenwidth,screenheight) , null);
-				//				for( BitmapDisplayAnimal a : animals)
-				//				{
-				//					a.onDraw(c, currentCenterx, currentCentery, screenwidth, screenheight);
-				//				}
+								c.drawBitmap(worldMapBG, new Rect(0,
+										(int)currentCentery - (screenheight>>1),
+										(int)worldMapBG.getWidth(),
+										(int)currentCentery + (screenheight>>1)), new Rect(0,0,screenwidth/2,screenheight) , null);
+								for( DisplayNode node : displayNodes)
+								{
+									node.onDraw(c, currentCentery, screenwidth, screenheight);
+								}
 				holder.unlockCanvasAndPost(c);
 			}
 
@@ -168,11 +222,26 @@ public class NodeScene extends Activity implements OnTouchListener {
 				float xForCollisionChecker = Touchx;
 				float yForCollisionChecker = currentCentery - screenheight/2 + RelTouchy;
 
+				for (DisplayNode node : displayNodes)
+				{
+		
+					if(node.collisionCheck(xForCollisionChecker,yForCollisionChecker))
+					{
+						try {
+							selectedScene = e.lookupNode(node.nodeName);
+							
+						} catch (NodeNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+				
 				break;
 			}
 			case MotionEvent.ACTION_MOVE:{
 				currentCentery= PreTouchy + RelTouchy - arg1.getY();
-				if(currentCentery>background.getHeight()-screenheight/2) currentCentery = background.getHeight()-screenheight/2;
+				if(currentCentery>worldMapBG.getHeight()-screenheight/2) currentCentery = worldMapBG.getHeight()-screenheight/2;
 				if(currentCentery<screenheight/2) currentCentery = screenheight/2;
 			
 				break;
