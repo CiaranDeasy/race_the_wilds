@@ -18,7 +18,7 @@ public class MainMenu extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_menu);
-		Engine.initEngine(getResources()); // Initialise the engine.
+		if (Engine.get() == null) Engine.initEngine(getResources()); // Initialise the engine.
 		engine = Engine.get();
 	}
 
