@@ -1,2 +1,0 @@
-I can do git, me!
-But can I merge it?
