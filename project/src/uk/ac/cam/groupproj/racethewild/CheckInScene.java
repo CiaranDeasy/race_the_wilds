@@ -35,12 +35,13 @@ public class CheckInScene extends Activity {
 		}
 		e.checkIn(chosen);
 		Bitmap background;
+		if(chosen != null){
+			TextView textView = (TextView) findViewById(R.id.animalName);
+			textView.setText(chosen.getName());
 		
-		TextView textView = (TextView) findViewById(R.id.animalName);
-		textView.setText(chosen.getName());
-		
-		TextView textView1 = (TextView) findViewById(R.id.animalFacts);
-		textView1.setText(chosen.getHint());
+			TextView textView1 = (TextView) findViewById(R.id.animalFacts);
+			textView1.setText(chosen.getHint());
+		}
 	}
 
 	@Override
