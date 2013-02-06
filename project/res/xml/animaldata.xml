@@ -5,8 +5,8 @@
         <name>Giraffe</name>
         <description>A series of plausible giraffe facts.</description>
         <hint>An appropriate arctic hint.</hint>
-        <photo>donkey.png</photo>
-        <sprite>donkey.png</sprite>
+        <photo>GiraffePhoto.jpg</photo>
+        <sprite>GiraffeSprite.png</sprite>
         <distance>60</distance>
         <node>Arctic</node>
         <node>Island</node>
@@ -16,8 +16,8 @@
         <name>Zebra</name>
         <description>A series of plausible zebra facts.</description>
         <hint>An appropriate arctic hint.</hint>
-        <photo>donkey.png</photo>
-        <sprite>donkey.png</sprite>
+        <photo>ZebraPhoto.jpg</photo>
+        <sprite>ZebraSprite.png</sprite>
         <distance>120</distance>
         <node>Arctic</node>
     </animal>
@@ -36,8 +36,8 @@
         <name>Dog</name>
         <description>A series of plausible dog facts.</description>
         <hint>An appropriate arctic hint.</hint>
-        <photo>donkey.png</photo>
-        <sprite>donkey.png</sprite>
+        <photo>DogPhoto.jpg</photo>
+        <sprite>DogSprite.png</sprite>
         <distance>240</distance>
         <node>Arctic</node>
     </animal>
@@ -46,11 +46,21 @@
         <name>Hippo</name>
         <description>A series of plausible hippo facts.</description>
         <hint>An appropriate arctic hint.</hint>
-        <photo>donkey.png</photo>
-        <sprite>donkey.png</sprite>
+        <photo>HippoPhoto.jpg</photo>
+        <sprite>HippoSprite.png</sprite>
         <distance>300</distance>
         <node>Arctic</node>
         <node>Island</node>
+    </animal>
+    <animal>
+        <id>6</id>
+        <name>Donkey</name>
+        <description>A series of plausible donkey facts.</description>
+        <hint>An appropriate arctic hint.</hint>
+        <photo>DonkeyPhoto.jpg</photo>
+        <sprite>donkey.png</sprite>
+        <distance>360</distance>
+        <node>Arctic</node>
     </animal>
     
 </animaldictionary>
