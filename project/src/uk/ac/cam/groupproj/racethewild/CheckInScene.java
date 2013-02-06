@@ -1,23 +1,27 @@
 package uk.ac.cam.groupproj.racethewild;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class CheckInScene extends Activity {
-	
-	
+
+
 	Engine e = Engine.get();
 	// Displayed when the user cashes in their movement.
 	// Displays the number of movement points awarded, the released animal's graphic, some exciting
 	// text, and a hint for finding it.
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -34,14 +38,34 @@ public class CheckInScene extends Activity {
 			}
 		}
 		e.checkIn(chosen);
-		Bitmap background;
+		Bitmap background = null;
 		if(chosen != null){
 			TextView textView = (TextView) findViewById(R.id.animalName);
-			textView.setText(chosen.getName());
-		
+			textView.setText("A " + chosen.getName() + " has been released into the wild");
+
 			TextView textView1 = (TextView) findViewById(R.id.animalFacts);
 			textView1.setText(chosen.getHint());
+			
+			TextView textView2 = (TextView) findViewById(R.id.checkInAmount);
+			textView2.setText("You have gained " + e.fetchSatNavData().movePoints() + " movement points");
+
+
+			try {
+
+				InputStream BGinputstream = getAssets().open(chosen.getGraphicPath());
+
+				background = BitmapFactory.decodeStream(BGinputstream);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+			if(background != null){
+				ImageView imageView = (ImageView) findViewById(R.id.animalImg);
+				imageView.setImageBitmap(background);
+			}
 		}
+
 	}
 
 	@Override
@@ -67,7 +91,7 @@ public class CheckInScene extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 
 	//public void render(); // Draw the scene to the screen.
 	//public void update(); // Updates the scene on the screen.
