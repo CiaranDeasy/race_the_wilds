@@ -21,10 +21,10 @@ import android.content.Context;
 		private int totalDistance;
 		private List<Integer> whiteAnimals;
 		private List<Integer> greyAnimals;
-		private Node currentNode;
+		private String currentNode;
 		private static String fileName = "PlayerStats";
 		
-		public PlayerStats(Node currentNode){
+		public PlayerStats(String currentNode){
 			currentMovePoints = 0;
 			totalMovePoints = 0;
 			totalDistance = 0;
@@ -36,7 +36,7 @@ import android.content.Context;
 		public int getTotalDistance(){return totalDistance;}
 		public List<Integer> getFoundAnimals(){return whiteAnimals;}
 		public List<Integer> getGreyAnimals(){return greyAnimals;}
-		public Node getCurrentNode(){return currentNode;}
+		public String getCurrentNode(){return currentNode;}
 		
 		public void addMovePoints(int movePoints){
 			this.currentMovePoints =  this.currentMovePoints + movePoints;
@@ -51,7 +51,7 @@ import android.content.Context;
 			this.totalDistance = this.totalDistance + distance;
 		}
 		
-		public void setCurrentNode(Node node){
+		public void setCurrentNode(String node){
 			this.currentNode = node;
 		}
 		
