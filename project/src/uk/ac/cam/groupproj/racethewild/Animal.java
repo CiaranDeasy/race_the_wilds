@@ -13,7 +13,7 @@ public class Animal implements Comparable<Animal> {
 	private Node[] nodes;
 	private Colour colour;
 	private String hint;
-	private String distancePerDay;
+	private int distancePerDay;
 	
 	public int getID() { return id; }
 	public String getGraphicPath() { return graphic; }
@@ -23,7 +23,7 @@ public class Animal implements Comparable<Animal> {
 	public Node[] getNodes() { return nodes; }
 	public Colour getColour() { return colour; }
 	public String getHint() { return hint; }
-	public String getDistancePerDay() { return distancePerDay; }
+	public int getDistancePerDay() { return distancePerDay; }
 	
 	public int compareTo(Animal other) {
 		return this.id - other.id;
@@ -34,7 +34,7 @@ public class Animal implements Comparable<Animal> {
 	}
 	
 	public Animal(int id, String name, String description, String hint, String graphic, 
-			String sprite, String distancePerDay, List<String> nodeNames) {
+			String sprite, int distancePerDay, List<String> nodeNames) {
 		this.id = id;
 		this.name = name;
 		this.description = description;

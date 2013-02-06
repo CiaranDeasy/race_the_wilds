@@ -63,20 +63,26 @@ public class XmlParser {
 	 * */
 	private static Animal readNewAnimal(XmlPullParser parser) 
 			throws IOException, XmlPullParserException, DictionaryReadException {
-		int id = 0;
 		// Parse each data item in turn.
+		int id = 0;
 		try {
 			id = Integer.parseInt(parseTag(parser, "id"));
 		} catch(NumberFormatException e) {
 			throw new DictionaryReadException(
-					"Non-integer tag " + parser.getName() + "cannot be parsed.");
+					"Non-integer tag " + parser.getName() + " cannot be parsed.");
 		}
 		String name = parseTag(parser, "name");
 		String description = parseTag(parser, "description");
 		String hint = parseTag(parser, "hint");
 		String photo = parseTag(parser, "photo");
 		String sprite = parseTag(parser, "sprite");
-		String distancePerDay = parseTag(parser, "distance");
+		int distancePerDay = 0;
+		try {
+			distancePerDay = Integer.parseInt(parseTag(parser, "distance"));
+		} catch(NumberFormatException e) {
+			throw new DictionaryReadException(
+					"Non-integer tag " + parser.getName() + " cannot be parsed.");
+		}
 		List<String> nodes = parseSequence(parser, "node");
 		// And return a new Animal object containing the extracted data.
 		return new Animal(id, name, description, hint, photo, sprite, distancePerDay, nodes);
