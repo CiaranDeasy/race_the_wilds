@@ -114,7 +114,10 @@ public class Engine {
 	
 	/** Releases the given animal and resets distance and movement point accumulation. */
 	public void checkIn(Animal animal) {
-		if(animal != null) animal.setColour(Colour.Grey);
+		if(animal != null) {
+			animal.setColour(Colour.Grey);
+			this.populateAnimal(animal);
+		}
 		// TODO: Update playerstats.
 	}
 	
