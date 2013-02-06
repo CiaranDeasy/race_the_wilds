@@ -1,14 +1,26 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CheckInScene" >
 
     <TextView
+        android:id="@+id/animalName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/checkinButton"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/hello_world" />
-
-</RelativeLayout>
+        android:layout_marginTop="28dp"
+        android:text="Check-in text placeholder"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+    
+    <TextView
+        android:id="@+id/animalFacts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/checkinButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="28dp"
+        android:text="Check-in text placeholder"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+</LinearLayout>

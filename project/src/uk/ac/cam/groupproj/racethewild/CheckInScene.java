@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class CheckInScene extends Activity {
 	
@@ -34,6 +35,12 @@ public class CheckInScene extends Activity {
 		}
 		e.checkIn(chosen);
 		Bitmap background;
+		
+		TextView textView = (TextView) findViewById(R.id.animalName);
+		textView.setText(chosen.getName());
+		
+		TextView textView1 = (TextView) findViewById(R.id.animalFacts);
+		textView1.setText(chosen.getHint());
 	}
 
 	@Override
