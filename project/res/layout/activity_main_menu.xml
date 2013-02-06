@@ -31,6 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/collectionButton"
         android:layout_centerHorizontal="true"
+        android:onClick="checkIn"
         android:text="@string/checkIn" />
 
     <TextView
