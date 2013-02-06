@@ -76,9 +76,10 @@ public class XmlParser {
 		String hint = parseTag(parser, "hint");
 		String photo = parseTag(parser, "photo");
 		String sprite = parseTag(parser, "sprite");
+		String distancePerDay = parseTag(parser, "distance");
 		List<String> nodes = parseSequence(parser, "node");
 		// And return a new Animal object containing the extracted data.
-		return new Animal(id, name, description, hint, photo, sprite, nodes);
+		return new Animal(id, name, description, hint, photo, sprite, distancePerDay, nodes);
 	}
 	
 	/** Parse a single data item with the given tag, assuming the parser points to the opening tag

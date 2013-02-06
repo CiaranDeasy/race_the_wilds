@@ -13,6 +13,7 @@ public class Animal implements Comparable<Animal> {
 	private Node[] nodes;
 	private Colour colour;
 	private String hint;
+	private String distancePerDay;
 	
 	public int getID() { return id; }
 	public String getGraphicPath() { return graphic; }
@@ -22,6 +23,7 @@ public class Animal implements Comparable<Animal> {
 	public Node[] getNodes() { return nodes; }
 	public Colour getColour() { return colour; }
 	public String getHint() { return hint; }
+	public String getDistancePerDay() { return distancePerDay; }
 	
 	public int compareTo(Animal other) {
 		return this.id - other.id;
@@ -32,7 +34,7 @@ public class Animal implements Comparable<Animal> {
 	}
 	
 	public Animal(int id, String name, String description, String hint, String graphic, 
-			String sprite, List<String> nodeNames) {
+			String sprite, String distancePerDay, List<String> nodeNames) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -40,6 +42,7 @@ public class Animal implements Comparable<Animal> {
 		this.graphic = graphic;
 		this.sprite = sprite;
 		this.colour = Colour.White; // Default to unfound, and update from save data later.
+		this.distancePerDay = distancePerDay;
 		this.nodes = new Node[nodeNames.size()];
 		for (int i = 0; i < nodeNames.size(); i++)
 			try {

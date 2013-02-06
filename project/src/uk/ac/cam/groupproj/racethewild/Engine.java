@@ -42,6 +42,7 @@ public class Engine {
 		Random random = new Random();
 		return new SatNavUpdate(50 + random.nextInt(), random.nextInt());
 		// TODO: Implement fully.
+		// TODO: Have accumulation.
 	}
 	
 	/** Returns a List of all Animals, sorted by ID.
@@ -99,10 +100,22 @@ public class Engine {
 		// TODO: Update in PlayerStats.
 	}
 	
-	/** Updates the player's current in-game location. */
-	public void setCurrentNode(String name) {  //Thanks for not implementing this Ciaran. We forgot, and had to bugfix for half an hour to fix a nonexistant bug in our code.
-		// TODO!
-		
+	/** Updates the player's current in-game location. 
+	 *  NOT YET IMPLEMENTED! */
+	public void setCurrentNode(String name) { 
+		// TODO when PlayerStats is finished.
+	}
+	
+	/** Returns the player's current in-game location.
+	 *  NOT YET IMPLEMENTED! */
+	public void getCurrentNode() { 
+		// TODO when PlayerStats is finished.
+	}
+	
+	/** Releases the given animal and resets distance and movement point accumulation. */
+	public void checkIn(Animal animal) {
+		if(animal != null) animal.setColour(Colour.Grey);
+		// TODO: Update playerstats.
 	}
 	
 	/** Takes the name of a node, and returns the object associated with it. */
