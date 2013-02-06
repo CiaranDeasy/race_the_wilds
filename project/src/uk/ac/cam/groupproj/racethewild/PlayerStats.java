@@ -19,8 +19,7 @@ public class PlayerStats implements Serializable {
 	public int getCurrentMovePoints(){return currentMovePoints;}
 	public int getTotalMovePoints(){return totalMovePoints;}
 	public int getTotalDistance(){return totalDistance;}
-	public List<Integer> getFoundAnimals(){return foundAnimals;}
-	public List<Integer> getGreyAnimals(){return greyAnimals;}
+
 	public String getCurrentNode(){return currentNode};
 	
 	
