@@ -16,6 +16,14 @@ public class PlayerStats implements Serializable {
 	List<Integer> greyAnimals;
 	String currentNode;
 	
+	public int getCurrentMovePoints(){return currentMovePoints;}
+	public int getTotalMovePoints(){return totalMovePoints;}
+	public int getTotalDistance(){return totalDistance;}
+	public List<Integer> getFoundAnimals(){return foundAnimals;}
+	public List<Integer> getGreyAnimals(){return greyAnimals;}
+	public String getCurrentNode(){return currentNode};
+	
+	
 	//public static PlayerStats load(); // Loads savedata and gives back a stats object.
 	//public void save(); // Save stats to a file.
 
