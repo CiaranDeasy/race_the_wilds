@@ -40,7 +40,7 @@ public class Engine {
 	public SatNavUpdate fetchSatNavData() {
 		// Temporary implementation generates random update.
 		Random random = new Random();
-		return new SatNavUpdate(50 + random.nextInt(), random.nextInt());
+		return new SatNavUpdate(50 + random.nextInt(200), random.nextInt(200));
 		// TODO: Implement fully.
 		// TODO: Have accumulation.
 	}
