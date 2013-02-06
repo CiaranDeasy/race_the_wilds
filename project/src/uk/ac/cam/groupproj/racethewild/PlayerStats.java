@@ -20,7 +20,7 @@ public class PlayerStats implements Serializable {
 	public int getTotalMovePoints(){return totalMovePoints;}
 	public int getTotalDistance(){return totalDistance;}
 
-	public String getCurrentNode(){return currentNode};
+	public String getCurrentNode(){return currentNode;};
 	
 	
 	//public static PlayerStats load(); // Loads savedata and gives back a stats object.
