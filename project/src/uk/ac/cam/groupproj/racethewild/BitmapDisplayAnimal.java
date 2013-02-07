@@ -7,7 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
 
-public class BitmapDisplayAnimal {
+public class BitmapDisplayAnimal implements Comparable<BitmapDisplayAnimal>{
 	
 	private Bitmap bitmap;
 	private float x;
@@ -43,6 +43,14 @@ public class BitmapDisplayAnimal {
 			return true;
 		
 		return false;
+	}
+
+
+	@Override
+	public int compareTo(BitmapDisplayAnimal another) {
+		if(y>another.y)	return 1;
+		else if(y<another.y)return -1;
+		return 0;
 	}
 	
 

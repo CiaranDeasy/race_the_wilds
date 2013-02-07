@@ -13,8 +13,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.DisplayMetrics;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -61,6 +61,7 @@ public class NodeScene extends Activity implements OnTouchListener {
 			InputStream BGinputstream = getAssets().open("nodebg.png");
 
 			worldMapBG = BitmapFactory.decodeStream(BGinputstream);
+			BGinputstream.close();
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -75,6 +76,7 @@ public class NodeScene extends Activity implements OnTouchListener {
 				is = getAssets().open(n.getSprite());
 			
 			Bitmap bitmap = BitmapFactory.decodeStream(is);
+			is.close();
 			
 			
 			
@@ -234,7 +236,7 @@ public class NodeScene extends Activity implements OnTouchListener {
 					if(node.collisionCheck(xForCollisionChecker,yForCollisionChecker))
 					{
 						try {
-							selectedScene = e.lookupNode(node.nodeName);
+							Node selectedScene = e.lookupNode(node.nodeName);
 							
 							TextView textView = (TextView) findViewById(R.id.moveCostText);
 							//TODO: set moveCost here.
@@ -243,10 +245,15 @@ public class NodeScene extends Activity implements OnTouchListener {
 							ImageView imageView = (ImageView) findViewById(R.id.nodeViewPic);
 							InputStream nodeViewPic;
 							try {
+								
 								nodeViewPic = getAssets().open(selectedScene.getBackground());
-
+								
 								Bitmap pic = BitmapFactory.decodeStream(nodeViewPic);
+								if(this.selectedScene!=null)
+								((BitmapDrawable)imageView.getDrawable()).getBitmap().recycle();
+								this.selectedScene=selectedScene;
 								imageView.setImageBitmap(pic);
+								nodeViewPic.close();
 							} catch (IOException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();

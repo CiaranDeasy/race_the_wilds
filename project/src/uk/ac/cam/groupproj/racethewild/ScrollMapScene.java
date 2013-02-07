@@ -3,6 +3,7 @@ package uk.ac.cam.groupproj.racethewild;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -62,6 +63,7 @@ public class ScrollMapScene extends Activity implements OnTouchListener{
 			InputStream BGinputstream = getAssets().open(thisNode.getBackground());
 
 			background = BitmapFactory.decodeStream(BGinputstream);
+			BGinputstream.close();
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -83,6 +85,7 @@ public class ScrollMapScene extends Activity implements OnTouchListener{
 					float ycoord = (float) (Math.random()*background.getHeight());
 					InputStream is = getAssets().open(a.getSpritePath());
 					Bitmap bitmap = BitmapFactory.decodeStream(is);
+					is.close();
 					BitmapDisplayAnimal animal = new BitmapDisplayAnimal(xcoord, ycoord, a.getID(), bitmap,a.getColour());
 					animals.add(animal);
 				}
@@ -90,6 +93,7 @@ public class ScrollMapScene extends Activity implements OnTouchListener{
 				{
 					InputStream is = getAssets().open(a.getSpritePath());
 					Bitmap bitmap = BitmapFactory.decodeStream(is);
+					is.close();
 					
 					for(int x=0; x<10; x++)
 					{
@@ -104,6 +108,7 @@ public class ScrollMapScene extends Activity implements OnTouchListener{
 				e.printStackTrace();
 			}
 			
+			Collections.sort(animals);
 			
 		}
 		
