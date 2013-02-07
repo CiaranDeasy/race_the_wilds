@@ -3,7 +3,7 @@
     <animal>
         <id>1</id>
         <name>Giraffe</name>
-        <description>A series of plausible giraffe facts.</description>
+        <description>A single plausible giraffe fact.</description>
         <hint>An appropriate arctic hint.</hint>
         <photo>GiraffePhoto.jpg</photo>
         <sprite>GiraffeSprite.png</sprite>
@@ -14,7 +14,7 @@
     <animal>
         <id>2</id>
         <name>Zebra</name>
-        <description>A series of plausible zebra facts.</description>
+        <description>A single plausible zebra fact.</description>
         <hint>An appropriate arctic hint.</hint>
         <photo>ZebraPhoto.jpg</photo>
         <sprite>ZebraSprite.png</sprite>
@@ -24,7 +24,7 @@
     <animal>
         <id>3</id>
         <name>Kangaroo</name>
-        <description>A series of plausible kangaroo facts.</description>
+        <description>A single plausible kangaroo fact.</description>
         <hint>An appropriate arctic hint.</hint>
         <photo>donkey.png</photo>
         <sprite>donkey.png</sprite>
@@ -34,7 +34,7 @@
     <animal>
         <id>4</id>
         <name>Dog</name>
-        <description>A series of plausible dog facts.</description>
+        <description>A single plausible dog fact.</description>
         <hint>An appropriate arctic hint.</hint>
         <photo>DogPhoto.jpg</photo>
         <sprite>DogSprite.png</sprite>
@@ -44,7 +44,7 @@
     <animal>
         <id>5</id>
         <name>Hippo</name>
-        <description>A series of plausible hippo facts.</description>
+        <description>A single plausible hippo fact.</description>
         <hint>An appropriate arctic hint.</hint>
         <photo>HippoPhoto.jpg</photo>
         <sprite>HippoSprite.png</sprite>
@@ -55,7 +55,7 @@
     <animal>
         <id>6</id>
         <name>Donkey</name>
-        <description>A series of plausible donkey facts.</description>
+        <description>A single of plausible donkey fact.</description>
         <hint>An appropriate arctic hint.</hint>
         <photo>DonkeyPhoto.jpg</photo>
         <sprite>donkey.png</sprite>
