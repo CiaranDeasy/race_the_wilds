@@ -6,7 +6,7 @@
         <description>A single plausible giraffe fact.</description>
         <hint>An appropriate arctic hint.</hint>
         <photo>GiraffePhoto.jpg</photo>
-        <sprite>GiraffeSprite.png</sprite>
+        <sprite>giraffesprite2.png</sprite>
         <distance>60</distance>
         <node>Arctic</node>
         <node>Island</node>
