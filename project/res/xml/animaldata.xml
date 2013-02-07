@@ -3,10 +3,10 @@
     <animal>
         <id>1</id>
         <name>Giraffe</name>
-        <description>A series of plausible giraffe facts.</description>
+        <description>A single plausible giraffe fact.</description>
         <hint>An appropriate arctic hint.</hint>
-        <photo>donkey.png</photo>
-        <sprite>donkey.png</sprite>
+        <photo>GiraffePhoto.jpg</photo>
+        <sprite>GiraffeSprite.png</sprite>
         <distance>60</distance>
         <node>Arctic</node>
         <node>Island</node>
@@ -14,17 +14,17 @@
     <animal>
         <id>2</id>
         <name>Zebra</name>
-        <description>A series of plausible zebra facts.</description>
+        <description>A single plausible zebra fact.</description>
         <hint>An appropriate arctic hint.</hint>
-        <photo>donkey.png</photo>
-        <sprite>donkey.png</sprite>
+        <photo>ZebraPhoto.jpg</photo>
+        <sprite>ZebraSprite.png</sprite>
         <distance>120</distance>
         <node>Arctic</node>
     </animal>
     <animal>
         <id>3</id>
         <name>Kangaroo</name>
-        <description>A series of plausible kangaroo facts.</description>
+        <description>A single plausible kangaroo fact.</description>
         <hint>An appropriate arctic hint.</hint>
         <photo>donkey.png</photo>
         <sprite>donkey.png</sprite>
@@ -34,23 +34,33 @@
     <animal>
         <id>4</id>
         <name>Dog</name>
-        <description>A series of plausible dog facts.</description>
+        <description>A single plausible dog fact.</description>
         <hint>An appropriate arctic hint.</hint>
-        <photo>donkey.png</photo>
-        <sprite>donkey.png</sprite>
+        <photo>DogPhoto.jpg</photo>
+        <sprite>DogSprite.png</sprite>
         <distance>240</distance>
         <node>Arctic</node>
     </animal>
     <animal>
         <id>5</id>
         <name>Hippo</name>
-        <description>A series of plausible hippo facts.</description>
+        <description>A single plausible hippo fact.</description>
         <hint>An appropriate arctic hint.</hint>
-        <photo>donkey.png</photo>
-        <sprite>donkey.png</sprite>
+        <photo>HippoPhoto.jpg</photo>
+        <sprite>HippoSprite.png</sprite>
         <distance>300</distance>
         <node>Arctic</node>
         <node>Island</node>
+    </animal>
+    <animal>
+        <id>6</id>
+        <name>Donkey</name>
+        <description>A single of plausible donkey fact.</description>
+        <hint>An appropriate arctic hint.</hint>
+        <photo>DonkeyPhoto.jpg</photo>
+        <sprite>donkey.png</sprite>
+        <distance>360</distance>
+        <node>Arctic</node>
     </animal>
     
 </animaldictionary>

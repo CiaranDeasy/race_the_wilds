@@ -85,6 +85,7 @@ public class Engine {
 		this.getAnimal(3).setColour(Colour.Black);
 		this.getAnimal(4).setColour(Colour.Grey);
 		this.getAnimal(5).setColour(Colour.Black);
+		this.getAnimal(6).setColour(Colour.White);
 		// Populate nodes with animals. (separate method)
 		List<Animal> animals = this.getAllAnimals();
 		for (Animal animal : animals) this.populateAnimal(animal);

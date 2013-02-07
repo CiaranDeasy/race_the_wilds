@@ -4,23 +4,41 @@
     android:layout_height="match_parent"
     tools:context=".CheckInScene" >
 
-    <TextView
-        android:id="@+id/animalName"
+    
+        <TextView
+        android:id="@+id/checkInAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="28dp"
-        android:text="Check-in text placeholder"
+        android:text="You have released all the animals"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+        
+        
+    <TextView
+        android:id="@+id/animalName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/checkInAmount"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="28dp"
         android:textAppearance="?android:attr/textAppearanceLarge" />
     
     <TextView
         android:id="@+id/animalFacts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/animalName"
+        android:layout_below="@id/animalName"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="28dp"
-        android:text="Check-in text placeholder"
         android:textAppearance="?android:attr/textAppearanceLarge" />
+    
+    <ImageView 
+        android:id="@+id/animalImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/animalFacts"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="28dp"/>
 </RelativeLayout>
