@@ -1,16 +1,72 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:screenOrientation="landscape" 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+   android:layout_alignLeft="@+id/center_point"
+    android:background="@android:color/white"
     tools:context=".NodeScene" >
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+
+ 
+       <LinearLayout
+      android:id="@+id/center_point"
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      android:layout_centerInParent="true"/>
+    
+ <LinearLayout
+      android:id="@+id/left_layout"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_alignParentLeft="true"
+      android:layout_alignRight="@+id/center_point"/>
+
+    <LinearLayout
+        android:id="@+id/right_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignLeft="@+id/center_point"
         android:layout_alignParentRight="true"
-        android:onClick="moveToScrollMap"
-        android:text="@string/go_to_node_button" />
+        android:background="@android:color/white"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/currentMovePointsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/current_movement_points"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+        
+            <ImageView
+                android:id="@+id/nodeViewPic"
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1"
+                android:contentDescription="@string/scenepicturestring"
+                android:src="@drawable/ic_launcher" />
+
+            <TextView
+                android:id="@+id/nodeNameText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/scene_name"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <TextView
+                android:id="@+id/moveCostText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/movement_cost"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+            
+               <Button
+                   android:id="@+id/button1"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:onClick="moveToScrollMap"
+                   android:text="@string/go_to_node_button" />
+    </LinearLayout>
 
 </RelativeLayout>

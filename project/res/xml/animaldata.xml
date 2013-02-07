@@ -15,11 +15,11 @@
         <id>2</id>
         <name>Zebra</name>
         <description>A single plausible zebra fact.</description>
-        <hint>An appropriate arctic hint.</hint>
+        <hint>An appropriate foresty hint.</hint>
         <photo>ZebraPhoto.jpg</photo>
         <sprite>ZebraSprite.png</sprite>
         <distance>120</distance>
-        <node>Arctic</node>
+        <node>Forest</node>
     </animal>
     <animal>
         <id>3</id>
@@ -60,6 +60,16 @@
         <photo>DonkeyPhoto.jpg</photo>
         <sprite>donkey.png</sprite>
         <distance>360</distance>
+        <node>Arctic</node>
+    </animal>
+     <animal>
+        <id>7</id>
+        <name>Penguin</name>
+        <description>Penguins are amazing.</description>
+        <hint>An appropriate arctic hint.</hint>
+        <photo>PenguinPhoto.jpg</photo>
+        <sprite>penguin.png</sprite>
+        <distance>450</distance>
         <node>Arctic</node>
     </animal>
     

@@ -37,7 +37,7 @@ public class Node implements Serializable{
 		this.sprite = sprite;
 		this.animals = new ArrayList<Animal>();
 		this.relY = RelY;
-		this.relX = RelY;
+		this.relX = RelX;
 	}
 	
 	// Co-ordinates on the node map?

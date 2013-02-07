@@ -17,12 +17,19 @@ public final class R {
         public static final int animalFacts=0x7f080002;
         public static final int animalImg=0x7f080003;
         public static final int animalName=0x7f080001;
-        public static final int button1=0x7f080008;
+        public static final int button1=0x7f08000f;
+        public static final int center_point=0x7f080008;
         public static final int checkInAmount=0x7f080000;
         public static final int checkinButton=0x7f080006;
         public static final int collectionButton=0x7f080005;
+        public static final int currentMovePointsText=0x7f08000b;
         public static final int infoText=0x7f080007;
-        public static final int menu_settings=0x7f080009;
+        public static final int left_layout=0x7f080009;
+        public static final int menu_settings=0x7f080010;
+        public static final int moveCostText=0x7f08000e;
+        public static final int nodeNameText=0x7f08000d;
+        public static final int nodeViewPic=0x7f08000c;
+        public static final int right_layout=0x7f08000a;
         public static final int worldButton=0x7f080004;
     }
     public static final class layout {
@@ -44,9 +51,13 @@ public final class R {
         public static final int checkIn=0x7f050005;
         public static final int collection=0x7f050004;
         public static final int collectionStringName=0x7f050008;
+        public static final int current_movement_points=0x7f05000f;
         public static final int go_to_node_button=0x7f05000a;
         public static final int hello_world=0x7f050001;
         public static final int menu_settings=0x7f050002;
+        public static final int movement_cost=0x7f05000d;
+        public static final int scene_name=0x7f05000e;
+        public static final int scenepicturestring=0x7f05000c;
         public static final int title_activity_animal_collection=0x7f050006;
         public static final int title_activity_check_in_scene=0x7f05000b;
         public static final int title_activity_node_scene=0x7f050009;

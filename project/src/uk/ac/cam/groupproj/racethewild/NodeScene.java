@@ -14,6 +14,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -21,7 +22,9 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.support.v4.app.NavUtils;
 
 public class NodeScene extends Activity implements OnTouchListener {
@@ -32,6 +35,7 @@ public class NodeScene extends Activity implements OnTouchListener {
 	Bitmap worldMapBG;
 	ArrayList<DisplayNode> displayNodes;
 	Node selectedScene;
+	int movecost =0;
 
 	//current center of the screen, in terms of (0,0) being the top leftmost part of the bg image.
 	float currentCentery;
@@ -54,7 +58,7 @@ public class NodeScene extends Activity implements OnTouchListener {
 		
 		try {
 
-			InputStream BGinputstream = getAssets().open("sample_node_scene.png");
+			InputStream BGinputstream = getAssets().open("nodebg.png");
 
 			worldMapBG = BitmapFactory.decodeStream(BGinputstream);
 		} catch (IOException e1) {
@@ -84,8 +88,10 @@ public class NodeScene extends Activity implements OnTouchListener {
 		
 		
 		RelativeLayout layout =  (RelativeLayout)View.inflate(this, R.layout.activity_node_scene, null);
+		 
 		layout.addView(nodeDisplay,0);
 
+		
 		setContentView(layout); 
 	}
 
@@ -229,6 +235,31 @@ public class NodeScene extends Activity implements OnTouchListener {
 					{
 						try {
 							selectedScene = e.lookupNode(node.nodeName);
+							
+							TextView textView = (TextView) findViewById(R.id.moveCostText);
+							//TODO: set moveCost here.
+							textView.setText(getString(R.string.movement_cost) + ": " + selectedScene.getRelX());
+							
+							ImageView imageView = (ImageView) findViewById(R.id.nodeViewPic);
+							InputStream nodeViewPic;
+							try {
+								nodeViewPic = getAssets().open(selectedScene.getBackground());
+
+								Bitmap pic = BitmapFactory.decodeStream(nodeViewPic);
+								imageView.setImageBitmap(pic);
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+
+
+							TextView textView1 = (TextView) findViewById(R.id.nodeNameText);
+							textView1.setText(selectedScene.getName());
+							
+							//TextView movepointsText = (TextView) findViewById(R.id.currentMovePointsText);
+							//movepointsText.setText(getString(R.string.current_movement_points) + " " + e.getStats().getCurrentMovePoints());
+							//TODO: Wait for implementation in Engine.
+
 							
 						} catch (NodeNotFoundException e) {
 							// TODO Auto-generated catch block

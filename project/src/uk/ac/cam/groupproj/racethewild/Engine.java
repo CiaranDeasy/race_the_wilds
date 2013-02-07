@@ -69,8 +69,10 @@ public class Engine {
 		// TODO: Load node data.
 		// Temporary hard-coded implementation.
 		nodes = new ArrayList<Node>();
-		nodes.add(new Node("Island", "island.jpg", "sample_node.png", 0.3f, 0.3f));
-		nodes.add(new Node("Arctic", "arcticsample.jpg", "sample_node.png", 0.6f, 0.6f));
+		nodes.add(new Node("Island", "island.jpg", "sample_node.png", 0.2f, 0.2f));
+		nodes.add(new Node("Arctic", "arcticsample.jpg", "sample_node.png", 0.6f, 0.85f));
+		nodes.add(new Node("Forest", "forest.jpg", "treenode.png", 0.3f, 0.8f));
+		
 		// Load animal data.
 		try {
 			animalDictionary = XmlParser.createDictionary(resources.getXml(R.xml.animaldata));
@@ -86,6 +88,7 @@ public class Engine {
 		this.getAnimal(4).setColour(Colour.Grey);
 		this.getAnimal(5).setColour(Colour.Black);
 		this.getAnimal(6).setColour(Colour.White);
+		this.getAnimal(7).setColour(Colour.White);
 		// Populate nodes with animals. (separate method)
 		List<Animal> animals = this.getAllAnimals();
 		for (Animal animal : animals) this.populateAnimal(animal);
