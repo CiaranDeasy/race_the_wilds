@@ -47,7 +47,7 @@
         <description>A single plausible hippo fact.</description>
         <hint>An appropriate arctic hint.</hint>
         <photo>HippoPhoto.jpg</photo>
-        <sprite>HippoSprite.png</sprite>
+        <sprite>hipposprite2.png</sprite>
         <distance>300</distance>
         <node>Arctic</node>
         <node>Island</node>
