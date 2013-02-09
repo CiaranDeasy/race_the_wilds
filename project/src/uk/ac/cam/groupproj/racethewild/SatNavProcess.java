@@ -1,11 +1,6 @@
 package uk.ac.cam.groupproj.racethewild;
 
-import java.io.Serializable;
-
-import android.os.Parcel;
-import android.os.Parcelable;
-
-public static class SatNavProcess implements Serializable, Parcelable {
+public static class SatNavProcess {
 
 	/*
 	 *  TODO
