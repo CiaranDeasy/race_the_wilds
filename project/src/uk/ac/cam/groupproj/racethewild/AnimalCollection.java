@@ -1,14 +1,18 @@
 package uk.ac.cam.groupproj.racethewild;
 
+import java.util.List;
+
 import android.os.Build;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.app.NavUtils;
 
 public class AnimalCollection extends Activity {
+	
+	Engine e = Engine.get();
+	List<Animal> animals = e.getAllAnimals();
 
 	@SuppressLint("NewApi") //Allows us to have the upEnabled setting. Could remove later. Android 4.1 Feature.
 	@Override
@@ -19,13 +23,6 @@ public class AnimalCollection extends Activity {
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			getActionBar().setDisplayHomeAsUpEnabled(true);
 		}
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.activity_animal_collection, menu);
-		return true;
 	}
 
 	@Override
