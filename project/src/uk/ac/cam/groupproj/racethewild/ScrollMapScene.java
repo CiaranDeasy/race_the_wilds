@@ -233,7 +233,7 @@ public class ScrollMapScene extends Activity implements OnTouchListener{
 				if(a.collisionCheck(xForCollisionChecker,yForCollisionChecker))
 				{
 					if(a.colour == Colour.Grey) {
-						e.changeColour(a.animalCode, Colour.Black);//Call to engine to change the colour of the Animal
+						e.changeColour(a.animalCode, Colour.Black, this);//Call to engine to change the colour of the Animal
 						a.colour = Colour.Black;
 						
 						/*Intent intent = new Intent(this, AnimalScene.class);  

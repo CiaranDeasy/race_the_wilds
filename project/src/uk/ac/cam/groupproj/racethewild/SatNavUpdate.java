@@ -14,7 +14,7 @@ public class SatNavUpdate implements Serializable, Parcelable {
 	private int movePoints;
 	
 	public int getDistance() { return distance; }
-	public int movePoints() { return movePoints; }
+	public int getMovePoints() { return movePoints; }
 	
 	public int describeContents() {
 		// TODO Auto-generated method stub

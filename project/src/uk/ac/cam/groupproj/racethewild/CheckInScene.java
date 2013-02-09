@@ -37,7 +37,7 @@ public class CheckInScene extends Activity {
 				chosen = a;
 			}
 		}
-		e.checkIn(chosen);
+		e.checkIn(chosen, this);
 		Bitmap background = null;
 		if(chosen != null){
 			TextView textView = (TextView) findViewById(R.id.animalName);
@@ -47,7 +47,7 @@ public class CheckInScene extends Activity {
 			textView1.setText(chosen.getHint());
 			
 			TextView textView2 = (TextView) findViewById(R.id.checkInAmount);
-			textView2.setText("You have gained " + e.fetchSatNavData().movePoints() + " movement points");
+			textView2.setText("You have gained " + e.fetchSatNavData().getMovePoints() + " movement points");
 
 
 			try {

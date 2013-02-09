@@ -20,12 +20,10 @@ public class MainMenu extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_menu);
-		if (Engine.get() == null) {
-			Engine.initEngine(getResources()); // Initialise the engine.
-		}
+		Engine.initialise(this); // Initialise the engine.
 		engine = Engine.get();
 		snu = engine.fetchSatNavData();
-		movePoints = snu.movePoints();
+		movePoints = snu.getMovePoints();
 		TextView textView = (TextView) findViewById(R.id.infoText);
 		textView.setText("Check in now for " + movePoints + " movement points");
 	}
