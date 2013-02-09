@@ -1,7 +1,5 @@
 package uk.ac.cam.groupproj.racethewild;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -18,10 +16,8 @@ public class Engine {
 	public final static String ANIMAL_NUMBER_MESSAGE = "uk.ac.cam.groupproj.racethewild.ANIMAL_NUMBER";
 
 	private PlayerStats stats;
-	private List<Node> nodes; // Maps an enumerated nodeType to the actual node object.
-	private Map<Integer, Animal> animalDictionary; // This will only ever be loaded, never saved,
-                                            //so we can do weird stuff with the animals
-                                            // at launch time, e.g. load sprites into them.
+	private List<Node> nodes;
+	private Map<Integer, Animal> animalDictionary;
 	private Resources resources;
 	
 	private static Engine engine;
@@ -38,10 +34,13 @@ public class Engine {
 	public SatNavUpdate fetchSatNavData() {
 		// Temporary implementation generates random update.
 		Random random = new Random();
-		return new SatNavUpdate(50 + random.nextInt(200), random.nextInt(200));
+		SatNavUpdate newUpdate = new SatNavUpdate(50 + random.nextInt(200), random.nextInt(200));
 		// TODO: Implement fully.
 		
-		// TODO: Have accumulation.
+		// Accumulation.
+		stats.processSatNav(newUpdate);
+		return new SatNavUpdate(stats.getAccumulatedDistance(), 
+				stats.getAccumulatedMovePoints());
 	}
 	
 	/** Returns a List of all Animals, sorted by ID.
@@ -65,21 +64,8 @@ public class Engine {
 	public static void initialise(Context c) { // Initial setup when app is started.
 		if (engine != null) return; // Ignore subsequent calls.
 		engine = new Engine(c);
-		// TODO: Load the player's stats.
-		try {
-			engine.stats = PlayerStats.load(c);
-			System.out.println("Loaded existing save file.");
-		} catch(FileNotFoundException e) {
-			// If there's nothing to load, start fresh.
-			engine.stats = new PlayerStats("Arctic");
-			System.out.println("Created new save file.");
-		} catch(ClassNotFoundException e) {
-			System.err.println("Cannot read existing save data. New save data created.");
-			engine.stats = new PlayerStats("Arctic");
-		} catch(IOException e) {
-			System.err.println("Cannot read existing save data. New save data created.");
-			engine.stats = new PlayerStats("Arctic");
-		}
+		// Load the player's stats.
+		engine.stats = PlayerStats.load(c);
 		// TODO: Start the sat-nav process, if not running.
 		// TODO: Load node data.
 		// Temporary hard-coded implementation.
@@ -97,13 +83,13 @@ public class Engine {
 			engine.animalDictionary = null;
 		}
 		// Rig a few colours, for the lolz. TODO: Remove.
-		engine.getAnimal(1).setColour(Colour.White);
+		/*engine.getAnimal(1).setColour(Colour.White);
 		engine.getAnimal(2).setColour(Colour.Grey);
 		engine.getAnimal(3).setColour(Colour.Black);
 		engine.getAnimal(4).setColour(Colour.Grey);
 		engine.getAnimal(5).setColour(Colour.Black);
 		engine.getAnimal(6).setColour(Colour.White);
-		engine.getAnimal(7).setColour(Colour.White);
+		engine.getAnimal(7).setColour(Colour.White);*/
 		// Populate nodes with animals. (separate method)
 		List<Animal> animals = engine.getAllAnimals();
 		for (Animal animal : animals) engine.populateAnimal(animal);
@@ -114,40 +100,28 @@ public class Engine {
 		// Update the Animal object.
 		Animal animal = this.getAnimal(animalID);
 		animal.setColour(colour);
-		// If from white, add to nodes.
-		if (colour == Colour.Grey) populateAnimal(animal);
-		// TODO: Update in PlayerStats.
-		try {
-			stats.save(c);
-		} catch(IOException e) {
-			System.err.println("Failed to save: IOException");
+		if(colour == Colour.Grey) {
+			// Populate the animal in the world.
+			populateAnimal(animal);
+			// Update in PlayerStats.
+			stats.addGreyAnimal(animalID);
 		}
-	}
-	
-	/** Updates the player's current in-game location. 
-	 *  NOT YET IMPLEMENTED! */
-	public void setCurrentNode(String name) { 
-		// TODO when PlayerStats is finished.
-	}
-	
-	/** Returns the player's current in-game location.
-	 *  NOT YET IMPLEMENTED! */
-	public void getCurrentNode() { 
-		// TODO when PlayerStats is finished.
+		else if(colour == Colour.Black) {
+			// Update in PlayerStats.
+			stats.addBlackAnimal(animalID);
+		}
+		// Save.
+		stats.save(c);
 	}
 	
 	/** Releases the given animal and resets distance and movement point accumulation. */
 	public void checkIn(Animal animal, Context c) {
 		if(animal != null) {
-			animal.setColour(Colour.Grey);
-			this.populateAnimal(animal);
+			this.changeColour(animal.getID(), Colour.Grey, c);
 		}
-		// TODO: Update playerstats.
-		try {
-			stats.save(c);
-		} catch(IOException e) {
-			System.err.println("Failed to save: IOException");
-		}
+		// Update playerstats.
+		stats.checkIn();
+		stats.save(c);
 	}
 	
 	/** Takes the name of a node, and returns the object associated with it. */
@@ -170,10 +144,19 @@ public class Engine {
 		}
 	};
 				//Add an animal to the Nodes in which it should appear.
+	
+	public static void reset(Context c) {
+		engine.stats = new PlayerStats();
+		engine.stats.save(c);
+		engine = null;
+		Engine.initialise(c);
+	}
 
 	/** Create the engine at app start.
 	 *  Takes a Resources reference to access resource files. */
 	private Engine(Context c) {
 		this.resources = c.getResources();
 	}
+	
+	/** Part of initialisation. Loads the player data at start-up. */
 }

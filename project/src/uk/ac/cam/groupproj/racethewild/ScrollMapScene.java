@@ -51,8 +51,8 @@ public class ScrollMapScene extends Activity implements OnTouchListener{
 		mapDisplay.setOnTouchListener(this);
 
 		try {
-			// TODO thisNode = e.lookupNode(e.getStats().currentNode);
-			thisNode = e.lookupNode("Arctic");
+			thisNode = e.lookupNode(e.getStats().getCurrentNode());
+			//thisNode = e.lookupNode("Arctic");
 		} catch (NodeNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

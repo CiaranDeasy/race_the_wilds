@@ -33,12 +33,21 @@
         android:layout_centerHorizontal="true"
         android:onClick="checkIn"
         android:text="@string/checkIn" />
+    
+    <Button
+        android:id="@+id/resetButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/checkinButton"
+        android:layout_centerHorizontal="true"
+        android:onClick="reset"
+        android:text="@string/reset" />
 
     <TextView
         android:id="@+id/infoText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/checkinButton"
+        android:layout_below="@+id/resetButton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="28dp"
         android:text="Check-in text placeholder"

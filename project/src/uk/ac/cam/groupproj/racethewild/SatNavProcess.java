@@ -1,6 +1,6 @@
 package uk.ac.cam.groupproj.racethewild;
 
-public static class SatNavProcess {
+public class SatNavProcess {
 
 	/*
 	 *  TODO

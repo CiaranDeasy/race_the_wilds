@@ -45,6 +45,10 @@ public class MainMenu extends Activity {
 		Intent intent = new Intent(this, CheckInScene.class);
 		startActivity(intent);		
 	}
+	
+	public void reset(View view){
+		Engine.reset(this);
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

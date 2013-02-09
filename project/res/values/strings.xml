@@ -7,6 +7,7 @@
     <string name="worldMap">Visit World</string>
     <string name="collection">Animal Collection</string>
     <string name="checkIn">Check-In Movement</string>
+    <string name="reset">Reset Save Data</string>
     <string name="title_activity_animal_collection">Animal Collection</string>
     <string name="title_activity_scroll_map_scene">ScrollMapScene</string>
     <string name="collectionStringName">Animal Collection</string>

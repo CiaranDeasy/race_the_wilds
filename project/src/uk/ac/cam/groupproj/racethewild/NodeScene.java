@@ -127,7 +127,7 @@ public class NodeScene extends Activity implements OnTouchListener {
 		{
 			
 			Intent intent = new Intent(this, ScrollMapScene.class); 
-			e.setCurrentNode(selectedScene.getName());
+			e.getStats().setCurrentNode(selectedScene.getName());
 
 			startActivity(intent);
 		}
