@@ -2,29 +2,41 @@ package uk.ac.cam.groupproj.racethewild;
 
 import java.util.List;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.view.MenuItem;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 
-public class AnimalCollection extends Activity {
+/*
+ *  TODOs
+ *  Implement onPause() and other transition state methods for fragments
+ *  Some more stuff as well
+ */
+
+public class AnimalCollection extends FragmentActivity {
 	
 	Engine e = Engine.get();
 	List<Animal> animals = e.getAllAnimals();
 
 	@SuppressLint("NewApi") //Allows us to have the upEnabled setting. Could remove later. Android 4.1 Feature.
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_animal_collection);
-		// Show the Up button in the action bar.
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			getActionBar().setDisplayHomeAsUpEnabled(true);
+		
+		if (savedInstanceState != null) {
+			return;
 		}
+		
+		@SuppressWarnings("unused")
+		InfoFragment infoFragment = new InfoFragment();
+		ListFragment listFragment = new ListFragment();
+		
+		listFragment.setArguments(getIntent().getExtras());
+		
+//		/getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, listFragment).commit();
 	}
-
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
