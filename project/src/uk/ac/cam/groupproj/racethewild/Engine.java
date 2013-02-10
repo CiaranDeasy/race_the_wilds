@@ -77,7 +77,7 @@ public class Engine {
 		// Load animal data.
 		try {
 			engine.animalDictionary = XmlParser.createDictionary(engine.resources.getXml(R.xml.animaldata));
-		} catch(DictionaryReadException e) {
+		} catch(XmlReadException e) {
 			System.err.println(e.getMessage());
 			System.err.println("No animal dictionary, so expect badness!");
 			engine.animalDictionary = null;

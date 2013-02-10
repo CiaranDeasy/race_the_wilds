@@ -10,124 +10,149 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 public class XmlParser {
+
+	private static final String animalDictionaryTag = "animaldictionary";
+	private static final String animalTag = "animal";
+	private static final String idTag = "id";
+	private static final String nameTag = "name";
+	private static final String descriptionTag = "description";
+	private static final String hintTag = "hint";
+	private static final String photoTag = "photo";
+	private static final String spriteTag = "sprite";
+	private static final String distanceTag = "distance";
+	private static final String nodeTag = "node";
+	
+	private static final String nodeNameTag = "name";
+	//private static final 
 	
 	/** Reads the XML file to produce a dictionary of animal data. */
 	public static Map<Integer, Animal> createDictionary(XmlPullParser parser) 
-			throws DictionaryReadException {
+			throws XmlReadException {
 		try {
+			Map<Integer, Animal> dictionary = new TreeMap<Integer, Animal>();
 			// Skip the preamble.
 			parser.next();
-			// Check the <animaldictionary> tag.
 			parser.next();
-			if(!(parser.getName().equals("animaldictionary") && 
-					parser.getEventType() == XmlPullParser.START_TAG))
-				throw new DictionaryReadException(
-						"Failed to read opening <animaldictionary> tag.");
-			
-			Map<Integer, Animal> dictionary = new TreeMap<Integer, Animal>();
+			// Check the <animaldictionary> tag.
+			parseOpeningTag(parser, animalDictionaryTag);
 			
 			// Loop and read animals.
-			while(true) {
+			while(parser.getName().equals(animalTag)) {
 				// Read the opening <animal> tag.
-				parser.next();
-				if(parser.getEventType() == XmlPullParser.START_TAG &&
-						parser.getName().equals("animal")) {
+				parseOpeningTag(parser, animalTag);
 					// Read the animal data.
-					parser.next();
 					Animal nextAnimal = readNewAnimal(parser);
 					dictionary.put(nextAnimal.getID(), nextAnimal);
 					// Read the closing </animal> tag.
-					if(!(parser.getEventType() == XmlPullParser.END_TAG &&
-							parser.getName().equals("animal"))) throw new DictionaryReadException(
-									"Didn't find a proper closing tag for animal #" + 
-											nextAnimal.getID());
-				}
-				// If we're at the end, read the closing </animaldictionary> tag.
-				else if(parser.getEventType() == XmlPullParser.END_TAG &&
-						parser.getName().equals("animaldictionary")) break;
-				else throw new DictionaryReadException("Unexpected tag \"" + 
-						parser.getName() + "\" when looking for the next animal.");
+					parseClosingTag(parser, animalTag);
 			}
+			// Read the closing </animaldictionary> tag.
+			parseClosingTag(parser, animalDictionaryTag);
 			return dictionary;
 			
 		} catch(XmlPullParserException e) {
 			e.printStackTrace();
-			throw new DictionaryReadException(
-					"Experienced an XmlPullParserException, see above trace");
+			throw new XmlReadException(
+					"Experienced an XmlPullParserException, trace was printed.");
 		} catch(IOException e) {
-			throw new DictionaryReadException("IOException when reading dictionary.");
+			throw new XmlReadException("IOException when reading dictionary.");
 		}
 	}
 	
 	/** Parse XML animal data, given a parser pointing at the opening tag of the first data item. 
 	 * */
 	private static Animal readNewAnimal(XmlPullParser parser) 
-			throws IOException, XmlPullParserException, DictionaryReadException {
+			throws IOException, XmlPullParserException, XmlReadException {
+		
 		// Parse each data item in turn.
 		int id = 0;
 		try {
-			id = Integer.parseInt(parseTag(parser, "id"));
+			id = Integer.parseInt(parseTag(parser, idTag));
 		} catch(NumberFormatException e) {
-			throw new DictionaryReadException(
+			throw new XmlReadException(
 					"Non-integer tag " + parser.getName() + " cannot be parsed.");
 		}
-		String name = parseTag(parser, "name");
-		String description = parseTag(parser, "description");
-		String hint = parseTag(parser, "hint");
-		String photo = parseTag(parser, "photo");
-		String sprite = parseTag(parser, "sprite");
+		String name = parseTag(parser, nameTag);
+		String description = parseTag(parser, descriptionTag);
+		String hint = parseTag(parser, hintTag);
+		String photo = parseTag(parser, photoTag);
+		String sprite = parseTag(parser, spriteTag);
 		int distancePerDay = 0;
 		try {
-			distancePerDay = Integer.parseInt(parseTag(parser, "distance"));
+			distancePerDay = Integer.parseInt(parseTag(parser, distanceTag));
 		} catch(NumberFormatException e) {
-			throw new DictionaryReadException(
+			throw new XmlReadException(
 					"Non-integer tag " + parser.getName() + " cannot be parsed.");
 		}
-		List<String> nodes = parseSequence(parser, "node");
+		List<String> nodes = parseSequence(parser, nodeTag);
+		
 		// And return a new Animal object containing the extracted data.
 		return new Animal(id, name, description, hint, photo, sprite, distancePerDay, nodes);
+	}
+	
+	
+	public static List<Node> createNodes(XmlPullParser parser) throws NodeReadException {
+		List<Node> nodes = new ArrayList<Node>();
+		return nodes;
+	}
+	
+	/** Parse a single opening tag with the given name and type. */
+	private static void parseOpeningTag(XmlPullParser parser, String tag) 
+			throws XmlPullParserException, XmlReadException, IOException {
+		// Check that it's an opening tag.
+		if(parser.getEventType() != XmlPullParser.START_TAG) 
+			throw new XmlReadException("Found closing tag </" + parser.getName() + 
+					"> instead of opening tag <" + tag + "> on line " + parser.getLineNumber() 
+					+ ".");
+		// Check that it's the right tag.
+		if(!parser.getName().equals(tag)) 
+			throw new XmlReadException("Found tag <" + parser.getName() + "> instead of tag <" + 
+					tag + "> on line " + parser.getLineNumber() + ".");
+		// Accept it.
+		parser.next();
+		return;
+	}
+	
+	/** Parse a single closing tag with the given name and type. */
+	private static void parseClosingTag(XmlPullParser parser, String tag) 
+			throws XmlPullParserException, XmlReadException, IOException {
+		// Check that it's a closing tag.
+		if(parser.getEventType() != XmlPullParser.END_TAG) 
+			throw new XmlReadException("Found opening tag <" + parser.getName() + 
+					"> instead of closing tag </" + tag + "> on line " + parser.getLineNumber() 
+					+ ".");
+		// Check that it's the right tag.
+		if(!parser.getName().equals(tag)) 
+			throw new XmlReadException("Found tag </" + parser.getName() + "> instead of tag </" + 
+					tag + "> on line " + parser.getLineNumber() + ".");
+		// Accept it.
+		parser.next();
+		return;
 	}
 	
 	/** Parse a single data item with the given tag, assuming the parser points to the opening tag
 	 *  of that data item. */
 	private static String parseTag(XmlPullParser parser, String tag) 
-			throws IOException, XmlPullParserException, DictionaryReadException {
+			throws IOException, XmlPullParserException, XmlReadException {
+		
 		// Check that the opening tag is correct.
-		if(!parser.getName().equals(tag)) throw new DictionaryReadException(
-				"Expected tag \"" + tag + "\", found \"" + parser.getName() + "\".");
-		if(parser.getEventType() != XmlPullParser.START_TAG) throw new DictionaryReadException(
-				"Tag \"" + tag + "\" wasn't a start tag!");
+		parseOpeningTag(parser, tag);
 		// Get the actual data.
-		parser.next();
 		String text = parser.getText();
+		parser.next();
 		// Check that the closing tag is correct.
-		parser.next();
-		if(!parser.getName().equals(tag)) throw new DictionaryReadException(
-				"Expected tag \"" + tag + "\", found \"" + parser.getName() + "\".");
-		if(parser.getEventType() != XmlPullParser.END_TAG) throw new DictionaryReadException(
-				"Tag \"" + tag + "\" wasn't an end tag!");
-		parser.next();
+		parseClosingTag(parser, tag);
 		// And return the extracted data.
 		return text;
 	}
 	
 	/** Parses a variable-length (possibly empty) sequence of the same tag. */
 	private static List<String> parseSequence(XmlPullParser parser, String tag) 
-			throws XmlPullParserException, IOException, DictionaryReadException {
+			throws XmlPullParserException, IOException, XmlReadException {
 		List<String> list = new ArrayList<String>();
 		// Loop as long as there's another matching tag.
 		while(parser.getName().equals(tag)) {
-			// Extract the content.
-			parser.next();
-			list.add(parser.getText());
-			// Check the closing tag.
-			parser.next();
-			if (!(parser.getEventType() == XmlPullParser.END_TAG &&
-					parser.getName().equals(tag))) throw new DictionaryReadException(
-							"Expected closing tag </" + tag + ">, found tag \"" + 
-									parser.getName() + "\".");
-			// Step onto the next tag.
-			parser.next();
+			parseTag(parser,  tag);
 		}
 		// Return the list of extracted strings.
 		return list;
