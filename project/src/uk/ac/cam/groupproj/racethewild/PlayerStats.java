@@ -78,10 +78,7 @@ import android.content.Context;
 		public void addBlackAnimal(int id) {
 			if (!blackAnimals.contains(id)) this.blackAnimals.add(id);
 			// Remove the ID from the grey list.
-			Integer greyID = null;
-			for (int i = 0; i < greyAnimals.size(); i++)
-				if(greyAnimals.get(i) == id) greyID = i;
-			if (greyID != null) greyAnimals.remove(greyID);
+			greyAnimals.remove((Integer) id);
 		}
 		
 		/** Accumulates distance and movement points from a SatNavUpdate. */
@@ -108,6 +105,10 @@ import android.content.Context;
 				is.close();
 				System.out.println("Loaded existing save data.");
 				System.out.println("Loaded movement points are " + stats.currentMovePoints);
+				System.out.println("GREY:");
+				for(Integer animal : stats.greyAnimals) System.out.println(animal);
+				System.out.println("BLACK:");
+				for(Integer animal : stats.blackAnimals) System.out.println(animal);
 				return stats;
 			} catch(FileNotFoundException e) {
 				// If there's nothing to load, start fresh.
