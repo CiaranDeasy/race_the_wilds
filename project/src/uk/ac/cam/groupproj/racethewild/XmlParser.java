@@ -26,10 +26,10 @@ public class XmlParser {
 	private static final String nodeTag = "node";
 	private static final String nodeNameTag = "name";
 	private static final String backgroundTag = "background";
+	private static final String previewTag = "preview";
 	private static final String nodeSpriteTag = "sprite";
 	private static final String relativeXTag = "relX";
 	private static final String relativeYTag = "relY";
-	//private static final 
 	
 	/** Reads the XML file to produce a dictionary of animal data. */
 	public static Map<Integer, Animal> createDictionary(XmlPullParser parser) 
@@ -129,7 +129,7 @@ public class XmlParser {
 		return new Animal(id, name, description, hint, photo, sprite, distancePerDay, nodes);
 	}
 	
-	/** Parse XML animal data, given a parser pointing at the opening tag of the first data item. 
+	/** Parse XML node data, given a parser pointing at the opening tag of the first data item. 
 	 * */
 	private static Node readNewNode(XmlPullParser parser) 
 			throws IOException, XmlPullParserException, XmlReadException {
@@ -137,6 +137,7 @@ public class XmlParser {
 		// Parse each data item in turn.
 		String name = parseTag(parser, nodeNameTag);
 		String background = parseTag(parser, backgroundTag);
+		String preview = parseTag(parser, previewTag);
 		String sprite = parseTag(parser, nodeSpriteTag);
 		float relativeX = 0;
 		float relativeY = 0;
@@ -149,7 +150,7 @@ public class XmlParser {
 		}
 		
 		// And return a new Node object containing the extracted data.
-		return new Node(name, background, sprite, relativeX, relativeY);
+		return new Node(name, background, preview, sprite, relativeX, relativeY);
 	}
 	
 	/** Parses a variable-length (possibly empty) sequence of the same tag. */

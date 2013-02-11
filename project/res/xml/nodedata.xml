@@ -3,6 +3,7 @@
     <node>
         <name>Island</name>
 		<background>island.jpg</background>
+		<preview>island.jpg</preview>
 		<sprite>sample_node.png</sprite>
 		<relX>0.2</relX>
 		<relY>0.2</relY>
@@ -10,6 +11,7 @@
     <node>
         <name>Arctic</name>
 		<background>arcticsample.jpg</background>
+		<preview>arcticsample.jpg</preview>
 		<sprite>sample_node.png</sprite>
 		<relX>0.6</relX>
 		<relY>0.85</relY>
@@ -17,6 +19,7 @@
     <node>
         <name>Forest</name>
 		<background>forest.jpg</background>
+		<preview>forest.jpg</preview>
 		<sprite>treenode.png</sprite>
 		<relX>0.3</relX>
 		<relY>0.8</relY>
