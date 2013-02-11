@@ -73,11 +73,6 @@ public class Engine {
 			System.err.println("Failed to load nodes, killing the app.");
 			System.exit(-1);
 		}
-		// Temporary hard-coded implementation.
-		/*engine.nodes = new ArrayList<Node>();
-		engine.nodes.add(new Node("Island", "island.jpg", "sample_node.png", 0.2f, 0.2f));
-		engine.nodes.add(new Node("Arctic", "arcticsample.jpg", "sample_node.png", 0.6f, 0.85f));
-		engine.nodes.add(new Node("Forest", "forest.jpg", "treenode.png", 0.3f, 0.8f));*/
 		
 		// Load animal data.
 		try {
@@ -89,13 +84,11 @@ public class Engine {
 		}
 		// Load the player's stats.
 		engine.stats = PlayerStats.load(c);
+		// Update animal colours based on loaded data.
 		for(Integer id : engine.stats.getGreyAnimals()) 
 			Engine.get().changeColour(id, Colour.Grey, c);
 		for(Integer id : engine.stats.getBlackAnimals()) 
 			Engine.get().changeColour(id, Colour.Black, c);
-		// Populate nodes with animals.
-		List<Animal> animals = engine.getAllAnimals();
-		for (Animal animal : animals) engine.populateAnimal(animal);
 	}
 	
 	/** Sets the colour of the animal with the given ID to the given colour. */
