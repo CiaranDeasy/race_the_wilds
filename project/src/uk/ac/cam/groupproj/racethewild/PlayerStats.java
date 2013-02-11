@@ -45,7 +45,7 @@ import android.content.Context;
 		public int getCurrentMovePoints(){return currentMovePoints;}
 		public int getTotalMovePoints(){return totalMovePoints;}
 		public int getTotalDistance(){return totalDistance;}
-		public List<Integer> getFoundAnimals(){return blackAnimals;}
+		public List<Integer> getBlackAnimals(){return blackAnimals;}
 		public List<Integer> getGreyAnimals(){return greyAnimals;}
 		public String getCurrentNode(){return currentNode;}
 		public int getAccumulatedMovePoints(){return accumulatedMovePoints;}
@@ -68,22 +68,20 @@ import android.content.Context;
 			this.currentNode = node;
 		}
 		
-		/** Adds the given animal ID to the list of grey animals. */
+		/** Adds the given animal ID to the list of grey animals, if not present. */
 		public void addGreyAnimal(int id) {
-			this.greyAnimals.add(id);
+			if (!greyAnimals.contains(id)) this.greyAnimals.add(id);
 		}
 		
 		/** Adds the given animal ID to the list of black animals.
 		 *  Also removes from the list of grey animals. */
 		public void addBlackAnimal(int id) {
-			this.blackAnimals.add(id);
+			if (!blackAnimals.contains(id)) this.blackAnimals.add(id);
 			// Remove the ID from the grey list.
 			Integer greyID = null;
 			for (int i = 0; i < greyAnimals.size(); i++)
 				if(greyAnimals.get(i) == id) greyID = i;
 			if (greyID != null) greyAnimals.remove(greyID);
-			else System.err.println(
-					"Animal was set to black, but wasn't previously recorded as grey.");
 		}
 		
 		/** Accumulates distance and movement points from a SatNavUpdate. */

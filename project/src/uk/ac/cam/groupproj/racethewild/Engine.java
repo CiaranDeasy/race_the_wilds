@@ -64,33 +64,36 @@ public class Engine {
 	public static void initialise(Context c) { // Initial setup when app is started.
 		if (engine != null) return; // Ignore subsequent calls.
 		engine = new Engine(c);
-		// Load the player's stats.
-		engine.stats = PlayerStats.load(c);
 		// TODO: Start the sat-nav process, if not running.
-		// TODO: Load node data.
+		// Load node data.
+		try {
+			engine.nodes = XmlParser.createNodes(engine.resources.getXml(R.xml.nodedata));
+		} catch(XmlReadException e) {
+			System.err.println(e.getMessage());
+			System.err.println("Failed to load nodes, killing the app.");
+			System.exit(-1);
+		}
 		// Temporary hard-coded implementation.
-		engine.nodes = new ArrayList<Node>();
+		/*engine.nodes = new ArrayList<Node>();
 		engine.nodes.add(new Node("Island", "island.jpg", "sample_node.png", 0.2f, 0.2f));
 		engine.nodes.add(new Node("Arctic", "arcticsample.jpg", "sample_node.png", 0.6f, 0.85f));
-		engine.nodes.add(new Node("Forest", "forest.jpg", "treenode.png", 0.3f, 0.8f));
+		engine.nodes.add(new Node("Forest", "forest.jpg", "treenode.png", 0.3f, 0.8f));*/
 		
 		// Load animal data.
 		try {
 			engine.animalDictionary = XmlParser.createDictionary(engine.resources.getXml(R.xml.animaldata));
 		} catch(XmlReadException e) {
 			System.err.println(e.getMessage());
-			System.err.println("No animal dictionary, so expect badness!");
-			engine.animalDictionary = null;
+			System.err.println("Failed to load animal dictionary, killing the app.");
+			System.exit(-2);
 		}
-		// Rig a few colours, for the lolz. TODO: Remove.
-		/*engine.getAnimal(1).setColour(Colour.White);
-		engine.getAnimal(2).setColour(Colour.Grey);
-		engine.getAnimal(3).setColour(Colour.Black);
-		engine.getAnimal(4).setColour(Colour.Grey);
-		engine.getAnimal(5).setColour(Colour.Black);
-		engine.getAnimal(6).setColour(Colour.White);
-		engine.getAnimal(7).setColour(Colour.White);*/
-		// Populate nodes with animals. (separate method)
+		// Load the player's stats.
+		engine.stats = PlayerStats.load(c);
+		for(Integer id : engine.stats.getGreyAnimals()) 
+			Engine.get().changeColour(id, Colour.Grey, c);
+		for(Integer id : engine.stats.getBlackAnimals()) 
+			Engine.get().changeColour(id, Colour.Black, c);
+		// Populate nodes with animals.
 		List<Animal> animals = engine.getAllAnimals();
 		for (Animal animal : animals) engine.populateAnimal(animal);
 	}

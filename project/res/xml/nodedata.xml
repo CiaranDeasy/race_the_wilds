@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nodelist>
+    <node>
+        <name>Island</name>
+		<background>island.jpg</background>
+		<sprite>sample_node.png</sprite>
+		<relX>0.2</relX>
+		<relY>0.2</relY>
+    </node>
+    <node>
+        <name>Arctic</name>
+		<background>arcticsample.jpg</background>
+		<sprite>sample_node.png</sprite>
+		<relX>0.6</relX>
+		<relY>0.85</relY>
+    </node>
+    <node>
+        <name>Forest</name>
+		<background>forest.jpg</background>
+		<sprite>treenode.png</sprite>
+		<relX>0.3</relX>
+		<relY>0.8</relY>
+    </node>
+    
+</nodelist>
