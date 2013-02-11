@@ -96,9 +96,9 @@ public class Engine {
 		// Update the Animal object.
 		Animal animal = this.getAnimal(animalID);
 		animal.setColour(colour);
+		// Populate the animal in the world.
+		populateAnimal(animal);
 		if(colour == Colour.Grey) {
-			// Populate the animal in the world.
-			populateAnimal(animal);
 			// Update in PlayerStats.
 			stats.addGreyAnimal(animalID);
 		}
@@ -136,7 +136,8 @@ public class Engine {
 		
 		Node[] animalNodes = animal.getNodes();
 		for (int i = 0; i < animalNodes.length; i++) {
-			animalNodes[i].addAnimal(animal);
+			if (!animalNodes[i].getAnimalList().contains(animal)) // Only populate once.
+				animalNodes[i].addAnimal(animal);
 		}
 	};
 				//Add an animal to the Nodes in which it should appear.
@@ -154,5 +155,4 @@ public class Engine {
 		this.resources = c.getResources();
 	}
 	
-	/** Part of initialisation. Loads the player data at start-up. */
 }
