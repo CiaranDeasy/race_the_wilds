@@ -29,7 +29,7 @@ public class MainMenu extends Activity {
 	}
 
 	public void moveToCollection(View view) {
-		Intent intent = new Intent(this, AnimalCollection.class);
+		Intent intent = new Intent(this, ScrollAnimalCollection.class);
 
 		// intent.putExtra(ENGINE_MESSAGE, engine); //for when we start sending
 		// around Engine.

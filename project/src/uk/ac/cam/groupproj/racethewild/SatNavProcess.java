@@ -73,7 +73,6 @@ public class SatNavProcess extends Activity {
 	
 	private final LocationListener locationListener = new LocationListener() {
 
-	    @Override
 	    public void onLocationChanged(Location newLocation) {
    	    	final double distanceMoved = (double)newLocation.distanceTo(currentLocation);
 	    	
@@ -85,15 +84,12 @@ public class SatNavProcess extends Activity {
 	    	currentLocation = newLocation;
 	    }
 	    
-        @Override
         public void onProviderDisabled(String provider) {
         }
 
-        @Override
         public void onProviderEnabled(String provider) {
         }
 
-        @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
         }
 	};

@@ -18,5 +18,6 @@
     <string name="movement_cost">Cost to move</string>
     <string name="scene_name">Scene name</string>
     <string name="current_movement_points">Current Movement Points:</string>
+    <string name="title_activity_scroll_animal_collection">Animal Park</string>
 
 </resources>

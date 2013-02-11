@@ -9,9 +9,9 @@ import android.graphics.Canvas;
 
 public class BitmapDisplayAnimal implements Comparable<BitmapDisplayAnimal>{
 	
-	private Bitmap bitmap;
-	private float x;
-	private float y;
+	protected Bitmap bitmap;
+	protected float x;
+	protected float y;
 	public final int animalCode;
 	public Colour colour;
 	
@@ -30,7 +30,9 @@ public class BitmapDisplayAnimal implements Comparable<BitmapDisplayAnimal>{
 	public void onDraw(Canvas c, float viewCenterx, float viewCentery, float screenWidth, float screenHeight){
 		
 		float xCoord = x - viewCenterx + screenWidth/2 - bitmap.getWidth()/2;
-		c.drawBitmap(bitmap,xCoord,y - viewCentery + screenHeight/2 - bitmap.getHeight()/2, null);
+		float yCoord = y - viewCentery + screenHeight/2 - bitmap.getHeight()/2;
+		if(xCoord >-bitmap.getWidth() && xCoord < screenWidth && yCoord >-bitmap.getHeight() && yCoord < screenHeight)
+		c.drawBitmap(bitmap,xCoord, yCoord, null);
 		
 	}
 	
@@ -46,7 +48,6 @@ public class BitmapDisplayAnimal implements Comparable<BitmapDisplayAnimal>{
 	}
 
 
-	@Override
 	public int compareTo(BitmapDisplayAnimal another) {
 		if(y>another.y)	return 1;
 		else if(y<another.y)return -1;

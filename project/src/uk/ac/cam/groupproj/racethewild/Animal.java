@@ -1,6 +1,5 @@
 package uk.ac.cam.groupproj.racethewild;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Animal implements Comparable<Animal> {
