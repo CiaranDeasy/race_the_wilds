@@ -49,6 +49,11 @@ public class MainMenu extends Activity {
 	public void reset(View view){
 		Engine.reset(this);
 	}
+	
+	public void gpsdebug(View view){
+		Intent intent = new Intent(this, GPSdebug.class);
+		startActivity(intent);		
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

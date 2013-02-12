@@ -1,0 +1,79 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:gravity="top"
+    tools:context=".GPSdebug" >
+
+    <Button android:text="Start GPS process"
+        android:id="@+id/start_gps_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="77dp"
+        android:layout_marginTop="40dp"
+        android:onClick="startGPSprocess"
+        />
+    
+    <Button android:id="@+id/stop_gps_button"
+        android:layout_width = "wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stop GPS process"
+        android:layout_below="@id/start_gps_button"
+        android:layout_centerHorizontal="true"
+        android:onClick="stopGPSprocess"
+        />
+
+    <EditText android:id="@+id/gps_coeff_A"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="A"
+        android:layout_below="@id/stop_gps_button"
+        android:layout_centerHorizontal="true" />
+        
+        
+    <EditText android:id="@+id/gps_coeff_b"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="b" 
+        android:layout_below="@id/gps_coeff_A"
+        android:layout_centerHorizontal="true"
+        />
+        
+        
+    <EditText android:id="@+id/gps_coeff_c"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="c"
+        android:layout_below="@id/gps_coeff_b"
+        android:layout_centerHorizontal="true" />
+        
+        
+    <EditText android:id="@+id/gps_coeff_d"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="d" 
+        android:layout_below="@id/gps_coeff_c"
+        android:layout_centerHorizontal="true" 
+        />
+        
+        
+    <EditText android:id="@+id/gps_coeff_e"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="e"
+        android:layout_below="@id/gps_coeff_d"
+        android:layout_centerHorizontal="true"
+        />
+    
+    <Button android:layout_width = "wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Update movement coefficients"
+        android:layout_below="@id/gps_coeff_e"
+        android:layout_centerHorizontal="true"
+        android:onClick="updateMovementCoefficients"
+        />
+            
+</RelativeLayout>

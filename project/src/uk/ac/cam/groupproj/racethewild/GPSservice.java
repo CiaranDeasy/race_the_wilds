@@ -1,23 +1,31 @@
 package uk.ac.cam.groupproj.racethewild;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
+import android.app.Service;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
-import android.view.MenuItem;
+import android.os.IBinder;
 
-// Andrew - can you set this so it works correctly as a separate process?
-public class SatNavProcess extends Activity {
-
+public class GPSservice extends Service {   	// to stop call stopSelf()
+	
 	private LocationManager locationManager;
 	Location currentLocation;
+
+	@Override
+	public IBinder onBind(Intent intent) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
-	// Andrew - I'm kind of relying on you to refactor this as a process - if this is too much work, let me know and we can split it up more between the three of us
-	// Andrew - see my on create method at the bottom - this needs to be executed on process startup - however that works. thanks.
+	@Override
+	public int onStartCommand(Intent intent, int flags, int startID) {
+		locationManager.requestLocationUpdates(provider, checkInterval, minDistanceMoved, locationListener);
+		return Service.START_STICKY;   // indicates service is explicitly started and stopped as needed
+	}
 	
 	/*
 	 *  TODO
@@ -49,11 +57,24 @@ public class SatNavProcess extends Activity {
 	}
 	
 	/*
-	 *   mti20 TODO
-	 *   A simple linear function in this iteration
-	 *   THIS HAS NOT BEEN DONE YET - I'll do it on Monday/Tuesday
+	 *   Description needs doing (mti20)
 	 */
 	private int calculateMovementPoints(Location newLocation, Location oldLocation) {
+		double A,b,c,d,e;
+		
+		double v = 0; // TODO speed
+		double x = 0; // TODO distance
+		
+		Context context = this;
+		SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.gps_coefficients_file_key), Context.MODE_PRIVATE); 
+		A = (double)sharedPref.getFloat("gps_A",(float)0.005);
+		b = (double)sharedPref.getFloat("gps_b",(float)0.3);
+		c = (double)sharedPref.getFloat("gps_c",(float)0);
+		d = (double)sharedPref.getFloat("gps_d",(float)0.001);
+		e = (double)sharedPref.getFloat("gps_e",(float)15);
+		
+		double movementPoints = e * (A*Math.exp((-1)*b*v)+c*v+d) * x;
+		//return (int)Math.round(movementPoints);
 		return 10;
 	}
 	
@@ -66,7 +87,7 @@ public class SatNavProcess extends Activity {
 	
 	final int checkIntervalSeconds = 30;                         // interval to check location (in seconds)
 	final int minDistanceMoved = 20;                             // minimum distance moved in the above time to trigger an update
-	final int thresholdDistance = 10;                             // minimum distance moved to be counted as a reasonable distance (units undefined)
+	final int thresholdDistance = 20;                            // minimum distance moved to be counted as a reasonable distance (units undefined)
 	
 	final int checkInterval = checkIntervalSeconds*1000;
 	final String provider = LocationManager.GPS_PROVIDER;
@@ -97,31 +118,6 @@ public class SatNavProcess extends Activity {
         public void onStatusChanged(String provider, int status, Bundle extras) {
         }
 	};
-	
 
-	// Andrew - can you update this so it works properly for a process? I need the locationManger.requestLocationUpdates(...) to run on application startup
-	// the rest of this method is probably unnecessary, because it just relates to activities
-	@SuppressLint("NewApi") //Allows us to have the upEnabled setting. Could remove later. Android 4.1 Feature.
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_animal_collection);
-		// Show the Up button in the action bar.
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			getActionBar().setDisplayHomeAsUpEnabled(true);
-		}
-		locationManager.requestLocationUpdates(provider, checkInterval, minDistanceMoved, locationListener);
-	}
-	
-	// Andrew - this is another method that is probably unnecessary - please update for process accordingly
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			NavUtils.navigateUpFromSameTask(this);
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-	
+
 }

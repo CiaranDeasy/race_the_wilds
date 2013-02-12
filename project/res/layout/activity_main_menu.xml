@@ -42,12 +42,21 @@
         android:layout_centerHorizontal="true"
         android:onClick="reset"
         android:text="@string/reset" />
+    
+    <Button
+        android:id="@+id/gpsDebugButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/resetButton"
+        android:layout_centerHorizontal="true"
+        android:onClick="gpsdebug"
+        android:text="GPS debug" />
 
     <TextView
         android:id="@+id/infoText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/resetButton"
+        android:layout_below="@+id/gpsDebugButton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="28dp"
         android:text="Check-in text placeholder"
