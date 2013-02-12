@@ -1,0 +1,60 @@
+\documentclass[12pt,a4paper,twoside]{article}
+
+\input{preamble}
+
+% paste the summarised output of texcount here after each alteration
+% File: specification.tex
+% Words in text: 2571
+% Words in headers: 33
+% Words in float captions: 11
+% Number of headers: 15
+
+\begin{document}
+
+% Title page
+\input{titlepage_progress}
+\newpage
+\pagestyle{empty}
+\cleardoublepage                             % so it actually prints out nicely doubleside!
+\newpage
+
+% Main document
+\section{Overview}
+
+Development of the Race the Wild app has so far been successful. The first prototype was delivered on-time, with a slightly different feature set to what was planned, and a demonstration video was made available to showcase the functionality. As of the time of writing, the second prototype has been completed, and will be tested before being demonstrated live at the client meeting on Friday Feb 15th. This prototype is almost feature-complete, as described in the requirements. Further refinements in the third iteration will yield a full product, leaving the final week for content creation and extensive testing and debugging.
+
+\section{Progress}
+
+\subsection{Features}
+
+The second prototype broadly contains all of the features described in the requirements document. The menus, node map, scroll map, animal collection, position tracking and check-in systems are all accessible and functional. Some of these features are in need of refinement: in particular, the GPS tracking is complex and will require further attention before being considered acceptable to ship. However, everything has been implemented in some reasonable form.
+
+Taking into account client feedback, some extra features are planned to be added.
+\begin{itemize}
+\item A simple challenge-based system. The player will be issued a challenge to move a certain distance in a certain time. If accepted and completed, the player will unlock animals which cannot be accessed by the standard ``check-in'' system.
+\item An introduction and how-to-play system. The player will need to be instructed in how to use the app, and shown that their behaviour can earn them prizes. A short introduction will be provided when the app is first launched, and made accessible via the menu.
+\end{itemize}
+
+\subsection{Testing}
+
+It was determined early in the project that the nature of the code was such that typical unit-testing would not be significantly helpful, due to it consisting of a lot of graphical code, as well as standard Android library systems, that needs to be manually human-tested by running the app in order to have confidence in its functional reliability. Thus, rather than taking the approach suggested in the initial Group Project briefing whereby modules would be unit-tested independently, the project was made to be runnable almost immediately. By adding code to a running program, the team could quickly and effectively get feedback as to whether any code functioned correctly.
+
+However, the team recognises the imperative need for structured and extensive testing of the product. To this end, an exhaustive manual test suite is to be written. Again, the team determined that the reliability of the product couldn't be measured confidently by automated methods. A combination of a rigorous formal test suite and ``typical'' use of the app from the perspective of end users will provide the soundest final product.
+
+\section{Code Documentation}
+
+The following sections, written individually by each group member, give documentation of the code written to date.
+
+\subsection{Ciaran Deasy}
+
+\subsection{Sam Ainsworth \& Christopher Wheelhouse}
+
+\subsection{Tom McCarthy}
+
+\subsection{Matthew Ireland}
+
+\subsection{Andrew Sheriff}
+
+
+
+\end{document}
