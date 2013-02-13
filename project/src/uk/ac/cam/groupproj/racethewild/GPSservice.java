@@ -220,7 +220,6 @@ public class GPSservice extends Service {   	// to stop call stopSelf()
 	 *  Stops the service once an update has been completed
 	 */
 	Thread gpsUpdateThread = new Thread(new Runnable() {
-		@Override
 		public void run() {
 			System.out.println("Killing the service");
 			try {
@@ -249,7 +248,6 @@ public class GPSservice extends Service {   	// to stop call stopSelf()
 
 				locationListener = new LocationListener() {
 					
-					@Override
 					public void onLocationChanged(Location newLocation) {
 						System.out.println("Received location update.");
 						locationManager.removeUpdates(this);
@@ -260,15 +258,12 @@ public class GPSservice extends Service {   	// to stop call stopSelf()
 						gpsUpdateThread.start();    	
 					}
 					
-					@Override
 					public void onProviderDisabled(String provider) {
 					}
 					
-					@Override
 					public void onProviderEnabled(String provider) {
 					}
 					
-					@Override
 					public void onStatusChanged(String provider, int status, Bundle extras) {
 					}
 				};

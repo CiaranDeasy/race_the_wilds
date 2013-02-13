@@ -43,13 +43,12 @@ public final class R {
         public static final int worldButton=0x7f08000c;
     }
     public static final class layout {
-        public static final int activity_animal_collection=0x7f030000;
-        public static final int activity_check_in_scene=0x7f030001;
-        public static final int activity_gpsdebug=0x7f030002;
-        public static final int activity_main_menu=0x7f030003;
-        public static final int activity_node_scene=0x7f030004;
-        public static final int activity_scroll_animal_collection=0x7f030005;
-        public static final int activity_scroll_map_scene=0x7f030006;
+        public static final int activity_check_in_scene=0x7f030000;
+        public static final int activity_gpsdebug=0x7f030001;
+        public static final int activity_main_menu=0x7f030002;
+        public static final int activity_node_scene=0x7f030003;
+        public static final int activity_scroll_animal_collection=0x7f030004;
+        public static final int activity_scroll_map_scene=0x7f030005;
     }
     public static final class menu {
         public static final int activity_animal_collection=0x7f070000;
@@ -69,6 +68,9 @@ public final class R {
         public static final int go_to_node_button=0x7f05000b;
         public static final int gps_coefficients_file_key=0x7f050012;
         public static final int gps_log_file_key=0x7f050013;
+        /**   currently unused 
+         */
+        public static final int gps_main_file_key=0x7f050014;
         public static final int hello_world=0x7f050001;
         public static final int menu_settings=0x7f050002;
         public static final int movement_cost=0x7f05000e;

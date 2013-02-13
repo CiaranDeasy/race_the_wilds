@@ -1,17 +1,15 @@
 package uk.ac.cam.groupproj.racethewild;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Node implements Serializable {
+public class Node{
 
-	private static final long serialVersionUID = 748191422683935983L;
-	private String name; // The name of the node. Uniquely identifies the node.
-	private String background; // Filename of the background image displayed on the scroll map.
-	private String preview; // Filename of a preview image for display alongside the node map.
-	private String sprite; // Filename of a sprite for display on the node map.
-	private float relX;   // Fractional x and y for where the node appears on the world map.
+	private String name; // The name of the node.
+	private String background; // Filepath to the background image 
+	private String preview;
+	private String sprite; // Contains the filepath to a sprite for display on the node map
+	private float relX;   // fractional x and y for where it goes on the picture.
 	private float relY;
 	private List<Animal> animals; // Lists the animals that appear in this node.
 

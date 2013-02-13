@@ -124,7 +124,7 @@ public class NodeScene extends Activity implements OnTouchListener {
 
 
 	public void moveToScrollMap(View view) {
-		if(selectedScene!=null && e.getStats().getCurrentMovePoints()>movecost) 
+		if(selectedScene!=null && e.getStats().getCurrentMovePoints()>=movecost) 
 		{
 			
 			TextView movepointsText = (TextView) findViewById(R.id.currentMovePointsText);
