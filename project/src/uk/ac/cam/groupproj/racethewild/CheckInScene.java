@@ -28,7 +28,7 @@ public class CheckInScene extends Activity {
 		setContentView(R.layout.activity_check_in_scene);
 		// Show the Up button in the action bar.
 		List<Animal> animals = e.getAllAnimals();
-		int distance = e.fetchSatNavData().getDistance();
+		int distance = e.fetchSatNavData(getApplicationContext()).getDistance();
 		int closest = Integer.MAX_VALUE;
 		Animal chosen = null;
 		for(Animal a:animals){
@@ -47,7 +47,7 @@ public class CheckInScene extends Activity {
 			textView1.setText(chosen.getHint());
 			
 			TextView textView2 = (TextView) findViewById(R.id.checkInAmount);
-			textView2.setText("You have gained " + e.fetchSatNavData().getMovePoints() + " movement points");
+			textView2.setText("You have gained " + e.fetchSatNavData(getApplicationContext()).getMovePoints() + " movement points");
 
 
 			try {

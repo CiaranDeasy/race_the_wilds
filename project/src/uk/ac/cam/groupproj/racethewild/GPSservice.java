@@ -22,6 +22,7 @@ public class GPSservice extends Service {   	// to stop call stopSelf()
 	private LocationListener locationListener;	private LocationManager locationManager;
 	private int checkIntervalSeconds;           Location currentLocation;
 	private int thresholdDistance;              // threshold distance to count as an actual move (assuming moves >1mph over interval)
+	int currentLocationUpdates;
 	
 	/*
 	 *  Returns true if the user wants to use GPS and false otherwise
@@ -37,8 +38,10 @@ public class GPSservice extends Service {   	// to stop call stopSelf()
 	 */
 	private void log(Location location, double distance, int movementPoints, boolean wasSignificant) {
 		File log;                 String state = Environment.getExternalStorageState();
+		File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
 		if (Environment.MEDIA_MOUNTED.equals(state) || Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-			log = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "rtw_gps_log.csv");
+			log = new File(path, "rtw_gps_log.csv");
+			System.out.println("Opening file");
 		} else {
 			System.err.println("Could not write to external storage medium. No log will be created");
 			return;
@@ -59,6 +62,7 @@ public class GPSservice extends Service {   	// to stop call stopSelf()
 		if (!log.exists()) {
 			try {
 				log.createNewFile();
+				System.out.println("Creating new log file.");
 			} catch (IOException e) {
 				System.err.println("Could not create new log file");
 				e.printStackTrace();
@@ -66,9 +70,12 @@ public class GPSservice extends Service {   	// to stop call stopSelf()
 			}
 		}
 		try {
+			path.mkdirs();
 			BufferedWriter bw = new BufferedWriter(new FileWriter(log, true));
 			bw.append(line);
+			System.out.println("Appending to log file.");
 			bw.newLine();
+			bw.flush();
 			bw.close();
 		} catch (IOException e) {
 			System.err.println("Failed to write to log file");
@@ -85,7 +92,9 @@ public class GPSservice extends Service {   	// to stop call stopSelf()
 		Context context = getApplicationContext();
 		SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.gps_main_file_key), Context.MODE_PRIVATE); 
 		checkIntervalSeconds = sharedPref.getInt("gps_poll_update", 60);
-		thresholdDistance = (int)Math.round(0.4 * checkIntervalSeconds);    
+		// moving > 1mph (with safety margin in case of fast refresh rate)
+		int minThresholdDistance = (int)Math.round(0.4 * checkIntervalSeconds);
+		thresholdDistance = (minThresholdDistance > 135) ? minThresholdDistance : 135;
 	}
 	
 	
@@ -119,6 +128,17 @@ public class GPSservice extends Service {   	// to stop call stopSelf()
 		SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.gps_main_file_key), Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharedPref.edit();
 		editor.putInt("movement_points", movementPoints);
+		editor.commit();
+	}
+	
+	/*
+	 *  Used to save out the user's distance
+	 */
+	private void saveOutDistance(int distance) {
+		Context context = getApplicationContext();
+		SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.gps_main_file_key), Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedPref.edit();
+		editor.putInt("distance", distance);
 		editor.commit();
 	}
 	
@@ -182,6 +202,9 @@ public class GPSservice extends Service {   	// to stop call stopSelf()
 		long deltaT = currentLocation.getTime() - oldTime;       // time between the updates
 		deltaT = deltaT / 1000;                                  // convert milliseconds -> seconds
 		double averageSpeed = distanceMoved/(deltaT);
+		System.out.println("Distance moved: "+distanceMoved);
+		System.out.println("Threshold distance: "+thresholdDistance);
+		int oldDistance; int newDistance;
 		
 		if (distanceMoved > thresholdDistance) {
 			
@@ -194,10 +217,13 @@ public class GPSservice extends Service {   	// to stop call stopSelf()
 			/*** and save out the new location for use in calculations next time ***/
 			saveOutLocation(currentLocation);
 			
-			/*** and finally save out the new movement points ***/
+			/*** and finally save out the new movement points and distance ***/
 			oldMovementPoints = sharedPref.getInt("movement_points", 0);
 			newMovementPoints = oldMovementPoints+additionalMovementPoints;
 			saveOutMovementPoints(newMovementPoints);
+			oldDistance       = sharedPref.getInt("distance",0);
+			newDistance       = oldDistance+(int)Math.round(distanceMoved);
+			saveOutDistance(newDistance);
 			
 		} else {
 			System.out.println("Latest movement is not significant.");
@@ -242,6 +268,7 @@ public class GPSservice extends Service {   	// to stop call stopSelf()
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startID) {
 		System.out.println("GPS service started");
+		currentLocationUpdates = 0;
 		
 		if (gpsWanted()) {
 			System.out.println("Looking for a GPS update");
@@ -251,13 +278,16 @@ public class GPSservice extends Service {   	// to stop call stopSelf()
 					
 					@Override
 					public void onLocationChanged(Location newLocation) {
+						currentLocationUpdates++;
 						System.out.println("Received location update.");
 						locationManager.removeUpdates(this);
 						
 						currentLocation = newLocation;
 						
 						System.out.println("Starting thread");
-						gpsUpdateThread.start();    	
+						if (currentLocationUpdates<2) {
+							gpsUpdateThread.start();    	
+						}
 					}
 					
 					@Override

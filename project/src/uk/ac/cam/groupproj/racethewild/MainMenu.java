@@ -22,7 +22,7 @@ public class MainMenu extends Activity {
 		setContentView(R.layout.activity_main_menu);
 		Engine.initialise(this); // Initialise the engine.
 		engine = Engine.get();
-		snu = engine.fetchSatNavData();
+		snu = engine.fetchSatNavData(getApplicationContext());
 		movePoints = snu.getMovePoints();
 		TextView textView = (TextView) findViewById(R.id.infoText);
 		textView.setText("Check in now for " + movePoints + " movement points");

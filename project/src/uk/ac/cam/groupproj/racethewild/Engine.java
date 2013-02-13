@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Random;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 
 public class Engine {
@@ -30,17 +31,15 @@ public class Engine {
 		return nodes;
 	}
 	
-	/** Get data from the sat-nav process. */
-	public SatNavUpdate fetchSatNavData() {
-		// Temporary implementation generates random update.
-		Random random = new Random();
-		SatNavUpdate newUpdate = new SatNavUpdate(50 + random.nextInt(200), random.nextInt(200));
-		// TODO: Implement fully.
+	/*
+	 *   Get data from the satellite navigation
+	 */
+	public SatNavUpdate fetchSatNavData(Context context) {
+		SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.gps_main_file_key), Context.MODE_PRIVATE);
+		int movementPoints = sharedPref.getInt("movement_points",-1);
+		int distance       = sharedPref.getInt("distance",0);
 		
-		// Accumulation.
-		stats.processSatNav(newUpdate);
-		return new SatNavUpdate(stats.getAccumulatedDistance(), 
-				stats.getAccumulatedMovePoints());
+		return new SatNavUpdate(distance, movementPoints);
 	}
 	
 	/** Returns a List of all Animals, sorted by ID.
