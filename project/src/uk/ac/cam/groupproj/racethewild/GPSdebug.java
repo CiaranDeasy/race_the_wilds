@@ -49,7 +49,7 @@ public class GPSdebug extends Activity {
 	 */
 	public void startListeningToGPS(View view){
 		Context context = getApplicationContext();
-		SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.gps_coefficients_file_key), Context.MODE_PRIVATE); 
+		SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.gps_main_file_key), Context.MODE_PRIVATE); 
 		int pollTime = sharedPref.getInt("gps_poll_update", 60);
 		
 		System.out.println("GPS start button pressed");
@@ -63,7 +63,7 @@ public class GPSdebug extends Activity {
 	 */
 	public void updatePollTime(View view){
 		Context context = getApplicationContext();
-		SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.gps_coefficients_file_key), Context.MODE_PRIVATE);
+		SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.gps_main_file_key), Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharedPref.edit();
 		EditText poll_update = (EditText) findViewById(R.id.gps_poll_time);
 		editor.putInt("gps_poll_update", Integer.parseInt(poll_update.getText().toString()));

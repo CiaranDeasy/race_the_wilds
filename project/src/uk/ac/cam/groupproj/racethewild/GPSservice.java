@@ -15,71 +15,126 @@ public class GPSservice extends Service {   	// to stop call stopSelf()
 	
 	private LocationListener locationListener;
 	private LocationManager locationManager;
+	private int checkIntervalSeconds;
+	private int minDistanceMoved;
+	private int checkInterval;
+	private int thresholdDistance;                // threshold distance to count as an actual move (assuming moves >1mph over interval)
+	private int cumulativeMovementPoints;
 	Location currentLocation;
+	
+	/*
+	 *  Returns true if the user wants to use GPS and false otherwise
+	 */
+	private boolean gpsWanted() {
+		// TODO
+		return true;
+	}
+	
+	/* 
+	 *  A debugging method used to save location data
+	 *  for later offline analysis
+	 */
+	@SuppressWarnings("unused")
+	private void log(Location location, int movementPoints) {
+		
+	}
 	
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		System.out.println("GPS service created");
+		
+		Context context = getApplicationContext();
+		SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.gps_main_file_key), Context.MODE_PRIVATE); 
+		checkIntervalSeconds = sharedPref.getInt("gps_poll_update", 60);
+		minDistanceMoved = 20;    
+		checkInterval = checkIntervalSeconds*1000;
+		thresholdDistance = (int)Math.round(0.4 * checkIntervalSeconds);    
 	}
-
+	
+	@Override
+	public void onDestroy() {
+		// save data to key-value store	
+	}
+	
 	@Override
 	public IBinder onBind(Intent intent) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	/*
+	 *  Stops the service once an update has been completed
+	 */
+	Thread gpsUpdateThread = new Thread(new Runnable() {
+		@Override
+		public void run() {
+			System.out.println("Killing the service");
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// do nothing 
+				e.printStackTrace();
+			}
+			stopSelf();
+		}
+		
+	}, "gpsWorkerThread");
 	
+	/*
+	 *  This is quite a hacky way of getting a single location update.
+	 *  We request multiple updates, then stop asking for updates when we get one.
+	 *  If elegance is required, this can be updated in the third iteration. 
+	 */
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startID) {
-		// might want to move this stuff to create - here for debugging
-		final int checkIntervalSeconds = 30;                         // interval to check location (in seconds)
-		final int minDistanceMoved = 20;                             // minimum distance moved in the above time to trigger an update
-		final int thresholdDistance = 20;                            // minimum distance moved to be counted as a reasonable distance (units undefined)
-		
-		final int checkInterval = checkIntervalSeconds*1000;
-		
-		locationListener = new LocationListener() {
-
-		    @Override
-		    public void onLocationChanged(Location newLocation) {
-	   	    	//final double distanceMoved = (double)newLocation.distanceTo(currentLocation);
-	   	    	
-	   	    	System.out.println("Received location update.");
-		    	
-		    	//if (distanceMoved >= thresholdDistance) {
-		    		//int movementPoints = calculateMovementPoints(newLocation,currentLocation);
-		    			    		//saveData(movementPoints);
-		    	//}
-
-		    	currentLocation = newLocation;
-		    	
-		    	System.out.println("Stopping service");
-		    	stopSelf();
-		    	System.out.println("This shouldn't be printed");
-		    }
-		    
-	        @Override
-	        public void onProviderDisabled(String provider) {
-	        }
-
-	        @Override
-	        public void onProviderEnabled(String provider) {
-	        }
-
-	        @Override
-	        public void onStatusChanged(String provider, int status, Bundle extras) {
-	        }
-		};
-		
-		locationManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, checkInterval, minDistanceMoved, locationListener);
-		
-		
-		
-		// debug stuff
 		System.out.println("GPS service started");
-		// end debug stuff
+		
+		if (gpsWanted()) {
+			System.out.println("Looking for a GPS update");
+			try {
+
+				locationListener = new LocationListener() {
+					
+					@Override
+					public void onLocationChanged(Location newLocation) {
+						System.out.println("Received location update.");
+						locationManager.removeUpdates(this);
+						
+						currentLocation = newLocation;
+						
+						System.out.println("Starting thread");
+						gpsUpdateThread.start();    	
+					}
+					
+					@Override
+					public void onProviderDisabled(String provider) {
+					}
+					
+					@Override
+					public void onProviderEnabled(String provider) {
+					}
+					
+					@Override
+					public void onStatusChanged(String provider, int status, Bundle extras) {
+					}
+				};
 				
+				locationManager = (LocationManager)getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+				locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, checkInterval, minDistanceMoved, locationListener);  
+				
+			} catch (NullPointerException e) {
+				System.err.println("GPS error. Is GPS turned on/is your emulator configured correctly?");
+			} catch (SecurityException e) {
+				System.err.println("GPS error. Is GPS turned on/is your emulator configured correctly?");
+			} catch (IllegalArgumentException e) {
+				System.err.println("GPS error. Is GPS turned on/is your emulator configured correctly?");
+			}
+			
+		} else {
+			System.out.println("GPS is not wanted. Ignoring request for update.");
+		}
+
 		return Service.START_STICKY;   // indicates service is explicitly started and stopped as needed
 	}
 	
@@ -113,6 +168,20 @@ public class GPSservice extends Service {   	// to stop call stopSelf()
 	 */
 	
 
-
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
