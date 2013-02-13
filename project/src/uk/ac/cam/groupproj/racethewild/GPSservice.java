@@ -9,11 +9,19 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.widget.Toast;
 
 public class GPSservice extends Service {   	// to stop call stopSelf()
 	
+	private LocationListener locationListener;
 	private LocationManager locationManager;
 	Location currentLocation;
+	
+	@Override
+	public void onCreate() {
+		super.onCreate();
+		System.out.println("GPS service created");
+	}
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -23,40 +31,59 @@ public class GPSservice extends Service {   	// to stop call stopSelf()
 	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startID) {
-		locationManager.requestLocationUpdates(provider, checkInterval, minDistanceMoved, locationListener);
+		// might want to move this stuff to create - here for debugging
+		final int checkIntervalSeconds = 30;                         // interval to check location (in seconds)
+		final int minDistanceMoved = 20;                             // minimum distance moved in the above time to trigger an update
+		final int thresholdDistance = 20;                            // minimum distance moved to be counted as a reasonable distance (units undefined)
+		
+		final int checkInterval = checkIntervalSeconds*1000;
+		
+		locationListener = new LocationListener() {
+
+		    @Override
+		    public void onLocationChanged(Location newLocation) {
+	   	    	//final double distanceMoved = (double)newLocation.distanceTo(currentLocation);
+	   	    	
+	   	    	System.out.println("Received location update.");
+		    	
+		    	//if (distanceMoved >= thresholdDistance) {
+		    		//int movementPoints = calculateMovementPoints(newLocation,currentLocation);
+		    			    		//saveData(movementPoints);
+		    	//}
+
+		    	currentLocation = newLocation;
+		    	
+		    	System.out.println("Stopping service");
+		    	stopSelf();
+		    	System.out.println("This shouldn't be printed");
+		    }
+		    
+	        @Override
+	        public void onProviderDisabled(String provider) {
+	        }
+
+	        @Override
+	        public void onProviderEnabled(String provider) {
+	        }
+
+	        @Override
+	        public void onStatusChanged(String provider, int status, Bundle extras) {
+	        }
+		};
+		
+		locationManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, checkInterval, minDistanceMoved, locationListener);
+		
+		
+		
+		// debug stuff
+		System.out.println("GPS service started");
+		// end debug stuff
+				
 		return Service.START_STICKY;   // indicates service is explicitly started and stopped as needed
 	}
 	
-	/*
-	 *  TODO
-	 *  Public interface method - used for IPC
-	 */
-	public SatNavUpdate getMovementPoints() {
-		// TODO
-		@SuppressWarnings("unused")
-		int latestSatnavData = getLatestData();   // some mock call to getLatestData (removes the warning)
-		return new SatNavUpdate(0,0);
-	}
-	
 	/* 
-	 *  TODO
-	 *  Called by main method whenever movement points are retrieved
-	 */
-	private void saveData(int movementPoints) {
-		// TODO (tmjm2)
-	}
-	
-	/*
-	 *  TODO
-	 *  Used by the public interface data to get the latest set of
-	 *  movement points
-	 */
-	private int getLatestData() {
-		// TODO (tmjm2)
-		return 0;
-	}
-	
-	/*
 	 *   Description needs doing (mti20)
 	 */
 	private int calculateMovementPoints(Location newLocation, Location oldLocation) {
@@ -65,7 +92,7 @@ public class GPSservice extends Service {   	// to stop call stopSelf()
 		double v = 0; // TODO speed
 		double x = 0; // TODO distance
 		
-		Context context = this;
+		Context context = getApplicationContext();
 		SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.gps_coefficients_file_key), Context.MODE_PRIVATE); 
 		A = (double)sharedPref.getFloat("gps_A",(float)0.005);
 		b = (double)sharedPref.getFloat("gps_b",(float)0.3);
@@ -85,39 +112,7 @@ public class GPSservice extends Service {   	// to stop call stopSelf()
 	 *  and saves them using the saveData method
 	 */
 	
-	final int checkIntervalSeconds = 30;                         // interval to check location (in seconds)
-	final int minDistanceMoved = 20;                             // minimum distance moved in the above time to trigger an update
-	final int thresholdDistance = 20;                            // minimum distance moved to be counted as a reasonable distance (units undefined)
-	
-	final int checkInterval = checkIntervalSeconds*1000;
-	final String provider = LocationManager.GPS_PROVIDER;
-	
-	private final LocationListener locationListener = new LocationListener() {
 
-	    @Override
-	    public void onLocationChanged(Location newLocation) {
-   	    	final double distanceMoved = (double)newLocation.distanceTo(currentLocation);
-	    	
-	    	if (distanceMoved >= thresholdDistance) {
-	    		int movementPoints = calculateMovementPoints(newLocation,currentLocation);
-	    		saveData(movementPoints);
-	    	}
-
-	    	currentLocation = newLocation;
-	    }
-	    
-        @Override
-        public void onProviderDisabled(String provider) {
-        }
-
-        @Override
-        public void onProviderEnabled(String provider) {
-        }
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-        }
-	};
 
 
 }
