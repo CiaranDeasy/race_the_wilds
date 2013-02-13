@@ -22,6 +22,7 @@ public class Engine {
 	
 	private static Engine engine;
 	
+	/** Returns the instance of this singleton class. */
 	public static Engine get() { return engine; }
 
 	public PlayerStats getStats() { return stats; }
@@ -30,7 +31,7 @@ public class Engine {
 		return nodes;
 	}
 	
-	/** Get data from the sat-nav process. */
+	/** Get data from the sat-nav service. */
 	public SatNavUpdate fetchSatNavData() {
 		// Temporary implementation generates random update.
 		Random random = new Random();
@@ -43,8 +44,7 @@ public class Engine {
 				stats.getAccumulatedMovePoints());
 	}
 	
-	/** Returns a List of all Animals, sorted by ID.
-	 ** Needed by the Collection Scene. */
+	/** Returns a List of all Animals, sorted by ID.*/
 	public List<Animal> getAllAnimals() {
 		Collection<Animal> animalCollection = animalDictionary.values();
 		List<Animal> animals = new ArrayList<Animal>();
@@ -140,8 +140,9 @@ public class Engine {
 				animalNodes[i].addAnimal(animal);
 		}
 	};
-				//Add an animal to the Nodes in which it should appear.
 	
+	/** Do not call this. Ever.
+	 *  Used for debugging to reset save data. */
 	public static void reset(Context c) {
 		engine.stats = new PlayerStats();
 		engine.stats.save(c);
@@ -150,7 +151,7 @@ public class Engine {
 	}
 
 	/** Create the engine at app start.
-	 *  Takes a Resources reference to access resource files. */
+	 *  Takes a Context to access the filesystem. */
 	private Engine(Context c) {
 		this.resources = c.getResources();
 	}
