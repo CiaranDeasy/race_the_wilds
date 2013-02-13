@@ -1,5 +1,10 @@
 package uk.ac.cam.groupproj.racethewild;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +13,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.IBinder;
 import android.widget.Toast;
 
@@ -29,8 +35,46 @@ public class GPSservice extends Service {   	// to stop call stopSelf()
 	 *  A debugging method used to save location data
 	 *  for later offline analysis
 	 */
-	private void log(Location location, int movementPoints) {
-		
+	private void log(Location location, double distance, int movementPoints, boolean wasSignificant) {
+		File log;                 String state = Environment.getExternalStorageState();
+		if (Environment.MEDIA_MOUNTED.equals(state) || Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+			log = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "rtw_gps_log.csv");
+		} else {
+			System.err.println("Could not write to external storage medium. No log will be created");
+			return;
+		}
+		StringBuilder lineBuilder = new StringBuilder();
+		lineBuilder.append(location.getTime());
+		lineBuilder.append(",");
+		lineBuilder.append(location.getLatitude());
+		lineBuilder.append(",");
+		lineBuilder.append(location.getLongitude());
+		lineBuilder.append(",");
+		lineBuilder.append(distance);
+		lineBuilder.append(",");
+		lineBuilder.append(movementPoints);
+		lineBuilder.append(",");
+		lineBuilder.append(wasSignificant);
+		String line = lineBuilder.toString();
+		if (!log.exists()) {
+			try {
+				log.createNewFile();
+			} catch (IOException e) {
+				System.err.println("Could not create new log file");
+				e.printStackTrace();
+				return;
+			}
+		}
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter(log, true));
+			bw.append(line);
+			bw.newLine();
+			bw.close();
+		} catch (IOException e) {
+			System.err.println("Failed to write to log file");
+			e.printStackTrace();
+			return;
+		}
 	}
 	
 	@Override
@@ -120,6 +164,7 @@ public class GPSservice extends Service {   	// to stop call stopSelf()
 		int additionalMovementPoints = 0; int newMovementPoints = 0; int oldMovementPoints = 0;
 		Context context = getApplicationContext();
 		SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.gps_main_file_key), Context.MODE_PRIVATE);
+		boolean wasSignificant = true;    // just used for testing
 		
 
 		/*** Has the user moved far enough for this to be a valid update? ***/
@@ -156,10 +201,11 @@ public class GPSservice extends Service {   	// to stop call stopSelf()
 			
 		} else {
 			System.out.println("Latest movement is not significant.");
+			wasSignificant=false;
 		}
 		
 		/*** and ultra-finally (for debugging), log the new location and new movement points ***/
-		log(currentLocation, newMovementPoints);
+		log(currentLocation, distanceMoved, newMovementPoints, wasSignificant);
 		
 		System.out.println("Service finished.");
 	}
