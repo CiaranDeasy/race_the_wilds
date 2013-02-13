@@ -151,12 +151,51 @@ A standard comparing method which compares animals by ID.
 Sets the animal to have a given colour (see \verb|getColour()|). Does NOT update other areas of the app, this must be handled by the caller.
 
 \verb|Animal(int id, String name, String description, String hint, String graphic, |\\
-.$\quad$\verb|String sprite, int distancePerDay, List<String> nodeNames)|
+\verb|    String sprite, int distancePerDay, List<String> nodeNames)|\\
 Creates an animal with all the fields as provided above. The \verb|Colour| defaults to \verb|White|.
 
 \subsubsection{Node}
 
+An object of the \verb|Node| class encapsulates information about a particular habitat in the game, the regions on the world map that the player can visit. A list of these objects is created at program start and stored in the \verb|Engine|. 
+
+\verb|String getName()|\\
+Returns the name of this node. The name is used in code as a unique identifier for the node.
+
+\verb|String getBackground()|\\
+Returns the filename of the background image in the filesystem, which is shown when the node is visited.
+
+\verb|String getPreview()|\\
+Returns the filename of the preview image in the filesystem, which is shown on the node selection screen.
+
+\verb|String getSprite()|\\
+Returns the filename of the sprite in the filesystem, which is used to represent the node on the world map.
+
+\verb|float getRelX()|\\
+Returns a value between 0 and 1 to indicate the position of the node on the world map along the x-axis.
+
+\verb|float getRelY()|\\
+Returns a value between 0 and 1 to indicate the position of the node on the world map along the y-axis.
+
+\verb|boolean hasName(String name)|\\
+Returns true if the name of the node is the given name, and false otherwise. Isn't functionally different from testing manually, but gives rise to more readable code.
+
+\verb|List<Animal> getAnimalList()|\\
+Returns a list of all the animals that have been registered to appear in this node. This includes animals whose \verb|Colour| is grey or black, and which have this node in their list of habitats.
+
+\verb|void addAnimal(Animal animal)|\\
+Registers the given animal with this node. Registering an animal causes the animal to appear in this node when the player visits it. Only animals whose \verb|Colour| is grey or black, and which have this node in their list of habitats, should be registered with the node.
+
 \subsubsection{XmlParser}
+
+This abstract class provides static methods for creating the animal dictionary and node list at app start. The \verb|Engine| uses these methods as part of its initialisation process. All of the animal and node data is kept in XML files, and these methods provide the ability to parse these files to construct \verb|Animal| and \verb|Node| objects encapsulating the data.
+
+\verb|static Map<Integer, Animal> createDictionary(XmlPullParser parser)|\\
+\verb|    throws XmlReadException|\\
+Returns a \verb|Map| of \verb|Animal| objects, keyed by the animals' ID fields. Android provides library support for opening XML files, and returns an \verb|XmlPullParser|. This parser can be provided to this method to be interpreted and turned into the required \verb|Animal| objects. If an error occurs during the parsing, an \verb|XmlReadException| will be thrown, with a \verb|message| describing the error encountered.
+
+\verb|static List<Node> createNodes(XmlPullParser parser)|\\
+\verb|    throws XmlReadException|\\
+Returns a \verb|List| of \verb|Animal| objects. Android provides library support for opening XML files, and returns an \verb|XmlPullParser|. This parser can be provided to this method to be interpreted and turned into the required \verb|Node| objects. If an error occurs during the parsing, an \verb|XmlReadException| will be thrown, with a \verb|message| describing the error encountered.
 
 \subsection{Sam Ainsworth \& Christopher Wheelhouse}
 
