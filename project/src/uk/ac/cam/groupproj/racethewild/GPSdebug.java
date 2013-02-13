@@ -28,7 +28,7 @@ public class GPSdebug extends Activity {
 	}
 	
 	public void updateMovementCoefficients(View view){
-		Context context = this;
+		Context context = getApplicationContext();
 		SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.gps_coefficients_file_key), Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharedPref.edit();
 		EditText A = (EditText) findViewById(R.id.gps_coeff_A);
@@ -44,17 +44,30 @@ public class GPSdebug extends Activity {
 		editor.commit();
 	}
 	
-	public void startGPSprocess(View view){
-		// create a text box for how often gps is polled
-		System.out.println("GPS start button pressed");
+	/*
+	 *  Describe.
+	 */
+	public void startListeningToGPS(View view){
 		Context context = getApplicationContext();
+		SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.gps_coefficients_file_key), Context.MODE_PRIVATE); 
+		int pollTime = sharedPref.getInt("gps_poll_update", 60);
+		
+		System.out.println("GPS start button pressed");
 		Intent intent = new Intent(context,GPSservice.class);
 		PendingIntent pintent = PendingIntent.getService(context,0,intent,PendingIntent.FLAG_CANCEL_CURRENT);
-		((AlarmManager)getSystemService(Context.ALARM_SERVICE)).setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 60*1000, pintent);
+		((AlarmManager)getSystemService(Context.ALARM_SERVICE)).setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pollTime*1000, pintent);
 	}
 	
-	public void stopGPSprocess(View view){
-		
+	/*
+	 *  Describe
+	 */
+	public void updatePollTime(View view){
+		Context context = getApplicationContext();
+		SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.gps_coefficients_file_key), Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedPref.edit();
+		EditText poll_update = (EditText) findViewById(R.id.gps_poll_time);
+		editor.putInt("gps_poll_update", Integer.parseInt(poll_update.getText().toString()));
+		editor.commit();
 	}
 	
 }

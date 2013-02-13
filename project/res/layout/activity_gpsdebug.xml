@@ -6,7 +6,7 @@
     android:gravity="top"
     tools:context=".GPSdebug" >
 
-    <Button android:text="Start GPS process"
+    <Button android:text="Start listening to GPS"
         android:id="@+id/start_gps_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -14,23 +14,31 @@
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="77dp"
         android:layout_marginTop="40dp"
-        android:onClick="startGPSprocess"
+        android:onClick="startListeningToGPS"
         />
     
-    <Button android:id="@+id/stop_gps_button"
+    <Button android:id="@+id/update_poll_time"
         android:layout_width = "wrap_content"
         android:layout_height="wrap_content"
-        android:text="Stop GPS process"
+        android:text="Update poll time"
         android:layout_below="@id/start_gps_button"
         android:layout_centerHorizontal="true"
-        android:onClick="stopGPSprocess"
+        android:onClick="updatePollTime"
         />
+    
+    <!--  value in seconds -->
+     <EditText android:id="@+id/gps_poll_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="60"    
+        android:layout_below="@id/update_poll_time"
+        android:layout_centerHorizontal="true" />
 
     <EditText android:id="@+id/gps_coeff_A"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="A"
-        android:layout_below="@id/stop_gps_button"
+        android:layout_below="@id/gps_poll_time"
         android:layout_centerHorizontal="true" />
         
         

@@ -92,7 +92,7 @@ public class GPSservice extends Service {   	// to stop call stopSelf()
 		double v = 0; // TODO speed
 		double x = 0; // TODO distance
 		
-		Context context = this;
+		Context context = getApplicationContext();
 		SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.gps_coefficients_file_key), Context.MODE_PRIVATE); 
 		A = (double)sharedPref.getFloat("gps_A",(float)0.005);
 		b = (double)sharedPref.getFloat("gps_b",(float)0.3);
