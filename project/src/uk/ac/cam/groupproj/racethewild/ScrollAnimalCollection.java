@@ -28,6 +28,8 @@ public class ScrollAnimalCollection extends Activity implements OnTouchListener 
 	Bitmap background;
 	Engine e;
 	ArrayList<CollectionDisplayAnimal> animals;  //Change to a special displayAnimal class in future.	
+	BitmapDisplayAnimal animalsToFind;  //This is skanky. It should have its own class really.
+	BitmapDisplayAnimal animalsFound;
 	
 	float currentCentery;
 
@@ -41,6 +43,31 @@ public class ScrollAnimalCollection extends Activity implements OnTouchListener 
 	float RelTouchy; //most recent touch point.
 	
 
+	private void reloadAnimals()
+	{
+		for (CollectionDisplayAnimal a : animals)
+		{
+			if(!a.alive)
+			{
+				synchronized(a)
+				{
+				if(a.onScreen(currentCentery, screenwidth, screenheight))
+				{
+					try {
+						InputStream is = getAssets().open(a.bmpName);
+						Bitmap bitmap = BitmapFactory.decodeStream(is);
+						is.close();
+						a.bitmap=bitmap;
+					} catch (IOException e1) {
+						
+						e1.printStackTrace();
+					}
+					a.alive=true;
+				}
+				}
+			}
+		}
+	}
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
@@ -52,11 +79,13 @@ public class ScrollAnimalCollection extends Activity implements OnTouchListener 
 	
 		try {
 
-			InputStream BGinputstream = getAssets().open("me.jpg");
+			InputStream BGinputstream = getAssets().open("jumperwarped.jpg");
 
 			background = BitmapFactory.decodeStream(BGinputstream);
 			BGinputstream.close();
-		} catch (IOException e1) {
+			
+			
+				} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
@@ -66,26 +95,33 @@ public class ScrollAnimalCollection extends Activity implements OnTouchListener 
 		getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
 		screenwidth = displaymetrics.widthPixels;
 		screenheight = displaymetrics.heightPixels;
-		currentCentery = 0;
+		currentCentery = screenheight/2;
 		PreTouchy = 0;
 		
+		
+		try {
+			InputStream aFinputstream = getAssets().open("animalsToFind.png");
+
+			Bitmap afbmp = BitmapFactory.decodeStream(aFinputstream);
+			animalsToFind = new BitmapDisplayAnimal(screenwidth/2, ycoord, 0,afbmp, Colour.Black);
+			aFinputstream.close();
+			ycoord+=50;
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+			
 		animals = new ArrayList<CollectionDisplayAnimal>();
 
-	
+		
 		
 		for(Integer animalInt : e.getStats().getGreyAnimals())
 		{
 			Animal a = e.getAnimal(animalInt);
-			try {
-				InputStream is = getAssets().open(a.getSpritePath());
-				Bitmap bitmap = BitmapFactory.decodeStream(is);
-				is.close();
-				CollectionDisplayAnimal animal = new CollectionDisplayAnimal(xcoord, ycoord, a.getID(), bitmap,a.getColour(), a.getSpritePath());
+				CollectionDisplayAnimal animal = new CollectionDisplayAnimal(xcoord, ycoord, a.getID(), null,a.getColour(), a.getSpritePath());
+				animal.alive=false;
 				animals.add(animal);
-			} catch (IOException e1) {
-				
-				e1.printStackTrace();
-			}
+			
 		
 			
 			if(xcoord > (screenwidth-400))
@@ -96,8 +132,21 @@ public class ScrollAnimalCollection extends Activity implements OnTouchListener 
 			
 			
 		}
-		ycoord+=300;
+		ycoord+=250;
 		xcoord = 40;
+	
+		try {
+			InputStream aFinputstream = getAssets().open("animalsFound.png");
+
+			Bitmap afbmp = BitmapFactory.decodeStream(aFinputstream);
+			animalsFound = new BitmapDisplayAnimal(screenwidth/2, ycoord, 0,afbmp, Colour.Black);
+			aFinputstream.close();
+			ycoord+=50;
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
 		for(Integer animalInt : e.getStats().getBlackAnimals())
 		{
 			Animal a = e.getAnimal(animalInt);
@@ -121,7 +170,7 @@ public class ScrollAnimalCollection extends Activity implements OnTouchListener 
 			
 		}
 		
-			
+		reloadAnimals();
 		
 		
 		
@@ -204,6 +253,9 @@ public class ScrollAnimalCollection extends Activity implements OnTouchListener 
 						0,
 						background.getWidth(),
 						background.getHeight()), new Rect(0,0,screenwidth,screenheight) , null);
+				
+				animalsFound.onDraw(c, screenwidth/2, currentCentery, screenwidth, screenheight);
+				animalsToFind.onDraw(c, screenwidth/2, currentCentery, screenwidth, screenheight);
 				for( CollectionDisplayAnimal a : animals)
 				{
 					a.onDraw(c, currentCentery, screenwidth, screenheight);
@@ -237,8 +289,27 @@ public class ScrollAnimalCollection extends Activity implements OnTouchListener 
 			float xForCollisionChecker = RelTouchx;
 			float yForCollisionChecker = currentCentery - screenheight/2 + RelTouchy;
 			
-			for (BitmapDisplayAnimal a : animals)
+			for (CollectionDisplayAnimal a : animals)
 			{
+				if(!a.alive)
+				{
+					synchronized(a)
+					{
+					if(a.onScreen(currentCentery, screenwidth, screenheight))
+					{
+						try {
+							InputStream is = getAssets().open(a.bmpName);
+							Bitmap bitmap = BitmapFactory.decodeStream(is);
+							is.close();
+							a.bitmap=bitmap;
+						} catch (IOException e1) {
+							
+							e1.printStackTrace();
+						}
+						a.alive=true;
+					}
+					}
+				}
 	
 				if(a.collisionCheck(xForCollisionChecker,yForCollisionChecker))
 				{
@@ -264,9 +335,9 @@ public class ScrollAnimalCollection extends Activity implements OnTouchListener 
 		case MotionEvent.ACTION_MOVE:{
 			
 			currentCentery= PreTouchy + RelTouchy - arg1.getY();
-			
+			reloadAnimals();
 			if(currentCentery>ycoord) currentCentery = ycoord;
-			if(currentCentery<0) currentCentery = 0;
+			if(currentCentery<screenheight/2) currentCentery = screenheight/2;
 			
 
 			break;
