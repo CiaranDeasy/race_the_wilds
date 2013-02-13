@@ -9,8 +9,9 @@ import java.util.TreeMap;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-public class XmlParser {
+public abstract class XmlParser {
 
+	// All the tags which are parsed. Defined up-front for easy modification.
 	private static final String animalDictionaryTag = "animaldictionary";
 	private static final String animalTag = "animal";
 	private static final String idTag = "id";

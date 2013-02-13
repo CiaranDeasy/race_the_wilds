@@ -29,6 +29,7 @@ import android.support.v4.app.NavUtils;
 
 public class NodeScene extends Activity implements OnTouchListener {
 
+	public final static int movePointCostMultiplier=50;
 
 	NodeViewer nodeDisplay;
 	Engine e;
@@ -80,7 +81,7 @@ public class NodeScene extends Activity implements OnTouchListener {
 			
 			
 			
-			displayNodes.add(new DisplayNode(n.getRelX()*worldMapBG.getWidth(),
+			displayNodes.add(new DisplayNode(n.getRelX()*screenwidth/2,
 					n.getRelY()*worldMapBG.getHeight(), n.getName(), bitmap));
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
@@ -88,13 +89,19 @@ public class NodeScene extends Activity implements OnTouchListener {
 			}
 		}
 		
-		
+	
 		RelativeLayout layout =  (RelativeLayout)View.inflate(this, R.layout.activity_node_scene, null);
 		 
 		layout.addView(nodeDisplay,0);
 
 		
 		setContentView(layout); 
+		
+		TextView movepointsText = (TextView) findViewById(R.id.currentMovePointsText);
+		movepointsText.setText(getString(R.string.current_movement_points) + " " + e.getStats().getCurrentMovePoints());
+		
+		
+		
 	}
 
 	@Override
@@ -123,8 +130,11 @@ public class NodeScene extends Activity implements OnTouchListener {
 
 
 	public void moveToScrollMap(View view) {
-		if(selectedScene!=null) 
+		if(selectedScene!=null && e.getStats().getCurrentMovePoints()>=movecost) 
 		{
+			
+			TextView movepointsText = (TextView) findViewById(R.id.currentMovePointsText);
+			movepointsText.setText(getString(R.string.current_movement_points) + " " + e.getStats().getCurrentMovePoints());
 			
 			Intent intent = new Intent(this, ScrollMapScene.class); 
 			e.getStats().setCurrentNode(selectedScene.getName());
@@ -240,13 +250,17 @@ public class NodeScene extends Activity implements OnTouchListener {
 							
 							TextView textView = (TextView) findViewById(R.id.moveCostText);
 							//TODO: set moveCost here.
-							textView.setText(getString(R.string.movement_cost) + ": " + selectedScene.getRelX());
+							Node n = e.lookupNode(e.getStats().getCurrentNode());
+							movecost = (int)(movePointCostMultiplier
+									*Math.sqrt(Math.pow(selectedScene.getRelX()-n.getRelX(), 2)
+											+ Math.pow(selectedScene.getRelY()-n.getRelY(), 2)));
+							textView.setText(getString(R.string.movement_cost) + " " + movecost);
 							
 							ImageView imageView = (ImageView) findViewById(R.id.nodeViewPic);
 							InputStream nodeViewPic;
 							try {
 								
-								nodeViewPic = getAssets().open(selectedScene.getBackground());
+								nodeViewPic = getAssets().open(selectedScene.getPreview());
 								
 								Bitmap pic = BitmapFactory.decodeStream(nodeViewPic);
 								if(this.selectedScene!=null)
@@ -263,9 +277,9 @@ public class NodeScene extends Activity implements OnTouchListener {
 							TextView textView1 = (TextView) findViewById(R.id.nodeNameText);
 							textView1.setText(selectedScene.getName());
 							
-							//TextView movepointsText = (TextView) findViewById(R.id.currentMovePointsText);
-							//movepointsText.setText(getString(R.string.current_movement_points) + " " + e.getStats().getCurrentMovePoints());
-							//TODO: Wait for implementation in Engine.
+							TextView movepointsText = (TextView) findViewById(R.id.currentMovePointsText);
+							movepointsText.setText(getString(R.string.current_movement_points) + " " + e.getStats().getCurrentMovePoints());
+							
 
 							
 						} catch (NodeNotFoundException e) {

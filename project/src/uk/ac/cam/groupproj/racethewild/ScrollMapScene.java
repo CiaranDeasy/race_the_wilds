@@ -8,6 +8,7 @@ import java.util.Collections;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -41,6 +42,14 @@ public class ScrollMapScene extends Activity implements OnTouchListener{
 	float PreTouchy;
 	float RelTouchy; //most recent touch point.
 	
+	
+	public void moveToCollection(View view) {
+		Intent intent = new Intent(this, ScrollAnimalCollection.class);
+
+		// intent.putExtra(ENGINE_MESSAGE, engine); //for when we start sending
+		// around Engine.
+		startActivity(intent);
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -81,11 +90,12 @@ public class ScrollMapScene extends Activity implements OnTouchListener{
 			try {
 				if(a.getColour()==Colour.Grey)
 				{
-					float xcoord = (float) (Math.random()*background.getWidth());
-					float ycoord = (float) (Math.random()*background.getHeight());
+					
 					InputStream is = getAssets().open(a.getSpritePath());
 					Bitmap bitmap = BitmapFactory.decodeStream(is);
 					is.close();
+					float xcoord = (float) (bitmap.getWidth()/2 + Math.random()*(background.getWidth() - bitmap.getWidth()/2 ));
+					float ycoord = (float) (bitmap.getHeight()/2 + Math.random()*(background.getHeight()- bitmap.getHeight()/2));
 					BitmapDisplayAnimal animal = new BitmapDisplayAnimal(xcoord, ycoord, a.getID(), bitmap,a.getColour());
 					animals.add(animal);
 				}
@@ -97,8 +107,9 @@ public class ScrollMapScene extends Activity implements OnTouchListener{
 					
 					for(int x=0; x<10; x++)
 					{
-						float xcoord = (float) (Math.random()*background.getWidth());
-						float ycoord = (float) (Math.random()*background.getHeight());
+					
+						float xcoord = (float) (bitmap.getWidth()/2 + Math.random()*(background.getWidth() - bitmap.getWidth() ));
+						float ycoord = (float) (bitmap.getHeight()/2 + Math.random()*(background.getHeight()- bitmap.getHeight()));
 						BitmapDisplayAnimal animal = new BitmapDisplayAnimal(xcoord, ycoord, a.getID(), bitmap,a.getColour());
 						animals.add(animal);
 					}
@@ -236,10 +247,12 @@ public class ScrollMapScene extends Activity implements OnTouchListener{
 						e.changeColour(a.animalCode, Colour.Black, this);//Call to engine to change the colour of the Animal
 						a.colour = Colour.Black;
 						
-						/*Intent intent = new Intent(this, AnimalScene.class);  
+
+						Intent intent = new Intent(this, ScrollAnimalCollection.class);  
 						//TODO: change to proper scene when implemented properly!
-						intent.putExtra(Engine.ANIMAL_NUMBER_MESSAGE, a.animalCode);
-						startActivity(intent);*/
+						//intent.putExtra(Engine.ANIMAL_NUMBER_MESSAGE, a.animalCode);
+						startActivity(intent);
+				
 						
 					}
 					

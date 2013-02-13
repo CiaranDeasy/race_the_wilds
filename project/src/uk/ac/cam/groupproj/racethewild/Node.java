@@ -1,12 +1,10 @@
 package uk.ac.cam.groupproj.racethewild;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Node implements Serializable{
+public class Node{
 
-	private static final long serialVersionUID = 748191422683935983L;
 	private String name; // The name of the node.
 	private String background; // Filepath to the background image 
 	private String preview;
@@ -19,20 +17,18 @@ public class Node implements Serializable{
 	public String getBackground() { return background; }
 	public String getPreview() { return preview; }
 	public String getSprite() { return sprite; }
-	public float getRelX(){ return relX;}
-	public float getRelY(){ return relY;}
+	public float getRelX() { return relX; }
+	public float getRelY() { return relY; }
+	public List<Animal> getAnimalList() { return animals; }
 	
 	/** Returns true if the name of the node is the given name. */
 	public boolean hasName(String name) { return this.name.equals(name); }
 	
-	public List<Animal> getAnimalList(){
-		return animals;
-	}
-	
 	/** Adds the given animal to the list of animals that appear in this node. */
 	public void addAnimal(Animal animal) { animals.add(animal); }
 	
-	public Node (String name, String background, String preview, String sprite, float RelX, float RelY)
+	public Node (String name, String background, String preview, String sprite, 
+			float RelX, float RelY)
 	{
 		this.name = name;
 		this.background = background;
@@ -42,7 +38,5 @@ public class Node implements Serializable{
 		this.relY = RelY;
 		this.relX = RelX;
 	}
-	
-	// Co-ordinates on the node map?
 
 }
