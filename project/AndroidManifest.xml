@@ -3,6 +3,9 @@
     package="uk.ac.cam.groupproj.racethewild"
     android:versionCode="1"
     android:versionName="1.0" >
+    
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -58,7 +61,7 @@
         
         <service
             android:name="uk.ac.cam.groupproj.racethewild.GPSservice"
-            android:process=":gps_process" >
+            android:enabled="true" >
         </service>
         
     </application>

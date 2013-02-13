@@ -2,6 +2,8 @@ package uk.ac.cam.groupproj.racethewild;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -43,9 +45,12 @@ public class GPSdebug extends Activity {
 	}
 	
 	public void startGPSprocess(View view){
-		Context context = this;
-		Intent service = new Intent(context, GPSservice.class);
-		context.startService(service);
+		// create a text box for how often gps is polled
+		System.out.println("GPS start button pressed");
+		Context context = getApplicationContext();
+		Intent intent = new Intent(context,GPSservice.class);
+		PendingIntent pintent = PendingIntent.getService(context,0,intent,PendingIntent.FLAG_CANCEL_CURRENT);
+		((AlarmManager)getSystemService(Context.ALARM_SERVICE)).setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 60*1000, pintent);
 	}
 	
 	public void stopGPSprocess(View view){
