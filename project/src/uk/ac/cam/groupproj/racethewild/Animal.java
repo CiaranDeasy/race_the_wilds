@@ -4,14 +4,14 @@ import java.util.List;
 
 public class Animal implements Comparable<Animal> {
 	
-	private int id;
-	private String graphic; // Contains the filepath of the photo image.
-	private String sprite; // The sprite shown on the scrolly map.
+	private int id; // Uniquely identifies the animal.
+	private String graphic; // Filename of the photo image.
+	private String sprite; // Filename of the sprite image for the scroll map.
 	private String name;
-	private String description;
+	private String description; // Description shown for black animals.
 	private Node[] nodes;
 	private Colour colour;
-	private String hint;
+	private String hint; // Description shown for grey animals.
 	private int distancePerDay;
 	
 	public int getID() { return id; }
@@ -24,11 +24,13 @@ public class Animal implements Comparable<Animal> {
 	public String getHint() { return hint; }
 	public int getDistancePerDay() { return distancePerDay; }
 	
+	/** Comparison by ID in ascending order. */
 	public int compareTo(Animal other) {
 		return this.id - other.id;
 	}
 
-	public void setColour(Colour colour) { this.colour = colour;
+	public void setColour(Colour colour) { 
+		this.colour = colour;
 		System.out.println("Colour of " + name + " set to " + colour);
 	}
 	
