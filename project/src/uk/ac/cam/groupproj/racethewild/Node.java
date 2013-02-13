@@ -1,12 +1,10 @@
 package uk.ac.cam.groupproj.racethewild;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Node implements Serializable{
+public class Node{
 
-	private static final long serialVersionUID = 748191422683935983L;
 	private String name; // The name of the node.
 	private String background; // Filepath to the background image 
 	private String preview;

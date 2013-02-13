@@ -73,7 +73,6 @@ public class SatNavProcess extends Activity {
 	
 	private final LocationListener locationListener = new LocationListener() {
 
-	    @Override
 	    public void onLocationChanged(Location newLocation) {
    	    	final double distanceMoved = (double)newLocation.distanceTo(currentLocation);
 	    	
@@ -85,15 +84,12 @@ public class SatNavProcess extends Activity {
 	    	currentLocation = newLocation;
 	    }
 	    
-        @Override
         public void onProviderDisabled(String provider) {
         }
 
-        @Override
         public void onProviderEnabled(String provider) {
         }
 
-        @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
         }
 	};
@@ -105,7 +101,7 @@ public class SatNavProcess extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_animal_collection);
+		//setContentView(R.layout.activity_animal_collection); Mathew hat does this line do?
 		// Show the Up button in the action bar.
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			getActionBar().setDisplayHomeAsUpEnabled(true);
