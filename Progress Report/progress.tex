@@ -199,6 +199,177 @@ Returns a \verb|List| of \verb|Animal| objects. Android provides library support
 
 \subsection{Sam Ainsworth \& Christopher Wheelhouse}
 
+
+\subsubsection{BitmapDisplayAnimal implements Comparable}
+
+This is the object used for drawing animals on the scrolling map. It simply stores data of each individual animal including its sprite, and has methods for drawing and collision detection.
+
+\begin{verbatim}
+BitmapDisplayAnimal(float xcoord, float ycoord, int animalCode,
+ Bitmap bitmap, Colour colour)
+\end{verbatim}
+
+Creates a BitmapDisplayAnimal with all the fields as provided.
+
+\begin{verbatim}
+public void onDraw(Canvas c, float viewCenterx, float viewCentery, 
+float screenWidth, float screenHeight)
+\end{verbatim}
+
+This is called in the drawing method of the scroll map. It calculates screen space coordinates of the animal and then displays it if it is on screen.
+
+\verb£public boolean collisionCheck (float touchX, float touchY)£
+
+Returns true if the position given to it collides with the image.
+
+\verb£ public int compareTo(BitmapDisplayAnimal another)£
+
+Used in sorting the animals when the first appear on screen.
+
+\subsubsection{CollectionDisplayAnimal extends BitmapDisplayAnimal}
+
+Like a BitmapDisplayAnimal, only with special methods to allow use of the features of the Collection screen.
+
+\begin{verbatim}
+BitmapDisplayAnimal(float xcoord, float ycoord, int animalCode,
+ Bitmap bitmap, Colour colour, String bitmapName)
+\end{verbatim}
+
+Creates a CollectionDisplayAnimal with all the fields as provided.
+
+\verb£ public int compareTo(BitmapDisplayAnimal another)£
+
+Used in sorting the animals when the first appear on screen.
+
+\verb£ public Boolean onScreen(float currentCenterY, £
+
+ \verb£		 float screenWidth, float screenHeight)£
+
+Returns true if the animal is currently on screen. Used to see if we can delete the animal's sprite from memory.
+
+\verb£ public synchronized void onDraw(Canvas c, float currentCenterY,£
+
+\verb£ 		float screenWidth, float screenHeight)£
+
+Draws the image on screen if animal is in screen space, otherwise recycles the image. synchronized on Animal so that we don't recycle the image while actually drawing it.
+
+\subsubsection{DisplayNode}
+
+The graphics display class for nodes, on the NodeScene.
+
+\begin{verbatim}
+DisplayNode(float xcoord, float ycoord, Sting nodeName,
+ Bitmap bitmap)
+\end{verbatim}
+
+Creates a DisplayNode with all the fields as provided.
+
+\begin{verbatim}
+public void onDraw(Canvas c, float viewCentery, 
+float screenWidth, float screenHeight)
+\end{verbatim}
+
+This is called in the drawing method of the node map. It calculates screen space coordinates of the node and then displays it.
+
+\verb£public boolean collisionCheck (float touchX, float touchY)£
+
+Returns true if the position given to it collides with the image of the node.
+
+\subsubsection{NodeScene extends Activity implements OnTouchListener}
+
+This is the activity implementing the world map, used to navigate between habitats. It is implemented as an XML view, with an Android surface superimposed to do our custom drawing of the scrolling world map.
+
+\begin{verbatim}
+protected void onCreate(Bundle savedInstanceState)
+\end{verbatim}
+
+Initialises the Activity, retrieves the Engine, and gets data for nodes from it, which it then loads into DisplayNodes. Creates a SurfaceView for rendering on, then sets this as the viewpoint of the screen.
+
+\begin{verbatim}
+public void moveToScrollMap (View view)
+\end{verbatim}
+
+Called by the XML interface to move us to the scrolling habitat scenes. This method checks if we have selected a node, and if we have enough movement points to move to it, then sends us to the node screen.
+
+\begin{verbatim}
+public boolean onTouch(View arg0, MotionEvent arg1)
+\end{verbatim}
+
+This is called whenever the screen is touched. We check for collisions when a finger is put down on the screen, and scroll the screen when a finger is slid across it. If we touch a node, the selected node is changed, information is displayed about it, and a picture of that node is loaded and displayed.
+
+\subsubsection{NodeViewer extends SurfaceView implements Runnable}
+
+Inner class style used in the render-heavy scenes (NodeScene, ScrollAnimalCollection, ScrollMapScene) with similar implementations in each (called ScrollViewer in the others). This defines the specialised SurfaceView we use for rendering, along with particular iterations of methods suited for each style of NodeViewer in the system.
+
+\verb£ public void pause()£
+
+Called when the Android Pause state is reached. This stops rendering.
+
+\verb£ public void resume()£
+
+Called when the Android Resume state is reached. This resumes rendering.
+
+\verb£ public void run()£
+
+This is the graphics method, run in a separate thread to the updating of in game logic. It simply locks the drawing canvas, then calls the onDraw methods for all objects in the scene (particularly DisplayNodes in NodeScene), and unlocks the canvas again.
+
+
+\subsubsection{ScrollAnimalCollection extends Activity implements OnTouchListener}
+
+This is the activity implementing the animal collection, used to display animals we have discovered or found in game. It is implemented as a custom SurfaceView with the property that it only loads in sprites when they are on screen, since every animal could potentially be displayed in this scene.
+
+\begin{verbatim}
+protected void onCreate(Bundle savedInstanceState)
+\end{verbatim}
+
+Initialises the Activity, retrieves the Engine, and gets data for currently found animals, which it creates CollectionDisplayAnimals for but does not load animal images. At the end of the method, we call reloadAnimals, which loads all animals in the initial view point. 
+
+\begin{verbatim}
+private void reloadAnimals()
+\end{verbatim}
+This loads animals which are on screen but don't currently have an image in memory. It does this by synchronising on the animal (to avoid altering the Bitmap while it is being read) then loading in the Bitmap and setting a boolean flag to show this has been done. It is called whenever the screen is moved.
+
+
+\begin{verbatim}
+public boolean onTouch(View arg0, MotionEvent arg1)
+\end{verbatim}
+
+This is called whenever the screen is touched. We check for collisions when a finger is put down on the screen, and scroll the screen when a finger is slid across it. When the screen is scrolled, we reload animals on screen but without images, and when we touch an animal in the scene we move to the Animal Activity.
+
+\subsubsection{ScrollViewer extends SurfaceView implements Runnable}
+
+Inner class of ScrollAnimal Collection. Similar to the class in the NodeScene, but with altered implementation of run to call the specialised methods for the CollectionDisplayAnimals.
+
+
+\subsubsection{ScrollMapScene extends Activity implements OnTouchListener}
+
+This is the activity implementing the scrolling habitat maps, where we find the animals we have released using the check in system. It is implemented as a custom SurfaceView, which allows us to scroll around an image set in the current node parameters in PlayerStats, with the associated animals to that node, and set previously untouched animals as found in the event of touching them.
+
+\begin{verbatim}
+protected void onCreate(Bundle savedInstanceState)
+\end{verbatim}
+
+Initialises the Activity, retrieves the Engine, loads the background image, loads in animals (1 each of not yet found and 10 if already found) and places then in random positions on screen. The animals are then sorted according to y coordinate, to prevent them from standing on top of each other.
+
+\begin{verbatim}
+public void moveToCollection(View view)
+\end{verbatim}
+Allows us to move to the Animal collection on the press of a button onscreen. Called by the XML interface.
+
+\begin{verbatim}
+public boolean onTouch(View arg0, MotionEvent arg1)
+\end{verbatim}
+
+This is called whenever the screen is touched. We scroll the screen when a finger is slid across it. We check for collisions between the finger position and animals on-screen whenever a finger if first put down, and if it is an animal we haven't seen before we send the user to the screen with information about it, and set the animal as found. Unique to this class is the ability to scroll along both axes, meaning implementations differ compared to the other classes.
+
+\subsubsection{ScrollViewer extends SurfaceView implements Runnable}
+
+Inner class of ScrollMapScene Collection. Similar to the class in NodeScene, but calling local ScrollMap variables and using BitmapDisplayAnimals instead (thus justified over using a single outer class).
+
+
+
+
+
 \subsection{Tom McCarthy}
 
 \subsection{Matthew Ireland}
