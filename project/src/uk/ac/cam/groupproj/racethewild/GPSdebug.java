@@ -16,8 +16,34 @@ public class GPSdebug extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// load values!
 		setContentView(R.layout.activity_gpsdebug);
+
+		Context context = getApplicationContext();
+		SharedPreferences coeffs = context.getSharedPreferences(getString(R.string.gps_coefficients_file_key), Context.MODE_PRIVATE);
+		
+		float A = coeffs.getFloat("gps_A",(float)0.005);
+		float b = coeffs.getFloat("gps_A",(float)0.3);
+		float c = coeffs.getFloat("gps_A",(float)0);
+		float d = coeffs.getFloat("gps_A",(float)0.001);
+		float e = coeffs.getFloat("gps_A",(float)15);
+		
+		EditText textA = (EditText) findViewById(R.id.gps_coeff_A);
+		EditText textb = (EditText) findViewById(R.id.gps_coeff_b);
+		EditText textc = (EditText) findViewById(R.id.gps_coeff_c);
+		EditText textd = (EditText) findViewById(R.id.gps_coeff_d);
+		EditText texte = (EditText) findViewById(R.id.gps_coeff_e);
+		
+		textA.setText(((Float)A).toString());
+		textb.setText(((Float)b).toString());
+		textc.setText(((Float)c).toString());
+		textd.setText(((Float)d).toString());
+		texte.setText(((Float)e).toString());
+		
+		SharedPreferences mainPrefs = context.getSharedPreferences(getString(R.string.gps_coefficients_file_key), Context.MODE_PRIVATE);
+		int poll_time = mainPrefs.getInt("gps_poll_update", 60);
+		EditText pollText = (EditText) findViewById(R.id.gps_poll_time);
+		pollText.setText(((Integer)poll_time).toString());
+		
 	}
 
 	@Override

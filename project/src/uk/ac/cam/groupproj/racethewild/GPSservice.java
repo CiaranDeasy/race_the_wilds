@@ -28,8 +28,8 @@ public class GPSservice extends Service {   	// to stop call stopSelf()
 	 *  Returns true if the user wants to use GPS and false otherwise
 	 */
 	private boolean gpsWanted() {
-		// TODO
-		return true;
+		SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(getString(R.string.gps_main_file_key), Context.MODE_PRIVATE);
+		return sharedPref.getBoolean("gps_wanted",true);
 	}
 	
 	/* 
@@ -327,7 +327,8 @@ public class GPSservice extends Service {   	// to stop call stopSelf()
 	}
 	
 	/* 
-	 *   Description needs doing (mti20)
+	 *   Calculates the movement points
+	 *   Describe formula
 	 */
 	private int calculateMovementPoints(Location newLocation, double averageSpeed, double distance) {
 		double A,b,c,d,e;
@@ -337,15 +338,19 @@ public class GPSservice extends Service {   	// to stop call stopSelf()
 		
 		Context context = getApplicationContext();
 		SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.gps_coefficients_file_key), Context.MODE_PRIVATE); 
-		A = (double)sharedPref.getFloat("gps_A",(float)0.005);
-		b = (double)sharedPref.getFloat("gps_b",(float)0.3);
-		c = (double)sharedPref.getFloat("gps_c",(float)0);
-		d = (double)sharedPref.getFloat("gps_d",(float)0.001);
-		e = (double)sharedPref.getFloat("gps_e",(float)15);
+		//A = (double)sharedPref.getFloat("gps_A",(float)0.005);
+		//b = (double)sharedPref.getFloat("gps_b",(float)0.3);
+		//c = (double)sharedPref.getFloat("gps_c",(float)0);
+		//d = (double)sharedPref.getFloat("gps_d",(float)0.001);
+		//e = (double)sharedPref.getFloat("gps_e",(float)15);
+		A = 0;
+		b = 0;
+		c = 0;
+		d = 1;
+		e = 10;
 		
 		double movementPoints = e * (A*Math.exp((-1)*b*v)+c*v+d) * x;
-		//return (int)Math.round(movementPoints);
-		return 10;
+		return (int)Math.round(movementPoints);
 	}
 	
 	/*
