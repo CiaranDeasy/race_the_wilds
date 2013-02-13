@@ -13,84 +13,251 @@ import android.widget.Toast;
 
 public class GPSservice extends Service {   	// to stop call stopSelf()
 	
-	private LocationListener locationListener;
-	private LocationManager locationManager;
-	Location currentLocation;
+	private LocationListener locationListener;	private LocationManager locationManager;
+	private int checkIntervalSeconds;           Location currentLocation;
+	private int thresholdDistance;              // threshold distance to count as an actual move (assuming moves >1mph over interval)
+	
+	/*
+	 *  Returns true if the user wants to use GPS and false otherwise
+	 */
+	private boolean gpsWanted() {
+		// TODO
+		return true;
+	}
+	
+	/* 
+	 *  A debugging method used to save location data
+	 *  for later offline analysis
+	 */
+	private void log(Location location, int movementPoints) {
+		
+	}
 	
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		System.out.println("GPS service created");
+		
+		Context context = getApplicationContext();
+		SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.gps_main_file_key), Context.MODE_PRIVATE); 
+		checkIntervalSeconds = sharedPref.getInt("gps_poll_update", 60);
+		thresholdDistance = (int)Math.round(0.4 * checkIntervalSeconds);    
 	}
+	
+	
+	/*
+	 *  Used to save out the user's location
+	 */
+	private void saveOutLocation(Location location) {
+		// retrieve the necessary values
+		double thisLatitude  = location.getLatitude();
+		double thisLongitude = location.getLongitude();
+		long thisTime = currentLocation.getTime();
+		
+		// no way of storing a double and loss-of-precision would be catastrophic, so store as long
+		long latitudeToStore  = Double.doubleToLongBits(thisLatitude);
+		long longitudeToStore = Double.doubleToLongBits(thisLongitude);
+		
+		Context context = getApplicationContext();
+		SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.gps_main_file_key), Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedPref.edit();
+		editor.putLong("old_latitude",  latitudeToStore);
+		editor.putLong("old_longitude", longitudeToStore);
+		editor.putLong("old_time",      thisTime);
+		editor.commit();
+	}
+	
+	/*
+	 *  Used to save out the user's movement points
+	 */
+	private void saveOutMovementPoints(int movementPoints) {
+		Context context = getApplicationContext();
+		SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.gps_main_file_key), Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedPref.edit();
+		editor.putInt("movement_points", movementPoints);
+		editor.commit();
+	}
+	
+	/*
+	 *  Read the latitude of the previous location update
+	 */
+	private double readOldLatitude() {
+		Context context = getApplicationContext();
+		SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.gps_main_file_key), Context.MODE_PRIVATE);
+		long codedLatitude = sharedPref.getLong("old_latitude",0);
+		double latitude    = Double.longBitsToDouble(codedLatitude);
+		return latitude;
+	}
+	
+	/*
+	 *  Read the longitude of the previous location update
+	 */
+	private double readOldLongitude() {
+		Context context = getApplicationContext();
+		SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.gps_main_file_key), Context.MODE_PRIVATE);
+		long codedLongitude = sharedPref.getLong("old_longitude",0);
+		double longitude = Double.longBitsToDouble(codedLongitude);
+		return longitude;
+	}
+	
+	/*
+	 *  For completeness, read the old time
+	 */
+	private long readOldTime() {
+		Context context = getApplicationContext();
+		SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.gps_main_file_key), Context.MODE_PRIVATE);
+		return sharedPref.getLong("old_time", -1);
+	}
+	
+	/*
+	 *  Saves the location and movement points out to a key-value 
+	 *  store, if it meets the necessary criteria to be a valid
+	 *  update
+	 */
+	@Override
+	public void onDestroy() {
+		System.out.println("In method onDestroy()");
+		int additionalMovementPoints = 0; int newMovementPoints = 0; int oldMovementPoints = 0;
+		Context context = getApplicationContext();
+		SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.gps_main_file_key), Context.MODE_PRIVATE);
+		
 
+		/*** Has the user moved far enough for this to be a valid update? ***/
+		double oldLatitude =  readOldLatitude();
+		double oldLongitude = readOldLongitude();
+		long oldTime =        readOldTime();
+		if (oldTime == -1) {       // first time in app - just save out this location
+			saveOutLocation(currentLocation);
+			System.out.println("Service finished (no prev data).");
+			return;
+		}
+		float[] moveLength = new float[1];
+		Location.distanceBetween(oldLatitude, oldLongitude, currentLocation.getLatitude(), currentLocation.getLongitude(), moveLength);
+		float distanceMoved = moveLength[0];
+		long deltaT = currentLocation.getTime() - oldTime;       // time between the updates
+		deltaT = deltaT / 1000;                                  // convert milliseconds -> seconds
+		double averageSpeed = distanceMoved/(deltaT);
+		
+		if (distanceMoved > thresholdDistance) {
+			
+			System.out.println("Latest movement is significant.");
+			
+			/*** If so, calculate movement points ***/
+			additionalMovementPoints = calculateMovementPoints(currentLocation,averageSpeed,distanceMoved);
+			System.out.println("Just achieved "+additionalMovementPoints+" movement points!");
+			
+			/*** and save out the new location for use in calculations next time ***/
+			saveOutLocation(currentLocation);
+			
+			/*** and finally save out the new movement points ***/
+			oldMovementPoints = sharedPref.getInt("movement_points", 0);
+			newMovementPoints = oldMovementPoints+additionalMovementPoints;
+			saveOutMovementPoints(newMovementPoints);
+			
+		} else {
+			System.out.println("Latest movement is not significant.");
+		}
+		
+		/*** and ultra-finally (for debugging), log the new location and new movement points ***/
+		log(currentLocation, newMovementPoints);
+		
+		System.out.println("Service finished.");
+	}
+	
 	@Override
 	public IBinder onBind(Intent intent) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	
+	/*
+	 *  Stops the service once an update has been completed
+	 */
+	Thread gpsUpdateThread = new Thread(new Runnable() {
+		@Override
+		public void run() {
+			System.out.println("Killing the service");
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// do nothing 
+				e.printStackTrace();
+			}
+			stopSelf();
+		}
+		
+	}, "gpsWorkerThread");
+	
+	/*
+	 *  This is quite a hacky way of getting a single location update.
+	 *  We request multiple updates, then stop asking for updates when we get one.
+	 *  If elegance is required, this can be rewritten in the third iteration. 
+	 */
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startID) {
-		// might want to move this stuff to create - here for debugging
-		final int checkIntervalSeconds = 30;                         // interval to check location (in seconds)
-		final int minDistanceMoved = 20;                             // minimum distance moved in the above time to trigger an update
-		final int thresholdDistance = 20;                            // minimum distance moved to be counted as a reasonable distance (units undefined)
-		
-		final int checkInterval = checkIntervalSeconds*1000;
-		
-		locationListener = new LocationListener() {
-
-		    @Override
-		    public void onLocationChanged(Location newLocation) {
-	   	    	//final double distanceMoved = (double)newLocation.distanceTo(currentLocation);
-	   	    	
-	   	    	System.out.println("Received location update.");
-		    	
-		    	//if (distanceMoved >= thresholdDistance) {
-		    		//int movementPoints = calculateMovementPoints(newLocation,currentLocation);
-		    			    		//saveData(movementPoints);
-		    	//}
-
-		    	currentLocation = newLocation;
-		    	
-		    	System.out.println("Stopping service");
-		    	stopSelf();
-		    	System.out.println("This shouldn't be printed");
-		    }
-		    
-	        @Override
-	        public void onProviderDisabled(String provider) {
-	        }
-
-	        @Override
-	        public void onProviderEnabled(String provider) {
-	        }
-
-	        @Override
-	        public void onStatusChanged(String provider, int status, Bundle extras) {
-	        }
-		};
-		
-		locationManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, checkInterval, minDistanceMoved, locationListener);
-		
-		
-		
-		// debug stuff
 		System.out.println("GPS service started");
-		// end debug stuff
+		
+		if (gpsWanted()) {
+			System.out.println("Looking for a GPS update");
+			try {
+
+				locationListener = new LocationListener() {
+					
+					@Override
+					public void onLocationChanged(Location newLocation) {
+						System.out.println("Received location update.");
+						locationManager.removeUpdates(this);
+						
+						currentLocation = newLocation;
+						
+						System.out.println("Starting thread");
+						gpsUpdateThread.start();    	
+					}
+					
+					@Override
+					public void onProviderDisabled(String provider) {
+					}
+					
+					@Override
+					public void onProviderEnabled(String provider) {
+					}
+					
+					@Override
+					public void onStatusChanged(String provider, int status, Bundle extras) {
+					}
+				};
 				
+				final int checkInterval = 1;     // these are just dummy parameters since we definitely do want an update!
+				final int minDist       = 0;
+				
+				locationManager = (LocationManager)getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+				locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, checkInterval, minDist, locationListener);  
+				
+			} catch (NullPointerException e) {
+				System.err.println("GPS error. Is GPS turned on/is your emulator configured correctly?");
+			} catch (SecurityException e) {
+				System.err.println("GPS error. Is GPS turned on/is your emulator configured correctly?");
+			} catch (IllegalArgumentException e) {
+				System.err.println("GPS error. Is GPS turned on/is your emulator configured correctly?");
+			} catch (Exception e) {
+				System.err.println("GPS error. Is GPS turned on/is your emulator configured correctly?");
+			}
+			
+		} else {
+			System.out.println("GPS is not wanted. Ignoring request for update.");
+		}
+
 		return Service.START_STICKY;   // indicates service is explicitly started and stopped as needed
 	}
 	
 	/* 
 	 *   Description needs doing (mti20)
 	 */
-	private int calculateMovementPoints(Location newLocation, Location oldLocation) {
+	private int calculateMovementPoints(Location newLocation, double averageSpeed, double distance) {
 		double A,b,c,d,e;
 		
-		double v = 0; // TODO speed
-		double x = 0; // TODO distance
+		double v = averageSpeed;
+		double x = distance;
 		
 		Context context = getApplicationContext();
 		SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.gps_coefficients_file_key), Context.MODE_PRIVATE); 
@@ -113,6 +280,20 @@ public class GPSservice extends Service {   	// to stop call stopSelf()
 	 */
 	
 
-
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
