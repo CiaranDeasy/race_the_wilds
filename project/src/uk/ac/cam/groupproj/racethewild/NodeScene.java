@@ -89,13 +89,19 @@ public class NodeScene extends Activity implements OnTouchListener {
 			}
 		}
 		
-		
+	
 		RelativeLayout layout =  (RelativeLayout)View.inflate(this, R.layout.activity_node_scene, null);
 		 
 		layout.addView(nodeDisplay,0);
 
 		
 		setContentView(layout); 
+		
+		TextView movepointsText = (TextView) findViewById(R.id.currentMovePointsText);
+		movepointsText.setText(getString(R.string.current_movement_points) + " " + e.getStats().getCurrentMovePoints());
+		
+		
+		
 	}
 
 	@Override
@@ -248,13 +254,13 @@ public class NodeScene extends Activity implements OnTouchListener {
 							movecost = (int)(movePointCostMultiplier
 									*Math.sqrt(Math.pow(selectedScene.getRelX()-n.getRelX(), 2)
 											+ Math.pow(selectedScene.getRelY()-n.getRelY(), 2)));
-							textView.setText(getString(R.string.movement_cost) + ": " + movecost);
+							textView.setText(getString(R.string.movement_cost) + " " + movecost);
 							
 							ImageView imageView = (ImageView) findViewById(R.id.nodeViewPic);
 							InputStream nodeViewPic;
 							try {
 								
-								nodeViewPic = getAssets().open(selectedScene.getBackground());
+								nodeViewPic = getAssets().open(selectedScene.getPreview());
 								
 								Bitmap pic = BitmapFactory.decodeStream(nodeViewPic);
 								if(this.selectedScene!=null)
