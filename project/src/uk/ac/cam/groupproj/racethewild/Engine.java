@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -38,7 +37,7 @@ public class Engine {
 	 */
 	public SatNavUpdate fetchSatNavData(Context context) {
 		SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.gps_main_file_key), Context.MODE_PRIVATE);
-		int movementPoints = sharedPref.getInt("movement_points",-1);
+		int movementPoints = sharedPref.getInt("movement_points",100);
 		int distance       = sharedPref.getInt("distance",0);
 		
 		return new SatNavUpdate(distance, movementPoints);

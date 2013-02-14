@@ -130,7 +130,7 @@ public class NodeScene extends Activity implements OnTouchListener {
 
 
 	public void moveToScrollMap(View view) {
-		if(selectedScene!=null && e.getStats().getCurrentMovePoints()>=movecost) 
+		if(selectedScene!=null && e.getStats().payMovePoints(movecost)) 
 		{
 			
 			TextView movepointsText = (TextView) findViewById(R.id.currentMovePointsText);
@@ -138,7 +138,7 @@ public class NodeScene extends Activity implements OnTouchListener {
 			
 			Intent intent = new Intent(this, ScrollMapScene.class); 
 			e.getStats().setCurrentNode(selectedScene.getName());
-
+			e.getStats().save(this);
 			startActivity(intent);
 		}
 	}
@@ -249,7 +249,7 @@ public class NodeScene extends Activity implements OnTouchListener {
 							Node selectedScene = e.lookupNode(node.nodeName);
 							
 							TextView textView = (TextView) findViewById(R.id.moveCostText);
-							//TODO: set moveCost here.
+							//set moveCost here.
 							Node n = e.lookupNode(e.getStats().getCurrentNode());
 							movecost = (int)(movePointCostMultiplier
 									*Math.sqrt(Math.pow(selectedScene.getRelX()-n.getRelX(), 2)

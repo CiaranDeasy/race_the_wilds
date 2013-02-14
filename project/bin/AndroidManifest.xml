@@ -81,7 +81,8 @@
 
         <activity
             android:name="uk.ac.cam.groupproj.racethewild.AnimalScene"
-            android:label="@string/title_activity_animal_scene" >
+            android:label="@string/title_activity_animal_scene"
+            android:screenOrientation="landscape"  >
         </activity>
     </application>
 
