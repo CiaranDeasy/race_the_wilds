@@ -18,7 +18,7 @@
         android:id="@+id/animalFact"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/animalName"
+        android:layout_below="@id/animalImg"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="28dp"
         android:textAppearance="?android:attr/textAppearanceLarge" />
