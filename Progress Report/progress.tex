@@ -2,13 +2,6 @@
 
 \input{preamble}
 
-% paste the summarised output of texcount here after each alteration
-% File: specification.tex
-% Words in text: 2571
-% Words in headers: 33
-% Words in float captions: 11
-% Number of headers: 15
-
 \begin{document}
 
 % Title page
@@ -372,7 +365,33 @@ Inner class of ScrollMapScene Collection. Similar to the class in NodeScene, but
 
 \subsection{Tom McCarthy}
 
-\subsection{Matthew Ireland}
+\subsection{Matthew Ireland - Design and implementation of location tracking subsystem}
+\subsubsection{Theory \& Background}
+The user's location needs to be periodically checked in order for them to acquire movement points and release animals into the virtual world. There are a number of interfaces available in Android for obtaining this data, but by far the most accurate method is to use the Global Positioning System (GPS). This accuracy does, however, come at the expense of an increase in power consumption and hence a decrease in battery life on the device upon which the app is running, so its use needs to be carefully monitored.
+
+The user is awarded ``movement points'' based upon how far they move. However, a na\"{i}ve implementation could be exploited by users collecting large amounts of points by driving between cities, moving between countries by train or even flying to another continent. This kind of large, artificial movement is clearly not within the spirit of the application. A mechanism is therefore needed to avoid such pernicious malfeasance.
+
+To distinguish different types of movement and award more points to distance travelled by bicycle and walking than by car and aeroplane, speed is taken into account and the number of movement points awarded is determined by the following equation:
+\begin{equation}
+M = \left({Ae^{-bv}+cv+d}\right)xe
+\end{equation}
+where $M$ is the number of movement points allocated for a given movement, $v$ is the average speed of the user over the period of the movement, $x$ is the distance travelled and $A$, $b$, $c$, $d$ and $e$ are coefficients whose values determine the precise allocation of movement points. How the use of this formula translates to real-world movement is shown in Figure \ref{fig:movementeqn}, which shows at what rate movement points are allocated to with increasing speed for fixed distance, how far the user has to move to achieve a given number of movement points for increase speed and how long it would take a user to gain a given number of movement points with increasing speed as a result of application of the formula.
+
+\begin{figure}
+\ref{fig:movementeqn}
+
+\caption{TODO}
+\end{figure}
+
+\subsubsection{Overview of methods}
+
+\subsubsection{User interface \& debugging interface}
+
+\subsubsection{Initial testing}
+
+\subsubsection{Further work}
+
+
 
 \subsection{Andrew Sheriff}
 
