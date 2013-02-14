@@ -376,7 +376,7 @@ To distinguish different types of movement and award more points to distance tra
 \label{eq:mpoints}
 M = \left({Ae^{-bv}+cv+d}\right)xe
 \end{equation}
-where $M$ is the number of movement points allocated for a given movement, $v$ is the average speed of the user over the period of the movement, $x$ is the distance travelled and $A$, $b$, $c$, $d$ and $e$ are coefficients whose values determine the precise allocation of movement points. How the use of this formula translates to real-world movement is shown in Figure \ref{fig:movementeqn}, which shows at what rate movement points are allocated to with increasing speed for fixed distance, how far the user has to move to achieve a given number of movement points for increase speed and how long it would take a user to gain a given number of movement points with increasing speed as a result of application of the formula.
+where $M$ is the number of movement points allocated for a given movement, $v$ is the average speed of the user over the period of the movement, $x$ is the distance travelled and $A$, $b$, $c$, $d$ and $e$ are coefficients whose values determine the precise allocation of movement points. How the use of this formula translates to real-world movement is shown in Figure \ref{fig:movementeqn}, which shows at what rate movement points are allocated to with increasing speed for fixed distance, how far the user has to move to achieve a given number of movement points for increase speed and how long it would take a user to gain a given number of movement points with increasing speed as a result of application of the formula. The coefficients can be initially determined using numerical optimisation techniques and then further refined by taking into account empirical observations.
 
 \begin{figure}
 \label{fig:movementeqn}
@@ -389,28 +389,30 @@ where $M$ is the number of movement points allocated for a given movement, $v$ i
 \verb=GPSdebug= is the activity that provides an interface for initially starting the GPS and tweaking the coefficients of Equation \ref{eq:mpoints}.
 
 \verb=public void startListeningToGPS(View view)=
-TODO
+This method reads the desired GPS poll time and uses the \verb=AlarmManager= Android system service to start the \verb=GPSservice= at regular intervals specified by this GPS poll time.
 
 \verb=protected void onCreate(Bundle savedInstanceState)=
-TODO
+The old values of the movement point coefficients and GPS poll time are read from memory and displayed in the app to give the developer an opportunity to change these while they are testing the app outside.
 
 \verb=public void updateMovementCoefficients(View view)=
-TODO
+Saves the new set of movement coefficients so that any changes made by the developer (as above) take effect.
 
 \verb=public void updatePollTime(View view)=
-TODO
+Saves the new GPS poll time so that any changes made by the developer (as above) take effect.
 
 \large{\textbf{\verb=public class GPSservice extends Service=}}
 \verb=GPSservice= is implemented as a service primarily so that it can perform the longer-running operation of listening for location updates while the user is not directly interacting with the application. The service will ultimately be started when the user starts the app and will continue running until they explicitly stop the service or switch off the mobile device. It is currently started via a button in the \verb=GPSdebug= activity so that other developers can test the app without having to also use the location tracking subsystem.
 
+The GPS is queried when the service starts and useage is terminated when the service is destroyed. In this way, the lifetime of the service is short.
+
 \verb=public void onCreate()=
-TODO
+Executed whenever the service is first created. The GPS poll period is read from memory and loaded into the environment. The \verb=thresholdDistance=, the distance below which any movement will be assumed to be due to inaccuracies in the GPS, is also calculated as a function of poll period.
 
 \verb=public int onStartCommand(Intent intent, int flags, int startID)=
-TODO
+Executed whenever the service is first started. If the GPS option in the app is currently turned on, the service registers its desire to receive an update from the GPS. When such a location is received, it is saved to the environment and the service is killed.
 
 \verb=public void onDestroy()=
-TODO
+Executed whenever the service is killed. Before allowing the service to die, movement points are calculated according the Equation \ref{eq:mpoints} and, if they are significant, are written to memory so that they can be retrieved by the \verb=Engine=.
 
 \subsubsection{User interface \& debugging interface}
 In the final product, the only visible effect of the location tracking subsystem to the end user will be a button in the bar at the top giving them the option to switch GPS useage on and off as they please to conserve battery life. In the second iteration app, however, a debugging interface is also provided, which allows developers to tweak the coefficients of Equation \ref{eq:mpoints} and how often the GPS should be polled, in addition to the button in the main menu allowing them to switch useage of the GPS on and off. The interfaces are shown in Figure \ref{fig:gpsinterface}.
@@ -422,10 +424,28 @@ In the final product, the only visible effect of the location tracking subsystem
 \end{figure}
 
 \subsubsection{Initial testing}
+To test that location updates were successful when moving around, the poll time was set to query the GPS every $1$ minute and all coefficients in Equation \ref{eq:mpoints} were set to zero apart from $e$. Actual location was recorded by a separate process and was written along with movement points calculated by the app to a log file. The results are shown in Figure \ref{fig:gpstestresults}.
+
+\begin{figure}
+\label{fig:gpstestresults}
+
+\caption{TODO}
+\end{figure}
+
+The allocation of movement points follows the increase in distance as the fabricated linear relationship would suggest. The movement points appeared in the main menu screen and the user was allowed to check in to release an animal into the world. The handset useage in this test accurately reflects normal useage - a mixture of being inside and outside, around tall buildings and concurrently using the telephone for voice calls and email.
+
+Over the $2$ hour $40$ minute period that tests were run, the battery capacity on the Samsung Galaxy S3 handset upon which the app was running decreased from $90$\% to $75$\%. If, to a first order approximation, all this capacity drainage was as a result of GPS usage (which is cleraly flawed since the handset was also used for other tasks concurrently), when the GPS poll period is reduced to $10$ minutes as normal useage would dictate, these initial findings would suggest that the app can be used continually for several days before the battery fully drains.
+
+While GPS updates are incredibly precise and work very well outdoors, getting a fix indoors takes longer and uses more battery. These indoor fixes can also be imprecise, sometimes varying by more than $100$m without any movement having occured. Since the use cannot be expected to turn the location tracking subsystem on and off as they go in and out of buildings, the application should function correctly all the time. A possible solution to the problem is therefore presented in the next section.
 
 \subsubsection{Further work}
+Since a user's method of motion tends to stay constant for more than around $20$ minutes (they may be sitting at their desk, riding a bicycle or going for a walk), a sensible way of evading the problem outlined in the previous section regarding occasional spurious GPS readings whilst indoors would be to convolve the vector of distances moved with a vector such as
+\[
+[ \frac{7}{11},\, \frac{3}{11},\, \frac{1}{11}
+\]
+which will mean that when the latest distance reading is recorded, the previous two distance readings are also taken into account. If the user is travelling at a roughly constant speed, then these distances will also be equal, so this convolution would be a reasonable way of smoothing the occasional spurious reading.
 
-
+Further optimisations can also be made when interacting with the Android API to ensure greater accuracy and greater power efficiency. More testing is also required to ensure that the movement points are correctly calculated when moving at different speeds.
 
 \subsection{Andrew Sheriff}
 
