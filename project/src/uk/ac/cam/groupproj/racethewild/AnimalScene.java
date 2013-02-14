@@ -22,7 +22,7 @@ public class AnimalScene extends Activity {
 		setContentView(R.layout.activity_animal_scene);
 		// Get the message from the intent
 	    Intent intent = getIntent();
-	    int animalID = Integer.parseInt(intent.getStringExtra(MainMenu.ANIMAL_ID));
+	    int animalID = intent.getIntExtra(MainMenu.ANIMAL_ID, 0);
 	    Animal animal = e.getAnimal(animalID);
 	    String name = animal.getName();
 	    // Create the text view

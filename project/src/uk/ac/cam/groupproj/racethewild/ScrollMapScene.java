@@ -248,10 +248,14 @@ public class ScrollMapScene extends Activity implements OnTouchListener{
 						a.colour = Colour.Black;
 						
 
-						Intent intent = new Intent(this, ScrollAnimalCollection.class);  
+
+						Intent intent = new Intent(this, AnimalScene.class);  
 						//TODO: change to proper scene when implemented properly!
-						//intent.putExtra(Engine.ANIMAL_NUMBER_MESSAGE, a.animalCode);
+						intent.putExtra(MainMenu.ANIMAL_ID, a.animalCode);
 						startActivity(intent);
+				
+					
+					//The real method here which moves us to animal screen.
 				
 						
 					}
