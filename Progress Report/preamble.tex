@@ -14,4 +14,10 @@
 \usepackage{array}
 \usepackage{graphicx}
 \usepackage{epstopdf}
+\newenvironment{myindentpar}[1]%
+ {\vspace{-2mm}\begin{list}{}%
+         {\setlength{\leftmargin}{#1}}%
+         \item[]%
+ \vspace{-2mm}}
+ {\end{list}}
 \raggedbottom

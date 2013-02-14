@@ -365,6 +365,7 @@ Inner class of ScrollMapScene Collection. Similar to the class in NodeScene, but
 
 \subsection{Tom McCarthy}
 
+\newpage
 \subsection{Matthew Ireland - Design and implementation of location tracking subsystem}
 \subsubsection{Theory \& Background}
 The user's location needs to be periodically checked in order for them to acquire ``movement points" and for animals to be released into the virtual world. There are a number of interfaces available in Android for obtaining this data, but by far the most accurate method is to use the Global Positioning System (GPS). This accuracy does, however, come at the expense of an increase in power consumption and hence a decrease in battery life on the device upon which the app is running, so its use needs to be carefully controlled.
@@ -380,18 +381,12 @@ where $M$ is the number of movement points allocated for a given movement, $v$ i
 
 \begin{figure}
 \centering
-\begin{minipage}{0.5\linewidth}
-\centering
-\includegraphics[scale=0.18]{m1.eps}
-\end{minipage}%
-\begin{minipage}{0.5\linewidth}
-\centering
-\includegraphics[scale=0.18]{m2.eps}
-\end{minipage}
+\includegraphics[scale=0.25]{m1.eps}
 
-\begin{center}
-\includegraphics[scale=0.18]{m3.eps}
-\end{center}
+\includegraphics[scale=0.25]{m2.eps}
+
+\includegraphics[scale=0.25]{m3.eps}
+
 \caption{(left to right, top to bottom). The scales are fairly arbitrary at this stage of development. 1) Showing how the number of movement points awarded for travelling a given distance decreases with increasing speed. 2) Showing how far a user needs to move to gain a given number of movement points with increasing speed. 3) Showing how long it will take a user to gain a given number of movement points for increasing speed.}
 \label{fig:movementeqn}
 \end{figure}
@@ -400,32 +395,47 @@ where $M$ is the number of movement points allocated for a given movement, $v$ i
 \textbf{public class GPSdebug extends Activity}\newline
 \verb=GPSdebug= is the activity that provides an interface for initially starting the GPS and tweaking the coefficients of Equation \ref{eq:mpoints}.
 
-\verb=public void startListeningToGPS(View view)=\newline
+
+\verb=public void startListeningToGPS(View view)=
+\begin{myindentpar}{1cm}
 This method reads the desired GPS poll time and uses the \verb=AlarmManager= Android system service to start the \verb=GPSservice= at regular intervals specified by this GPS poll time.
+\end{myindentpar}
 
-\verb=protected void onCreate(Bundle savedInstanceState)=\newline
+\verb=protected void onCreate(Bundle savedInstanceState)=
+\begin{myindentpar}{1cm}
 The old values of the movement point coefficients and GPS poll time are read from memory and displayed in the app to give the developer an opportunity to change these while they are testing the app outside.
+\end{myindentpar}
 
-\verb=public void updateMovementCoefficients(View view)=\newline
+\verb=public void updateMovementCoefficients(View view)=
+\begin{myindentpar}{1cm}
 Saves the new set of movement coefficients so that any changes made by the developer (as above) take effect.
+\end{myindentpar}
 
-\verb=public void updatePollTime(View view)=\newline
+\verb=public void updatePollTime(View view)=
+\begin{myindentpar}{1cm}
 Saves the new GPS poll time so that any changes made by the developer (as above) take effect.
+\end{myindentpar}
 
 \textbf{public class GPSservice extends Service}\newline
 \verb=GPSservice= is implemented as a service primarily so that it can perform the longer-running operation of listening for location updates while the user is not directly interacting with the application. The service will ultimately be started when the user starts the app and will continue running until they explicitly stop the service or switch off the mobile device. It is currently started via a button in the \verb=GPSdebug= activity so that other developers can test the app without having to also use the location tracking subsystem.
 
 The GPS is queried when the service starts and useage is terminated when the service is destroyed. In this way, the lifetime of the service is short.
 
-\verb=public void onCreate()=\newline
+\verb=public void onCreate()=
+\begin{myindentpar}{1cm}
 Executed whenever the service is first created. The GPS poll period is read from memory and loaded into the environment. The \verb=thresholdDistance=, the distance below which any movement will be assumed to be due to inaccuracies in the GPS, is also calculated as a function of poll period.
+\end{myindentpar}
 
 \verb=public int onStartCommand(Intent intent, int flags,=\newline
-\verb=                          int startID)=\newline
+\verb=                          int startID)=
+\begin{myindentpar}{1cm}
 Executed whenever the service is first started. If the GPS option in the app is currently turned on, the service registers its desire to receive an update from the GPS. When such a location is received, it is saved to the environment and the service is killed.
+\end{myindentpar}
 
-\verb=public void onDestroy()=\newline
+\verb=public void onDestroy()=
+\begin{myindentpar}{1cm}
 Executed whenever the service is killed. Before allowing the service to die, movement points are calculated according the Equation \ref{eq:mpoints} and, if they are significant, are written to memory so that they can be retrieved by the \verb=Engine=.
+\end{myindentpar}
 
 \subsubsection{User interface \& debugging interface}
 In the final product, the only visible effect of the location tracking subsystem to the end user will be a button in the bar at the top giving them the option to switch GPS usage on and off as they please to conserve battery life. In the second iteration app, however, a debugging interface is also provided, which allows developers to tweak the coefficients of Equation \ref{eq:mpoints} and how often the GPS should be polled, in addition to the button in the main menu allowing them to switch usage of the GPS on and off. The interfaces are shown in Figure 2.
