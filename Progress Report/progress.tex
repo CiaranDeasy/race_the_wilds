@@ -373,19 +373,53 @@ The user is awarded ``movement points'' based upon how far they move. However, a
 
 To distinguish different types of movement and award more points to distance travelled by bicycle and walking than by car and aeroplane, speed is taken into account and the number of movement points awarded is determined by the following equation:
 \begin{equation}
+\label{eq:mpoints}
 M = \left({Ae^{-bv}+cv+d}\right)xe
 \end{equation}
 where $M$ is the number of movement points allocated for a given movement, $v$ is the average speed of the user over the period of the movement, $x$ is the distance travelled and $A$, $b$, $c$, $d$ and $e$ are coefficients whose values determine the precise allocation of movement points. How the use of this formula translates to real-world movement is shown in Figure \ref{fig:movementeqn}, which shows at what rate movement points are allocated to with increasing speed for fixed distance, how far the user has to move to achieve a given number of movement points for increase speed and how long it would take a user to gain a given number of movement points with increasing speed as a result of application of the formula.
 
 \begin{figure}
-\ref{fig:movementeqn}
+\label{fig:movementeqn}
 
 \caption{TODO}
 \end{figure}
 
 \subsubsection{Overview of methods}
+\large{\textbf{\verb=public class GPSdebug extends Activity=}}
+\verb=GPSdebug= is the activity that provides an interface for initially starting the GPS and tweaking the coefficients of Equation \ref{eq:mpoints}.
+
+\verb=public void startListeningToGPS(View view)=
+TODO
+
+\verb=protected void onCreate(Bundle savedInstanceState)=
+TODO
+
+\verb=public void updateMovementCoefficients(View view)=
+TODO
+
+\verb=public void updatePollTime(View view)=
+TODO
+
+\large{\textbf{\verb=public class GPSservice extends Service=}}
+\verb=GPSservice= is implemented as a service primarily so that it can perform the longer-running operation of listening for location updates while the user is not directly interacting with the application. The service will ultimately be started when the user starts the app and will continue running until they explicitly stop the service or switch off the mobile device. It is currently started via a button in the \verb=GPSdebug= activity so that other developers can test the app without having to also use the location tracking subsystem.
+
+\verb=public void onCreate()=
+TODO
+
+\verb=public int onStartCommand(Intent intent, int flags, int startID)=
+TODO
+
+\verb=public void onDestroy()=
+TODO
 
 \subsubsection{User interface \& debugging interface}
+In the final product, the only visible effect of the location tracking subsystem to the end user will be a button in the bar at the top giving them the option to switch GPS useage on and off as they please to conserve battery life. In the second iteration app, however, a debugging interface is also provided, which allows developers to tweak the coefficients of Equation \ref{eq:mpoints} and how often the GPS should be polled, in addition to the button in the main menu allowing them to switch useage of the GPS on and off. The interfaces are shown in Figure \ref{fig:gpsinterface}.
+
+\begin{figure}
+\label{fig:gpsinterface}
+
+\caption{TODO}
+\end{figure}
 
 \subsubsection{Initial testing}
 
