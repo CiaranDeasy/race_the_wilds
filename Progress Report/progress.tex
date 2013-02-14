@@ -385,33 +385,34 @@ where $M$ is the number of movement points allocated for a given movement, $v$ i
 \end{figure}
 
 \subsubsection{Overview of methods}
-\large{\textbf{\verb=public class GPSdebug extends Activity=}}
+\large{\textbf{public class GPSdebug extends Activity}}\newline
 \verb=GPSdebug= is the activity that provides an interface for initially starting the GPS and tweaking the coefficients of Equation \ref{eq:mpoints}.
 
-\verb=public void startListeningToGPS(View view)=
+\verb=public void startListeningToGPS(View view)=\newline
 This method reads the desired GPS poll time and uses the \verb=AlarmManager= Android system service to start the \verb=GPSservice= at regular intervals specified by this GPS poll time.
 
-\verb=protected void onCreate(Bundle savedInstanceState)=
+\verb=protected void onCreate(Bundle savedInstanceState)=\newline
 The old values of the movement point coefficients and GPS poll time are read from memory and displayed in the app to give the developer an opportunity to change these while they are testing the app outside.
 
-\verb=public void updateMovementCoefficients(View view)=
+\verb=public void updateMovementCoefficients(View view)=\newline
 Saves the new set of movement coefficients so that any changes made by the developer (as above) take effect.
 
-\verb=public void updatePollTime(View view)=
+\verb=public void updatePollTime(View view)=\newline
 Saves the new GPS poll time so that any changes made by the developer (as above) take effect.
 
-\large{\textbf{\verb=public class GPSservice extends Service=}}
+\large{\textbf{public class GPSservice extends Service}}\newline
 \verb=GPSservice= is implemented as a service primarily so that it can perform the longer-running operation of listening for location updates while the user is not directly interacting with the application. The service will ultimately be started when the user starts the app and will continue running until they explicitly stop the service or switch off the mobile device. It is currently started via a button in the \verb=GPSdebug= activity so that other developers can test the app without having to also use the location tracking subsystem.
 
 The GPS is queried when the service starts and useage is terminated when the service is destroyed. In this way, the lifetime of the service is short.
 
-\verb=public void onCreate()=
+\verb=public void onCreate()=\newline
 Executed whenever the service is first created. The GPS poll period is read from memory and loaded into the environment. The \verb=thresholdDistance=, the distance below which any movement will be assumed to be due to inaccuracies in the GPS, is also calculated as a function of poll period.
 
-\verb=public int onStartCommand(Intent intent, int flags, int startID)=
+\verb=public int onStartCommand(Intent intent, int flags,=\newline
+\verb=                          int startID)=\newline
 Executed whenever the service is first started. If the GPS option in the app is currently turned on, the service registers its desire to receive an update from the GPS. When such a location is received, it is saved to the environment and the service is killed.
 
-\verb=public void onDestroy()=
+\verb=public void onDestroy()=\newline
 Executed whenever the service is killed. Before allowing the service to die, movement points are calculated according the Equation \ref{eq:mpoints} and, if they are significant, are written to memory so that they can be retrieved by the \verb=Engine=.
 
 \subsubsection{User interface \& debugging interface}
@@ -441,7 +442,7 @@ While GPS updates are incredibly precise and work very well outdoors, getting a 
 \subsubsection{Further work}
 Since a user's method of motion tends to stay constant for more than around $20$ minutes (they may be sitting at their desk, riding a bicycle or going for a walk), a sensible way of evading the problem outlined in the previous section regarding occasional spurious GPS readings whilst indoors would be to convolve the vector of distances moved with a vector such as
 \[
-[ \frac{7}{11},\, \frac{3}{11},\, \frac{1}{11}
+\left[{ \frac{7}{11},\, \frac{3}{11},\, \frac{1}{11}}\right]
 \]
 which will mean that when the latest distance reading is recorded, the previous two distance readings are also taken into account. If the user is travelling at a roughly constant speed, then these distances will also be equal, so this convolution would be a reasonable way of smoothing the occasional spurious reading.
 
