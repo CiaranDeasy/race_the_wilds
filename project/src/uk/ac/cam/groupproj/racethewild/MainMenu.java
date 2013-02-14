@@ -14,6 +14,8 @@ public class MainMenu extends Activity {
 
 	// public final static String ENGINE_MESSAGE =
 	// "uk.ac.cam.groupproj.racethewild.ENGINE";
+	
+	public final static String ANIMAL_ID ="uk.ac.cam.groupproj.racethewild.MESSAGE";
 
 	Engine engine;
 	SatNavUpdate snu;
