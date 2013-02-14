@@ -393,7 +393,7 @@ where $M$ is the number of movement points allocated for a given movement, $v$ i
 \begin{center}
 \includegraphics[scale=0.18]{m3.eps}
 \end{center}
-\caption{TODO}
+\caption{(left to right, top to bottom). The scales are fairly arbitrary at this stage of development. 1) Showing how the number of movement points awarded for travelling a given distance decreases with increasing speed. 2) Showing how far a user needs to move to gain a given number of movement points with increasing speed. 3) Showing how long it will take a user to gain a given number of movement points for increasing speed.}
 \end{figure}
 
 \subsubsection{Overview of methods}
@@ -428,12 +428,14 @@ Executed whenever the service is first started. If the GPS option in the app is 
 Executed whenever the service is killed. Before allowing the service to die, movement points are calculated according the Equation \ref{eq:mpoints} and, if they are significant, are written to memory so that they can be retrieved by the \verb=Engine=.
 
 \subsubsection{User interface \& debugging interface}
-In the final product, the only visible effect of the location tracking subsystem to the end user will be a button in the bar at the top giving them the option to switch GPS useage on and off as they please to conserve battery life. In the second iteration app, however, a debugging interface is also provided, which allows developers to tweak the coefficients of Equation \ref{eq:mpoints} and how often the GPS should be polled, in addition to the button in the main menu allowing them to switch useage of the GPS on and off. The interfaces are shown in Figure \ref{fig:gpsinterface}.
+In the final product, the only visible effect of the location tracking subsystem to the end user will be a button in the bar at the top giving them the option to switch GPS usage on and off as they please to conserve battery life. In the second iteration app, however, a debugging interface is also provided, which allows developers to tweak the coefficients of Equation \ref{eq:mpoints} and how often the GPS should be polled, in addition to the button in the main menu allowing them to switch usage of the GPS on and off. The interfaces are shown in Figure \ref{fig:gpsinterface}.
 
 \begin{figure}
 \label{fig:gpsinterface}
-
-\caption{TODO}
+\begin{center}
+\includegraphics[scale=0.5]{phones.jpg}
+\end{center}
+\caption{(left to right). 1) GPS debug screen allowing developers to start the AlarmManager, tweak coefficients in the movement point calculation and select how often the GPS should be polled. 2) Main menu screen, showing movement points after quite a significant trip and the ability to turn GPS usage on and off. The "Toggle GPS usage" button will ultimately be in a more user-friendly position.}
 \end{figure}
 
 \subsubsection{Initial testing}
