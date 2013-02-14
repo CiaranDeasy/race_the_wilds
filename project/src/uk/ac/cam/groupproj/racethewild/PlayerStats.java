@@ -56,15 +56,19 @@ import android.content.Context;
 			this.totalMovePoints = this.totalMovePoints + movePoints;
 		}
 		
-		public void resetMovePoints(){
-			this.currentMovePoints = 0;
+		/** Attempts to deduct the given number of movement points from the player's current.
+		 *  Returns true if this succeeds, or false if the player hasn't enough points. */
+		public boolean payMovePoints(int amount) {
+			if (this.currentMovePoints < amount) return false;
+			currentMovePoints -= amount;
+			return true;
 		}
 		
-		public void addDistance(int distance){
+		public void addDistance(int distance) {
 			this.totalDistance = this.totalDistance + distance;
 		}
 		
-		public void setCurrentNode(String node){
+		public void setCurrentNode(String node) {
 			this.currentNode = node;
 		}
 		
