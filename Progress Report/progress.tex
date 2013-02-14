@@ -380,7 +380,19 @@ where $M$ is the number of movement points allocated for a given movement, $v$ i
 
 \begin{figure}
 \label{fig:movementeqn}
+\centering
+\begin{minipage}{0.5\linewidth}
+\centering
+\includegraphics[scale=0.18]{m1.eps}
+\end{minipage}%
+\begin{minipage}{0.5\linewidth}
+\centering
+\includegraphics[scale=0.18]{m2.eps}
+\end{minipage}
 
+\begin{center}
+\includegraphics[scale=0.18]{m3.eps}
+\end{center}
 \caption{TODO}
 \end{figure}
 
@@ -429,7 +441,9 @@ To test that location updates were successful when moving around, the poll time 
 
 \begin{figure}
 \label{fig:gpstestresults}
-%\includegraphics[scale=1]{mpoints.eps}
+\begin{center}
+\includegraphics[scale=0.35]{mpoints.eps}
+\end{center}
 \caption{Testing allocation of movement points as the user moves. Distance is measured in metres. It can be seen that the allocation of movement points using this simple linear relationship ($e$ is the only non-zero coefficient) successfully follows the trend in increasing distance}
 \end{figure}
 
@@ -447,6 +461,8 @@ Since a user's method of motion tends to stay constant for more than around $20$
 which will mean that when the latest distance reading is recorded, the previous two distance readings are also taken into account. If the user is travelling at a roughly constant speed, then these distances will also be equal, so this convolution would be a reasonable way of smoothing the occasional spurious reading.
 
 Further optimisations can also be made when interacting with the Android API to ensure greater accuracy and greater power efficiency. More testing is also required to ensure that the movement points are correctly calculated when moving at different speeds.
+
+Collaboration is also required with other developers to ensure that the number of movement points allocated for a given movement is of the correct order of magnitude, i.e. it is not too easy or too difficult to release animals and move between nodes in the virtual world.
 
 \subsection{Andrew Sheriff}
 
