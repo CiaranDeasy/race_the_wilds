@@ -429,15 +429,15 @@ To test that location updates were successful when moving around, the poll time 
 
 \begin{figure}
 \label{fig:gpstestresults}
-
-\caption{TODO}
+%\includegraphics[scale=1]{mpoints.eps}
+\caption{Testing allocation of movement points as the user moves. Distance is measured in metres. It can be seen that the allocation of movement points using this simple linear relationship ($e$ is the only non-zero coefficient) successfully follows the trend in increasing distance}
 \end{figure}
 
-The allocation of movement points follows the increase in distance as the fabricated linear relationship would suggest. The movement points appeared in the main menu screen and the user was allowed to check in to release an animal into the world. The handset useage in this test accurately reflects normal useage - a mixture of being inside and outside, around tall buildings and concurrently using the telephone for voice calls and email.
+The allocation of movement points follows the increase in distance as the fabricated linear relationship would suggest. The movement points appeared in the main menu screen and the user was allowed to check in to release an animal into the world. The handset usage in this test accurately reflects normal usage - a mixture of being inside and outside, around tall buildings and concurrently using the telephone for voice calls and email.
 
-Over the $2$ hour $40$ minute period that tests were run, the battery capacity on the Samsung Galaxy S3 handset upon which the app was running decreased from $90$\% to $75$\%. If, to a first order approximation, all this capacity drainage was as a result of GPS usage (which is cleraly flawed since the handset was also used for other tasks concurrently), when the GPS poll period is reduced to $10$ minutes as normal useage would dictate, these initial findings would suggest that the app can be used continually for several days before the battery fully drains.
+Over the $2$ hour $40$ minute period that tests were run, the battery capacity on the Samsung Galaxy S3 handset upon which the app was running decreased from $90$\% to $75$\%. If, to a first order approximation, all this capacity drainage was as a result of GPS usage (which is clearly flawed since the handset was also used for other tasks concurrently), when the GPS poll period is reduced to $10$ minutes as normal usage would dictate, these initial findings would suggest that the app can be used continually for several days before the battery fully drains.
 
-While GPS updates are incredibly precise and work very well outdoors, getting a fix indoors takes longer and uses more battery. These indoor fixes can also be imprecise, sometimes varying by more than $100$m without any movement having occured. Since the use cannot be expected to turn the location tracking subsystem on and off as they go in and out of buildings, the application should function correctly all the time. A possible solution to the problem is therefore presented in the next section.
+While GPS updates are incredibly precise and work very well outdoors, getting a fix indoors takes longer and uses more battery. These indoor fixes can also be imprecise, sometimes varying by more than $100$m without any movement having occurred. When indoors, the app incorrectly identified $15$\% of updates as movement when the device had in fact remained stationary. Since the use cannot be expected to turn the location tracking subsystem on and off as they go in and out of buildings, the application should function correctly all the time. A possible solution to the problem is therefore presented in the next section.
 
 \subsubsection{Further work}
 Since a user's method of motion tends to stay constant for more than around $20$ minutes (they may be sitting at their desk, riding a bicycle or going for a walk), a sensible way of evading the problem outlined in the previous section regarding occasional spurious GPS readings whilst indoors would be to convolve the vector of distances moved with a vector such as
