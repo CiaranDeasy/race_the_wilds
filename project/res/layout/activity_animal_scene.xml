@@ -13,13 +13,6 @@
         android:layout_marginTop="28dp"
         android:textAppearance="?android:attr/textAppearanceLarge" />
     
-    <ImageView 
-        android:id="@+id/animalImg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/animalName"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="28dp"/>
     
     <TextView
         android:id="@+id/animalFact"
@@ -29,6 +22,16 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="28dp"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-
+    
+    
+    <ImageView
+        android:id="@+id/animalImg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/animalFact"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="28dp"
+        android:src="@drawable/ic_launcher" />
+    
 
 </RelativeLayout>
