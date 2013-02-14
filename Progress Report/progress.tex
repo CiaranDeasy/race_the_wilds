@@ -367,7 +367,7 @@ Inner class of ScrollMapScene Collection. Similar to the class in NodeScene, but
 
 \subsection{Matthew Ireland - Design and implementation of location tracking subsystem}
 \subsubsection{Theory \& Background}
-The user's location needs to be periodically checked in order for them to acquire movement points and release animals into the virtual world. There are a number of interfaces available in Android for obtaining this data, but by far the most accurate method is to use the Global Positioning System (GPS). This accuracy does, however, come at the expense of an increase in power consumption and hence a decrease in battery life on the device upon which the app is running, so its use needs to be carefully monitored.
+The user's location needs to be periodically checked in order for them to acquire ``movement points" and for animals to be released into the virtual world. There are a number of interfaces available in Android for obtaining this data, but by far the most accurate method is to use the Global Positioning System (GPS). This accuracy does, however, come at the expense of an increase in power consumption and hence a decrease in battery life on the device upon which the app is running, so its use needs to be carefully controlled.
 
 The user is awarded ``movement points'' based upon how far they move. However, a na\"{i}ve implementation could be exploited by users collecting large amounts of points by driving between cities, moving between countries by train or even flying to another continent. This kind of large, artificial movement is clearly not within the spirit of the application. A mechanism is therefore needed to avoid such pernicious malfeasance.
 
@@ -376,10 +376,9 @@ To distinguish different types of movement and award more points to distance tra
 \label{eq:mpoints}
 M = \left({Ae^{-bv}+cv+d}\right)xe
 \end{equation}
-where $M$ is the number of movement points allocated for a given movement, $v$ is the average speed of the user over the period of the movement, $x$ is the distance travelled and $A$, $b$, $c$, $d$ and $e$ are coefficients whose values determine the precise allocation of movement points. How the use of this formula translates to real-world movement is shown in Figure \ref{fig:movementeqn}, which shows at what rate movement points are allocated to with increasing speed for fixed distance, how far the user has to move to achieve a given number of movement points for increase speed and how long it would take a user to gain a given number of movement points with increasing speed as a result of application of the formula. The coefficients can be initially determined using numerical optimisation techniques and then further refined by taking into account empirical observations.
+where $M$ is the number of movement points allocated for a given movement, $v$ is the average speed of the user over the period of the movement, $x$ is the distance travelled and $A$, $b$, $c$, $d$ and $e$ are coefficients whose values determine the precise allocation of movement points. How the use of this formula translates to real-world movement is shown in Figure 1, which shows at what rate movement points are allocated to with increasing speed for fixed distance, how far the user has to move to achieve a given number of movement points for increase speed and how long it would take a user to gain a given number of movement points with increasing speed as a result of application of the formula. The coefficients can be initially determined using numerical optimisation techniques and then further refined by taking into account empirical observations.
 
 \begin{figure}
-\label{fig:movementeqn}
 \centering
 \begin{minipage}{0.5\linewidth}
 \centering
@@ -394,10 +393,11 @@ where $M$ is the number of movement points allocated for a given movement, $v$ i
 \includegraphics[scale=0.18]{m3.eps}
 \end{center}
 \caption{(left to right, top to bottom). The scales are fairly arbitrary at this stage of development. 1) Showing how the number of movement points awarded for travelling a given distance decreases with increasing speed. 2) Showing how far a user needs to move to gain a given number of movement points with increasing speed. 3) Showing how long it will take a user to gain a given number of movement points for increasing speed.}
+\label{fig:movementeqn}
 \end{figure}
 
 \subsubsection{Overview of methods}
-\large{\textbf{public class GPSdebug extends Activity}}\newline
+\textbf{public class GPSdebug extends Activity}\newline
 \verb=GPSdebug= is the activity that provides an interface for initially starting the GPS and tweaking the coefficients of Equation \ref{eq:mpoints}.
 
 \verb=public void startListeningToGPS(View view)=\newline
@@ -412,7 +412,7 @@ Saves the new set of movement coefficients so that any changes made by the devel
 \verb=public void updatePollTime(View view)=\newline
 Saves the new GPS poll time so that any changes made by the developer (as above) take effect.
 
-\large{\textbf{public class GPSservice extends Service}}\newline
+\textbf{public class GPSservice extends Service}\newline
 \verb=GPSservice= is implemented as a service primarily so that it can perform the longer-running operation of listening for location updates while the user is not directly interacting with the application. The service will ultimately be started when the user starts the app and will continue running until they explicitly stop the service or switch off the mobile device. It is currently started via a button in the \verb=GPSdebug= activity so that other developers can test the app without having to also use the location tracking subsystem.
 
 The GPS is queried when the service starts and useage is terminated when the service is destroyed. In this way, the lifetime of the service is short.
@@ -428,18 +428,18 @@ Executed whenever the service is first started. If the GPS option in the app is 
 Executed whenever the service is killed. Before allowing the service to die, movement points are calculated according the Equation \ref{eq:mpoints} and, if they are significant, are written to memory so that they can be retrieved by the \verb=Engine=.
 
 \subsubsection{User interface \& debugging interface}
-In the final product, the only visible effect of the location tracking subsystem to the end user will be a button in the bar at the top giving them the option to switch GPS usage on and off as they please to conserve battery life. In the second iteration app, however, a debugging interface is also provided, which allows developers to tweak the coefficients of Equation \ref{eq:mpoints} and how often the GPS should be polled, in addition to the button in the main menu allowing them to switch usage of the GPS on and off. The interfaces are shown in Figure \ref{fig:gpsinterface}.
+In the final product, the only visible effect of the location tracking subsystem to the end user will be a button in the bar at the top giving them the option to switch GPS usage on and off as they please to conserve battery life. In the second iteration app, however, a debugging interface is also provided, which allows developers to tweak the coefficients of Equation \ref{eq:mpoints} and how often the GPS should be polled, in addition to the button in the main menu allowing them to switch usage of the GPS on and off. The interfaces are shown in Figure 2.
 
 \begin{figure}
 \label{fig:gpsinterface}
 \begin{center}
 \includegraphics[scale=0.5]{phones.jpg}
 \end{center}
-\caption{(left to right). 1) GPS debug screen allowing developers to start the AlarmManager, tweak coefficients in the movement point calculation and select how often the GPS should be polled. 2) Main menu screen, showing movement points after quite a significant trip and the ability to turn GPS usage on and off. The "Toggle GPS usage" button will ultimately be in a more user-friendly position.}
+\caption{(left to right). 1) GPS debug screen allowing developers to start the AlarmManager, tweak coefficients in the movement point calculation and select how often the GPS should be polled. 2) Main menu screen, showing movement points after quite a significant trip and the ability to turn GPS usage on and off. The ``Toggle GPS usage" button will ultimately be in a more user-friendly position.}
 \end{figure}
 
 \subsubsection{Initial testing}
-To test that location updates were successful when moving around, the poll time was set to query the GPS every $1$ minute and all coefficients in Equation \ref{eq:mpoints} were set to zero apart from $e$. Actual location was recorded by a separate process and was written along with movement points calculated by the app to a log file. The results are shown in Figure \ref{fig:gpstestresults}.
+To test that location updates were successful when moving around, the poll time was set to query the GPS every $1$ minute and all coefficients in Equation \ref{eq:mpoints} were set to zero apart from $e$. The actual location was recorded by a separate process and was written along with movement points calculated by the app to a log file. The results are shown in Figure 3.
 
 \begin{figure}
 \label{fig:gpstestresults}
@@ -449,11 +449,11 @@ To test that location updates were successful when moving around, the poll time 
 \caption{Testing allocation of movement points as the user moves. Distance is measured in metres. It can be seen that the allocation of movement points using this simple linear relationship ($e$ is the only non-zero coefficient) successfully follows the trend in increasing distance}
 \end{figure}
 
-The allocation of movement points follows the increase in distance as the fabricated linear relationship would suggest. The movement points appeared in the main menu screen and the user was allowed to check in to release an animal into the world. The handset usage in this test accurately reflects normal usage - a mixture of being inside and outside, around tall buildings and concurrently using the telephone for voice calls and email.
+The allocation of movement points follows the increase in distance as the fabricated linear relationship would suggest. The movement points appeared in the main menu screen and the user was allowed to check in to release an animal into the world. The handset usage in this test accurately reflects normal usage - a mixture of being inside and outside buildings, around tall buildings and concurrently using the telephone for voice calls and email.
 
-Over the $2$ hour $40$ minute period that tests were run, the battery capacity on the Samsung Galaxy S3 handset upon which the app was running decreased from $90$\% to $75$\%. If, to a first order approximation, all this capacity drainage was as a result of GPS usage (which is clearly flawed since the handset was also used for other tasks concurrently), when the GPS poll period is reduced to $10$ minutes as normal usage would dictate, these initial findings would suggest that the app can be used continually for several days before the battery fully drains.
+Over the $2$ hour $40$ minute period that tests were run, the battery capacity on the Samsung Galaxy S$3$ handset upon which the app was running decreased from $90$\% to $75$\%. If, to a first order approximation, all this capacity drainage was as a result of GPS usage (which is clearly flawed since the handset was also used for other tasks concurrently), when the GPS poll period is reduced to $10$ minutes as normal usage would dictate, these initial findings would suggest that the app can be used continually for several days before the battery fully drains.
 
-While GPS updates are incredibly precise and work very well outdoors, getting a fix indoors takes longer and uses more battery. These indoor fixes can also be imprecise, sometimes varying by more than $100$m without any movement having occurred. When indoors, the app incorrectly identified $15$\% of updates as movement when the device had in fact remained stationary. Since the use cannot be expected to turn the location tracking subsystem on and off as they go in and out of buildings, the application should function correctly all the time. A possible solution to the problem is therefore presented in the next section.
+While GPS updates are incredibly precise and work very well outdoors, getting a fix indoors takes longer and uses more battery. These indoor fixes can also be imprecise, sometimes varying by more than $100$m without any movement having occurred. When indoors, the app incorrectly identified $15$\% of updates as movement when the device had in fact remained stationary. Since the users cannot be expected to turn the location tracking subsystem on and off as they go in and out of buildings, the application should function correctly all the time. A possible solution to the problem is therefore presented in the next section.
 
 \subsubsection{Further work}
 Since a user's method of motion tends to stay constant for more than around $20$ minutes (they may be sitting at their desk, riding a bicycle or going for a walk), a sensible way of evading the problem outlined in the previous section regarding occasional spurious GPS readings whilst indoors would be to convolve the vector of distances moved with a vector such as
