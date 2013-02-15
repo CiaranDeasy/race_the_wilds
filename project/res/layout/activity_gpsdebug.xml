@@ -82,6 +82,32 @@
         android:layout_below="@id/gps_coeff_e"
         android:layout_centerHorizontal="true"
         android:onClick="updateMovementCoefficients"
+        android:id="@+id/updatemc"
         />
+    
+        <Button android:layout_width = "wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Check movement points"
+        android:layout_below="@id/updatemc"
+        android:layout_centerHorizontal="true"
+        android:onClick="checkMovementPoints"
+        android:id="@+id/checkMovementPoints"
+        />
+        
+         <EditText android:id="@+id/mp"
+        android:layout_width="300px"
+        android:layout_height="wrap_content"
+        android:text="mp?"
+        android:layout_below="@id/checkMovementPoints"
+        android:layout_centerHorizontal="true"
+        />
+         
+                 <Button
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_below="@id/mp"
+                     android:layout_centerHorizontal="true"
+                     android:onClick="resetMovementPoints"
+                     android:text="Reset movement points" />
             
 </RelativeLayout>

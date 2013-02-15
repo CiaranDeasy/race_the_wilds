@@ -96,4 +96,16 @@ public class GPSdebug extends Activity {
 		editor.commit();
 	}
 	
+	public void checkMovementPoints(View view) {
+		Engine e = Engine.get();
+		int movementPoints = e.fetchSatNavData(getApplicationContext()).getMovePoints();
+		EditText textmc = (EditText) findViewById(R.id.mp);
+		textmc.setText(((Integer)movementPoints).toString());
+	}
+	
+	public void resetMovementPoints(View view) {
+		Engine e = Engine.get();
+		e.resetSatNavData(getApplicationContext());
+	}
+	
 }

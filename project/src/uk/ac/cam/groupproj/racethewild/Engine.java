@@ -43,6 +43,19 @@ public class Engine {
 		return new SatNavUpdate(distance, movementPoints);
 	}
 	
+	/*
+	 *   Reset data from the satellite navigation
+	 *   Currently resets your movement points to 100, rather than 0
+	 *   to allow for testing of the other components without having to move around a lot
+	 */
+	public void resetSatNavData(Context context) {
+		SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.gps_main_file_key), Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedPref.edit();
+		editor.putInt("movement_points",100);
+		editor.putInt("distance",0);
+		editor.commit();
+	}
+	
 	/** Returns a List of all Animals, sorted by ID.*/
 	public List<Animal> getAllAnimals() {
 		Collection<Animal> animalCollection = animalDictionary.values();
