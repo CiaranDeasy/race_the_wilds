@@ -32,7 +32,7 @@ import android.content.Context;
 		private int accumulatedDistance;
 		
 		public PlayerStats(){
-			currentMovePoints = 500; //changed to allow our demonstration to happen tomorrow.
+			currentMovePoints = 490; //changed to allow our demonstration to happen tomorrow.
 			totalMovePoints = 0; 
 			totalDistance = 0;
 			this.currentNode = startingNode;
