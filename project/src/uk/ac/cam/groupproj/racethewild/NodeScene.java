@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
@@ -140,6 +141,11 @@ public class NodeScene extends Activity implements OnTouchListener {
 			e.getStats().setCurrentNode(selectedScene.getName());
 			e.getStats().save(this);
 			startActivity(intent);
+			
+			TextView textView = (TextView) findViewById(R.id.moveCostText);
+			textView.setText(getString(R.string.movement_cost) + " " + 0);
+			System.out.println("hello");
+			
 		}
 	}
 	
@@ -262,7 +268,12 @@ public class NodeScene extends Activity implements OnTouchListener {
 								
 								nodeViewPic = getAssets().open(selectedScene.getPreview());
 								
-								Bitmap pic = BitmapFactory.decodeStream(nodeViewPic);
+								BitmapFactory.Options options = new BitmapFactory.Options();
+								options.inSampleSize = 4;
+								options.inPreferredConfig = Config.RGB_565;
+								Bitmap pic = BitmapFactory.decodeStream(nodeViewPic, null, options);
+								
+								//Bitmap pic = BitmapFactory.decodeStream(nodeViewPic);
 								if(this.selectedScene!=null)
 								((BitmapDrawable)imageView.getDrawable()).getBitmap().recycle();
 								this.selectedScene=selectedScene;

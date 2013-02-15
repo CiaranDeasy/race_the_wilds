@@ -104,6 +104,7 @@ public class ScrollAnimalCollection extends Activity implements OnTouchListener 
 			InputStream aFinputstream = getAssets().open("animalsToFind.png");
 
 			Bitmap afbmp = BitmapFactory.decodeStream(aFinputstream);
+			
 			animalsToFind = new BitmapDisplayAnimal(screenwidth/2, ycoord, 0,afbmp, Colour.Black);
 			aFinputstream.close();
 			ycoord+=50;
