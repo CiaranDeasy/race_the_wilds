@@ -14,9 +14,9 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int animalFact=0x7f080002;
+        public static final int animalFact=0x7f080001;
         public static final int animalFacts=0x7f080004;
-        public static final int animalImg=0x7f080001;
+        public static final int animalImg=0x7f080002;
         public static final int animalName=0x7f080000;
         public static final int button1=0x7f08001b;
         public static final int center_point=0x7f080014;

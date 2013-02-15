@@ -32,8 +32,8 @@ import android.content.Context;
 		private int accumulatedDistance;
 		
 		public PlayerStats(){
-			currentMovePoints = 0;
-			totalMovePoints = 0;
+			currentMovePoints = 500; //changed to allow our demonstration to happen tomorrow.
+			totalMovePoints = 0; 
 			totalDistance = 0;
 			this.currentNode = startingNode;
 			this.blackAnimals = new ArrayList<Integer>();
