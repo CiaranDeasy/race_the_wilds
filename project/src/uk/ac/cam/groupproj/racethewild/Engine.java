@@ -5,9 +5,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 
 public class Engine {
@@ -31,17 +31,29 @@ public class Engine {
 		return nodes;
 	}
 	
-	/** Get data from the sat-nav service. */
-	public SatNavUpdate fetchSatNavData() {
-		// Temporary implementation generates random update.
-		Random random = new Random();
-		SatNavUpdate newUpdate = new SatNavUpdate(50 + random.nextInt(200), random.nextInt(200));
-		// TODO: Implement fully.
+
+	/*
+	 *   Get data from the satellite navigation
+	 */
+	public SatNavUpdate fetchSatNavData(Context context) {
+		SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.gps_main_file_key), Context.MODE_PRIVATE);
+		int movementPoints = sharedPref.getInt("movement_points",100);
+		int distance       = sharedPref.getInt("distance",0);
 		
-		// Accumulation.
-		stats.processSatNav(newUpdate);
-		return new SatNavUpdate(stats.getAccumulatedDistance(), 
-				stats.getAccumulatedMovePoints());
+		return new SatNavUpdate(distance, movementPoints);
+	}
+	
+	/*
+	 *   Reset data from the satellite navigation
+	 *   Currently resets your movement points to 100, rather than 0
+	 *   to allow for testing of the other components without having to move around a lot
+	 */
+	public void resetSatNavData(Context context) {
+		SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.gps_main_file_key), Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedPref.edit();
+		editor.putInt("movement_points",100);
+		editor.putInt("distance",0);
+		editor.commit();
 	}
 	
 	/** Returns a List of all Animals, sorted by ID.*/
@@ -116,7 +128,8 @@ public class Engine {
 			this.changeColour(animal.getID(), Colour.Grey, c);
 		}
 		// Update playerstats.
-		stats.checkIn();
+		stats.processSatNav(fetchSatNavData(c));
+		this.resetSatNavData(c);
 		stats.save(c);
 	}
 	

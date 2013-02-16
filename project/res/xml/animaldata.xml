@@ -25,7 +25,7 @@
         <id>3</id>
         <name>Kangaroo</name>
         <description>A single plausible kangaroo fact.</description>
-        <hint>An appropriate arctic hint.</hint>
+        <hint>An appropriate island hint.</hint>
         <photo>donkey.png</photo>
         <sprite>donkey.png</sprite>
         <distance>180</distance>

@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
@@ -36,6 +37,9 @@ public class ScrollMapScene extends Activity implements OnTouchListener{
 
 	int screenwidth;  //you get the idea.
 	int screenheight;
+	
+	int bgWidth;
+	int bgHeight;
 
 	float PreTouchx; //for when we scroll.
 	float RelTouchx;
@@ -71,16 +75,22 @@ public class ScrollMapScene extends Activity implements OnTouchListener{
 
 			InputStream BGinputstream = getAssets().open(thisNode.getBackground());
 
-			background = BitmapFactory.decodeStream(BGinputstream);
+
+			BitmapFactory.Options options = new BitmapFactory.Options();
+			options.inPreferredConfig = Config.RGB_565;
+			background = BitmapFactory.decodeStream(BGinputstream, null, options);
+			bgHeight = background.getHeight()*3;
+			bgWidth = background.getWidth()*3;
+			//background = BitmapFactory.decodeStream(BGinputstream);
 			BGinputstream.close();
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
-		currentCenterx = background.getWidth()/2;
+		currentCenterx = bgWidth/2;
 		PreTouchx = currentCenterx;
-		currentCentery = background.getHeight()/2;
+		currentCentery = bgHeight/2;
 		PreTouchy = currentCentery;
 
 		animals = new ArrayList<BitmapDisplayAnimal>();
@@ -94,8 +104,8 @@ public class ScrollMapScene extends Activity implements OnTouchListener{
 					InputStream is = getAssets().open(a.getSpritePath());
 					Bitmap bitmap = BitmapFactory.decodeStream(is);
 					is.close();
-					float xcoord = (float) (bitmap.getWidth()/2 + Math.random()*(background.getWidth() - bitmap.getWidth()/2 ));
-					float ycoord = (float) (bitmap.getHeight()/2 + Math.random()*(background.getHeight()- bitmap.getHeight()/2));
+					float xcoord = (float) (bitmap.getWidth()/2 + Math.random()*(bgWidth - bitmap.getWidth()/2 ));
+					float ycoord = (float) (bitmap.getHeight()/2 + Math.random()*(bgHeight- bitmap.getHeight()/2));
 					BitmapDisplayAnimal animal = new BitmapDisplayAnimal(xcoord, ycoord, a.getID(), bitmap,a.getColour());
 					animals.add(animal);
 				}
@@ -108,8 +118,8 @@ public class ScrollMapScene extends Activity implements OnTouchListener{
 					for(int x=0; x<10; x++)
 					{
 					
-						float xcoord = (float) (bitmap.getWidth()/2 + Math.random()*(background.getWidth() - bitmap.getWidth() ));
-						float ycoord = (float) (bitmap.getHeight()/2 + Math.random()*(background.getHeight()- bitmap.getHeight()));
+						float xcoord = (float) (bitmap.getWidth()/2 + Math.random()*(bgWidth - bitmap.getWidth() ));
+						float ycoord = (float) (bitmap.getHeight()/2 + Math.random()*(bgHeight- bitmap.getHeight()));
 						BitmapDisplayAnimal animal = new BitmapDisplayAnimal(xcoord, ycoord, a.getID(), bitmap,a.getColour());
 						animals.add(animal);
 					}
@@ -202,10 +212,12 @@ public class ScrollMapScene extends Activity implements OnTouchListener{
 				}
 
 				Canvas c = holder.lockCanvas();
-				c.drawBitmap(background, new Rect((int)currentCenterx - (screenwidth>>1),
-						(int)currentCentery - (screenheight>>1),
-						(int)currentCenterx + (screenwidth>>1),
-						(int)currentCentery + (screenheight>>1)), new Rect(0,0,screenwidth,screenheight) , null);
+				float widthratio = (float)background.getWidth()/(float)bgWidth;
+				float heightratio = (float)background.getHeight()/(float)bgHeight;
+				c.drawBitmap(background, new Rect((int)((currentCenterx - (screenwidth>>1))*widthratio),
+						(int)((currentCentery - (screenheight>>1))*heightratio),
+						(int)((currentCenterx + (screenwidth>>1))*widthratio),
+						(int)((currentCentery + (screenheight>>1))*heightratio)), new Rect(0,0,screenwidth,screenheight) , null);
 				for( BitmapDisplayAnimal a : animals)
 				{
 					a.onDraw(c, currentCenterx, currentCentery, screenwidth, screenheight);
@@ -248,10 +260,14 @@ public class ScrollMapScene extends Activity implements OnTouchListener{
 						a.colour = Colour.Black;
 						
 
-						Intent intent = new Intent(this, ScrollAnimalCollection.class);  
+
+						Intent intent = new Intent(this, AnimalScene.class);  
 						//TODO: change to proper scene when implemented properly!
-						//intent.putExtra(Engine.ANIMAL_NUMBER_MESSAGE, a.animalCode);
+						intent.putExtra(MainMenu.ANIMAL_ID, a.animalCode);
 						startActivity(intent);
+				
+					
+					//The real method here which moves us to animal screen.
 				
 						
 					}
@@ -269,9 +285,9 @@ public class ScrollMapScene extends Activity implements OnTouchListener{
 		case MotionEvent.ACTION_MOVE:{
 			currentCenterx= PreTouchx + RelTouchx - arg1.getX();
 			currentCentery= PreTouchy + RelTouchy - arg1.getY();
-			if(currentCenterx>background.getWidth()-screenwidth/2) currentCenterx = background.getWidth()-screenwidth/2;
+			if(currentCenterx>bgWidth-screenwidth/2) currentCenterx = bgWidth-screenwidth/2;
 			if(currentCenterx<screenwidth/2) currentCenterx = screenwidth/2;
-			if(currentCentery>background.getHeight()-screenheight/2) currentCentery = background.getHeight()-screenheight/2;
+			if(currentCentery>bgHeight-screenheight/2) currentCentery = bgHeight-screenheight/2;
 			if(currentCentery<screenheight/2) currentCentery = screenheight/2;
 
 			break;

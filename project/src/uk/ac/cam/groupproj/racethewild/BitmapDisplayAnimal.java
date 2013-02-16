@@ -38,6 +38,7 @@ public class BitmapDisplayAnimal implements Comparable<BitmapDisplayAnimal>{
 	
 	public boolean collisionCheck (float touchX, float touchY)
 	{
+		
 		if((touchX > x-bitmap.getWidth()/2) 
 				&& (touchX < x+bitmap.getWidth()/2) 
 				&& (touchY > y-bitmap.getHeight()/2)

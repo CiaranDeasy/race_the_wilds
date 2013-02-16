@@ -24,6 +24,19 @@ public class CollectionDisplayAnimal extends BitmapDisplayAnimal {
 		return false;
 	}
 	
+	@Override
+	public boolean collisionCheck (float touchX, float touchY)
+	{
+		
+		if((touchX > x) 
+				&& (touchX < x+200) 
+				&& (touchY > y)
+				&& (touchY < y + 200))
+			return true;
+		
+		return false;
+	}
+	
 public synchronized void onDraw(Canvas c, float currentCenterY, float screenWidth, float screenHeight){
 		
 	float yCoord = y - currentCenterY + screenHeight/2;

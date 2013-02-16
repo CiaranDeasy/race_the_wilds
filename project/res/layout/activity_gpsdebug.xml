@@ -28,14 +28,14 @@
     
     <!--  value in seconds -->
      <EditText android:id="@+id/gps_poll_time"
-        android:layout_width="wrap_content"
+        android:layout_width="300px"
         android:layout_height="wrap_content"
         android:text="60"    
         android:layout_below="@id/update_poll_time"
         android:layout_centerHorizontal="true" />
 
     <EditText android:id="@+id/gps_coeff_A"
-        android:layout_width="wrap_content"
+        android:layout_width="300px"
         android:layout_height="wrap_content"
         android:text="A"
         android:layout_below="@id/gps_poll_time"
@@ -43,7 +43,7 @@
         
         
     <EditText android:id="@+id/gps_coeff_b"
-        android:layout_width="wrap_content"
+        android:layout_width="300px"
         android:layout_height="wrap_content"
         android:text="b" 
         android:layout_below="@id/gps_coeff_A"
@@ -52,7 +52,7 @@
         
         
     <EditText android:id="@+id/gps_coeff_c"
-        android:layout_width="wrap_content"
+        android:layout_width="300px"
         android:layout_height="wrap_content"
         android:text="c"
         android:layout_below="@id/gps_coeff_b"
@@ -60,7 +60,7 @@
         
         
     <EditText android:id="@+id/gps_coeff_d"
-        android:layout_width="wrap_content"
+        android:layout_width="300px"
         android:layout_height="wrap_content"
         android:text="d" 
         android:layout_below="@id/gps_coeff_c"
@@ -69,7 +69,7 @@
         
         
     <EditText android:id="@+id/gps_coeff_e"
-        android:layout_width="wrap_content"
+        android:layout_width="300px"
         android:layout_height="wrap_content"
         android:text="e"
         android:layout_below="@id/gps_coeff_d"
@@ -82,6 +82,32 @@
         android:layout_below="@id/gps_coeff_e"
         android:layout_centerHorizontal="true"
         android:onClick="updateMovementCoefficients"
+        android:id="@+id/updatemc"
         />
+    
+        <Button android:layout_width = "wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Check movement points"
+        android:layout_below="@id/updatemc"
+        android:layout_centerHorizontal="true"
+        android:onClick="checkMovementPoints"
+        android:id="@+id/checkMovementPoints"
+        />
+        
+         <EditText android:id="@+id/mp"
+        android:layout_width="300px"
+        android:layout_height="wrap_content"
+        android:text="mp?"
+        android:layout_below="@id/checkMovementPoints"
+        android:layout_centerHorizontal="true"
+        />
+         
+                 <Button
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_below="@id/mp"
+                     android:layout_centerHorizontal="true"
+                     android:onClick="resetMovementPoints"
+                     android:text="Reset movement points" />
             
 </RelativeLayout>

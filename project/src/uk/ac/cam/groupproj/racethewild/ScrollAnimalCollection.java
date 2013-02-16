@@ -9,6 +9,7 @@ import uk.ac.cam.groupproj.racethewild.ScrollMapScene.ScrollViewer;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -103,6 +104,7 @@ public class ScrollAnimalCollection extends Activity implements OnTouchListener 
 			InputStream aFinputstream = getAssets().open("animalsToFind.png");
 
 			Bitmap afbmp = BitmapFactory.decodeStream(aFinputstream);
+			
 			animalsToFind = new BitmapDisplayAnimal(screenwidth/2, ycoord, 0,afbmp, Colour.Black);
 			aFinputstream.close();
 			ycoord+=50;
@@ -291,39 +293,13 @@ public class ScrollAnimalCollection extends Activity implements OnTouchListener 
 			
 			for (CollectionDisplayAnimal a : animals)
 			{
-				if(!a.alive)
-				{
-					synchronized(a)
-					{
-					if(a.onScreen(currentCentery, screenwidth, screenheight))
-					{
-						try {
-							InputStream is = getAssets().open(a.bmpName);
-							Bitmap bitmap = BitmapFactory.decodeStream(is);
-							is.close();
-							a.bitmap=bitmap;
-						} catch (IOException e1) {
-							
-							e1.printStackTrace();
-						}
-						a.alive=true;
-					}
-					}
-				}
-	
-				if(a.collisionCheck(xForCollisionChecker,yForCollisionChecker))
-				{
 					
-						
-						
-						/*Intent intent = new Intent(this, AnimalScene.class);  
-						//TODO: change to proper scene when implemented properly!
-						intent.putExtra(Engine.ANIMAL_NUMBER_MESSAGE, a.animalCode);
-						startActivity(intent);*/
-				
-					
-					//TODO: Implement the real method here which moves us to animal screen.
-
+				if(a.alive && a.collisionCheck(xForCollisionChecker,yForCollisionChecker))
+				{
+						Intent intent = new Intent(this, AnimalScene.class);  
+						intent.putExtra(MainMenu.ANIMAL_ID, a.animalCode);
+						startActivity(intent);
+					//moves us to animal screen.
 				}
 			}
 

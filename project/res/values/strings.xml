@@ -15,12 +15,14 @@
     <string name="go_to_node_button">Go to Node</string>
     <string name="title_activity_check_in_scene">Check In</string>
     <string name="scenepicturestring">Picture of scene</string>
-    <string name="movement_cost">Cost to move</string>
-    <string name="scene_name">Scene name</string>
+    <string name="movement_cost">Cost to move:</string>
+    <string name="scene_name">World Map</string>
     <string name="current_movement_points">Current Movement Points:</string>
     <string name="title_activity_gpsdebug">GPSdebug</string>
     <string name="gps_coefficients_file_key">uk.ac.cam.groupproj.racethewild.GPS_COEFFICIENTS_FILE_KEY</string>
-    <string name="gps_log_file_key">uk.ac.cam.groupproj.racethewild.GPS_LOG_FILE_KEY</string>  <!--  currently unused -->
+    <string name="gps_log_file_key">uk.ac.cam.groupproj.racethewild.GPS_LOG_FILE_KEY</string>
+ <!-- currently unused -->
     <string name="gps_main_file_key">uk.ac.cam.groupproj.racethewild.GPS_MAIN_FILE_KEY</string>
+    <string name="title_activity_animal_scene">AnimalScene</string>
 
 </resources>

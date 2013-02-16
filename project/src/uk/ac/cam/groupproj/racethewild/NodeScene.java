@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
@@ -89,13 +90,19 @@ public class NodeScene extends Activity implements OnTouchListener {
 			}
 		}
 		
-		
+	
 		RelativeLayout layout =  (RelativeLayout)View.inflate(this, R.layout.activity_node_scene, null);
 		 
 		layout.addView(nodeDisplay,0);
 
 		
 		setContentView(layout); 
+		
+		TextView movepointsText = (TextView) findViewById(R.id.currentMovePointsText);
+		movepointsText.setText(getString(R.string.current_movement_points) + " " + e.getStats().getCurrentMovePoints());
+		
+		
+		
 	}
 
 	@Override
@@ -124,7 +131,7 @@ public class NodeScene extends Activity implements OnTouchListener {
 
 
 	public void moveToScrollMap(View view) {
-		if(selectedScene!=null && e.getStats().getCurrentMovePoints()>=movecost) 
+		if(selectedScene!=null && e.getStats().payMovePoints(movecost)) 
 		{
 			
 			TextView movepointsText = (TextView) findViewById(R.id.currentMovePointsText);
@@ -132,8 +139,13 @@ public class NodeScene extends Activity implements OnTouchListener {
 			
 			Intent intent = new Intent(this, ScrollMapScene.class); 
 			e.getStats().setCurrentNode(selectedScene.getName());
-
+			e.getStats().save(this);
 			startActivity(intent);
+			
+			TextView textView = (TextView) findViewById(R.id.moveCostText);
+			textView.setText(getString(R.string.movement_cost) + " " + 0);
+			System.out.println("hello");
+			
 		}
 	}
 	
@@ -243,20 +255,25 @@ public class NodeScene extends Activity implements OnTouchListener {
 							Node selectedScene = e.lookupNode(node.nodeName);
 							
 							TextView textView = (TextView) findViewById(R.id.moveCostText);
-							//TODO: set moveCost here.
+							//set moveCost here.
 							Node n = e.lookupNode(e.getStats().getCurrentNode());
 							movecost = (int)(movePointCostMultiplier
 									*Math.sqrt(Math.pow(selectedScene.getRelX()-n.getRelX(), 2)
 											+ Math.pow(selectedScene.getRelY()-n.getRelY(), 2)));
-							textView.setText(getString(R.string.movement_cost) + ": " + movecost);
+							textView.setText(getString(R.string.movement_cost) + " " + movecost);
 							
 							ImageView imageView = (ImageView) findViewById(R.id.nodeViewPic);
 							InputStream nodeViewPic;
 							try {
 								
-								nodeViewPic = getAssets().open(selectedScene.getBackground());
+								nodeViewPic = getAssets().open(selectedScene.getPreview());
 								
-								Bitmap pic = BitmapFactory.decodeStream(nodeViewPic);
+								BitmapFactory.Options options = new BitmapFactory.Options();
+								options.inSampleSize = 4;
+								options.inPreferredConfig = Config.RGB_565;
+								Bitmap pic = BitmapFactory.decodeStream(nodeViewPic, null, options);
+								
+								//Bitmap pic = BitmapFactory.decodeStream(nodeViewPic);
 								if(this.selectedScene!=null)
 								((BitmapDrawable)imageView.getDrawable()).getBitmap().recycle();
 								this.selectedScene=selectedScene;

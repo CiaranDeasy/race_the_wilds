@@ -27,19 +27,13 @@ import android.content.Context;
 		// The node the player is in when data is originally created.
 		private static final String startingNode = "Arctic";
 		
-		// Movement points and distance since last check-in.
-		private int accumulatedMovePoints;
-		private int accumulatedDistance;
-		
 		public PlayerStats(){
-			currentMovePoints = 0;
-			totalMovePoints = 0;
+			currentMovePoints = 500; //changed to allow our demonstration to happen tomorrow.
+			totalMovePoints = 0; 
 			totalDistance = 0;
 			this.currentNode = startingNode;
 			this.blackAnimals = new ArrayList<Integer>();
 			this.greyAnimals = new ArrayList<Integer>();
-			this.accumulatedMovePoints = 0;
-			this.accumulatedDistance = 0;
 		}
 
 		public int getCurrentMovePoints(){return currentMovePoints;}
@@ -48,23 +42,25 @@ import android.content.Context;
 		public List<Integer> getBlackAnimals(){return blackAnimals;}
 		public List<Integer> getGreyAnimals(){return greyAnimals;}
 		public String getCurrentNode(){return currentNode;}
-		public int getAccumulatedMovePoints(){return accumulatedMovePoints;}
-		public int getAccumulatedDistance(){return accumulatedDistance;}
 		
 		public void addMovePoints(int movePoints){
 			this.currentMovePoints =  this.currentMovePoints + movePoints;
 			this.totalMovePoints = this.totalMovePoints + movePoints;
 		}
 		
-		public void resetMovePoints(){
-			this.currentMovePoints = 0;
+		/** Attempts to deduct the given number of movement points from the player's current.
+		 *  Returns true if this succeeds, or false if the player hasn't enough points. */
+		public boolean payMovePoints(int amount) {
+			if (this.currentMovePoints < amount) return false;
+			currentMovePoints -= amount;
+			return true;
 		}
 		
-		public void addDistance(int distance){
+		public void addDistance(int distance) {
 			this.totalDistance = this.totalDistance + distance;
 		}
 		
-		public void setCurrentNode(String node){
+		public void setCurrentNode(String node) {
 			this.currentNode = node;
 		}
 		
@@ -81,18 +77,10 @@ import android.content.Context;
 			greyAnimals.remove((Integer) id);
 		}
 		
-		/** Accumulates distance and movement points from a SatNavUpdate. */
+		/** Adds distance and movement points from a SatNavUpdate. */
 		public void processSatNav(SatNavUpdate snu) {
-			this.accumulatedMovePoints += snu.getMovePoints();
-			this.accumulatedDistance += snu.getDistance();
-		}
-		
-		/** Adds accumulated distance and movement points to total. */
-		public void checkIn() {
-			this.currentMovePoints += this.accumulatedMovePoints;
-			this.accumulatedMovePoints = 0;
-			this.totalDistance += this.accumulatedDistance;
-			this.accumulatedDistance = 0;
+			this.currentMovePoints += snu.getMovePoints();
+			this.totalDistance += snu.getDistance();
 		}
 		
 		/** Loads savedata and gives back a stats object. 
