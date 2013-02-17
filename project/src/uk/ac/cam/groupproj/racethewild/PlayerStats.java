@@ -27,10 +27,6 @@ import android.content.Context;
 		// The node the player is in when data is originally created.
 		private static final String startingNode = "Arctic";
 		
-		// Movement points and distance since last check-in.
-		private int accumulatedMovePoints;
-		private int accumulatedDistance;
-		
 		public PlayerStats(){
 			currentMovePoints = 500; //changed to allow our demonstration to happen tomorrow.
 			totalMovePoints = 0; 
@@ -38,8 +34,6 @@ import android.content.Context;
 			this.currentNode = startingNode;
 			this.blackAnimals = new ArrayList<Integer>();
 			this.greyAnimals = new ArrayList<Integer>();
-			this.accumulatedMovePoints = 0;
-			this.accumulatedDistance = 0;
 		}
 
 		public int getCurrentMovePoints(){return currentMovePoints;}
@@ -48,8 +42,6 @@ import android.content.Context;
 		public List<Integer> getBlackAnimals(){return blackAnimals;}
 		public List<Integer> getGreyAnimals(){return greyAnimals;}
 		public String getCurrentNode(){return currentNode;}
-		public int getAccumulatedMovePoints(){return accumulatedMovePoints;}
-		public int getAccumulatedDistance(){return accumulatedDistance;}
 		
 		public void addMovePoints(int movePoints){
 			this.currentMovePoints =  this.currentMovePoints + movePoints;
@@ -85,18 +77,10 @@ import android.content.Context;
 			greyAnimals.remove((Integer) id);
 		}
 		
-		/** Accumulates distance and movement points from a SatNavUpdate. */
+		/** Adds distance and movement points from a SatNavUpdate. */
 		public void processSatNav(SatNavUpdate snu) {
-			this.accumulatedMovePoints += snu.getMovePoints();
-			this.accumulatedDistance += snu.getDistance();
-		}
-		
-		/** Adds accumulated distance and movement points to total. */
-		public void checkIn() {
-			this.currentMovePoints += this.accumulatedMovePoints;
-			this.accumulatedMovePoints = 0;
-			this.totalDistance += this.accumulatedDistance;
-			this.accumulatedDistance = 0;
+			this.currentMovePoints += snu.getMovePoints();
+			this.totalDistance += snu.getDistance();
 		}
 		
 		/** Loads savedata and gives back a stats object. 

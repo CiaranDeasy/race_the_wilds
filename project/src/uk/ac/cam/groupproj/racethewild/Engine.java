@@ -128,7 +128,8 @@ public class Engine {
 			this.changeColour(animal.getID(), Colour.Grey, c);
 		}
 		// Update playerstats.
-		stats.checkIn();
+		stats.processSatNav(fetchSatNavData(c));
+		this.resetSatNavData(c);
 		stats.save(c);
 	}
 	
