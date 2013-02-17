@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<challengelist>
+    <challenge>
+        <id>1</id>
+        <repetitions>500</repetitions>
+        <time>300</time>
+        <text>Run 500 metres in 5 minutes!</text>
+        <animal>8</animal>
+    </challenge>
+    <challenge>
+        <id>2</id>
+        <repetitions>1000</repetitions>
+        <time>600</time>
+        <text>Run 1000 metres in 10 minutes!</text>
+        <animal>9</animal>
+    </challenge>
+    <challenge>
+        <id>3</id>
+        <repetitions>1500</repetitions>
+        <time>900</time>
+        <text>Run 1500 metres in 15 minutes!</text>
+        <animal>10</animal>
+    </challenge>
+    <challenge>
+        <id>4</id>
+        <repetitions>2000</repetitions>
+        <time>1200</time>
+        <text>Run 2000 metres in 20 minutes!</text>
+        <animal>11</animal>
+    </challenge>
+    <challenge>
+        <id>5</id>
+        <repetitions>2500</repetitions>
+        <time>1500</time>
+        <text>Run 2500 metres in 25 minutes!</text>
+        <animal>12</animal>
+    </challenge>
+</challengelist>

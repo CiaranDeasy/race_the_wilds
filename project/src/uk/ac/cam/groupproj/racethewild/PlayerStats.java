@@ -21,6 +21,7 @@ import android.content.Context;
 		private List<Integer> blackAnimals;
 		private List<Integer> greyAnimals;
 		private String currentNode;
+		private List<Integer> completedChallenges;
 		
 		// The filename under which player data is saved.
 		private static final String fileName = "PlayerStats";
@@ -34,6 +35,7 @@ import android.content.Context;
 			this.currentNode = startingNode;
 			this.blackAnimals = new ArrayList<Integer>();
 			this.greyAnimals = new ArrayList<Integer>();
+			this.completedChallenges = new ArrayList<Integer>();
 		}
 
 		public int getCurrentMovePoints(){return currentMovePoints;}
@@ -83,6 +85,12 @@ import android.content.Context;
 			this.totalDistance += snu.getDistance();
 		}
 		
+		/** Adds the challenge to the list of completed challenges. */
+		public void completeChallenge(int challengeID) {
+			if (!completedChallenges.contains(challengeID))
+				this.completedChallenges.add(challengeID);
+		}
+		
 		/** Loads savedata and gives back a stats object. 
 		 *  Creates new data if old data doesn't exist or can't be read. */
 		public static PlayerStats load(Context c) {
@@ -92,11 +100,6 @@ import android.content.Context;
 				PlayerStats stats = (PlayerStats) is.readObject();
 				is.close();
 				System.out.println("Loaded existing save data.");
-				System.out.println("Loaded movement points are " + stats.currentMovePoints);
-				System.out.println("GREY:");
-				for(Integer animal : stats.greyAnimals) System.out.println(animal);
-				System.out.println("BLACK:");
-				for(Integer animal : stats.blackAnimals) System.out.println(animal);
 				return stats;
 			} catch(FileNotFoundException e) {
 				// If there's nothing to load, start fresh.
