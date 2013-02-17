@@ -26,8 +26,8 @@
         <name>Kangaroo</name>
         <description>A single plausible kangaroo fact.</description>
         <hint>An appropriate island hint.</hint>
-        <photo>donkey.png</photo>
-        <sprite>donkey.png</sprite>
+        <photo>kangaroosprite.png</photo>
+        <sprite>kangaroosprite.png</sprite>
         <distance>180</distance>
         <node>Island</node>
     </animal>

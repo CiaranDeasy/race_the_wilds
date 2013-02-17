@@ -21,8 +21,11 @@
     <string name="title_activity_gpsdebug">GPSdebug</string>
     <string name="gps_coefficients_file_key">uk.ac.cam.groupproj.racethewild.GPS_COEFFICIENTS_FILE_KEY</string>
     <string name="gps_log_file_key">uk.ac.cam.groupproj.racethewild.GPS_LOG_FILE_KEY</string>
- <!-- currently unused -->
+    <!-- currently unused -->
     <string name="gps_main_file_key">uk.ac.cam.groupproj.racethewild.GPS_MAIN_FILE_KEY</string>
     <string name="title_activity_animal_scene">AnimalScene</string>
+    <string name="title_activity_main">Animal Scanner</string>
+    <string name="back_button_text">Back</string>
+    <string name="title_activity_animal_scanner">Animal Scanner</string>
 
 </resources>

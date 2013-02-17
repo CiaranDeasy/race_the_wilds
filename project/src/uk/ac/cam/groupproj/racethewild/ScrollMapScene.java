@@ -80,6 +80,7 @@ public class ScrollMapScene extends Activity implements OnTouchListener{
 			options.inPreferredConfig = Config.RGB_565;
 			background = BitmapFactory.decodeStream(BGinputstream, null, options);
 			bgHeight = background.getHeight()*3;
+			
 			bgWidth = background.getWidth()*3;
 			//background = BitmapFactory.decodeStream(BGinputstream);
 			BGinputstream.close();
@@ -261,7 +262,7 @@ public class ScrollMapScene extends Activity implements OnTouchListener{
 						
 
 
-						Intent intent = new Intent(this, AnimalScene.class);  
+						Intent intent = new Intent(this, AnimalScanner.class);  
 						//TODO: change to proper scene when implemented properly!
 						intent.putExtra(MainMenu.ANIMAL_ID, a.animalCode);
 						startActivity(intent);
