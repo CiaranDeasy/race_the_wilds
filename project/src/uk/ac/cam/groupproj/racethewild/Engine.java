@@ -69,8 +69,10 @@ public class Engine {
 	}
 	
 	/** Returns the animal corresponding to the input ID */
-	public Animal getAnimal(int ID) {
-		return animalDictionary.get(ID);
+	public Animal getAnimal(int ID) throws AnimalNotFoundException {
+		Animal animal = animalDictionary.get(ID);
+		if(animal == null) throw new AnimalNotFoundException();
+		else return animal;
 	}
 
 	/** Called at start-up to create the engine and initialise it. */
@@ -95,13 +97,7 @@ public class Engine {
 			System.exit(-2);
 		}
 		// Load the challenge data.
-		try {
-			engine.challenges = XmlParser.createChallenges(engine.resources.getXml(R.xml.challengedata));
-		} catch(XmlReadException e) {
-			System.err.println(e.getMessage());
-			System.err.println("Failed to load challenges, killing the app.");
-			System.exit(-3);
-		}
+		engine.loadChallenges();
 		// Load the player's stats.
 		engine.stats = PlayerStats.load(c);
 		// Update animal colours based on loaded data.
@@ -109,13 +105,28 @@ public class Engine {
 			Engine.get().changeColour(id, Colour.Grey, c);
 		for(Integer id : engine.stats.getBlackAnimals()) 
 			Engine.get().changeColour(id, Colour.Black, c);
+		// Update challenge completion based on loaded data.
+		for(Integer id : engine.stats.getCompletedChallenges()) {
+			try {
+				engine.getChallenge(id).setState(ChallengeState.complete);
+			} catch(ChallengeNotFoundException e) {
+				System.err.println("Challenge id #" + id + 
+						" was referenced in the save data but doesn't exist!");
+			}
+		}
 	}
 	
 	/** Sets the colour of the animal with the given ID to the given colour. 
 	 *  Populates the animal in the world. */
 	public void changeColour(int animalID, Colour colour, Context c) {
 		// Update the Animal object.
-		Animal animal = this.getAnimal(animalID);
+		Animal animal = null;
+		try {
+			animal = this.getAnimal(animalID);
+		} catch(AnimalNotFoundException e) {
+			System.err.println("Attempted to change colour of animal #" + animalID + 
+					": animal not found!");
+		}
 		animal.setColour(colour);
 		// Populate the animal in the world.
 		populateAnimal(animal);
@@ -185,7 +196,7 @@ public class Engine {
 	}
 	
 	/** Adds an animal to its associated nodes. */
-	protected void populateAnimal(Animal animal) {
+	private void populateAnimal(Animal animal) {
 		// Don't populate undiscovered animals.
 		if (animal.getColour() == Colour.White) return;
 		
@@ -209,6 +220,27 @@ public class Engine {
 	 *  Takes a Context to access the filesystem. */
 	private Engine(Context c) {
 		this.resources = c.getResources();
+	}
+	
+	private void loadChallenges() {
+		// Load the challenges from XML.
+		try {
+			engine.challenges = XmlParser.createChallenges(
+					engine.resources.getXml(R.xml.challengedata));
+		} catch(XmlReadException e) {
+			System.err.println(e.getMessage());
+			System.err.println("Failed to load challenges, killing the app.");
+			System.exit(-3);
+		}
+		// Mark animals as challenge-only.
+		for(Challenge challenge : challenges) {
+			try {
+				getAnimal(challenge.getAnimalID()).setChallenge();
+			} catch(AnimalNotFoundException e) {
+				System.err.println("Challenge #" + challenge.getChallengeID() + 
+						" awards an animal that doesn't exist!");
+			}
+		}
 	}
 	
 }

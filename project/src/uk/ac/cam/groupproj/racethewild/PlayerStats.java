@@ -44,6 +44,7 @@ import android.content.Context;
 		public List<Integer> getBlackAnimals(){return blackAnimals;}
 		public List<Integer> getGreyAnimals(){return greyAnimals;}
 		public String getCurrentNode(){return currentNode;}
+		public List<Integer> getCompletedChallenges() { return completedChallenges; }
 		
 		public void addMovePoints(int movePoints){
 			this.currentMovePoints =  this.currentMovePoints + movePoints;
@@ -100,6 +101,9 @@ import android.content.Context;
 				PlayerStats stats = (PlayerStats) is.readObject();
 				is.close();
 				System.out.println("Loaded existing save data.");
+				// TODO: remove workaround
+				if(stats.completedChallenges == null) 
+					stats.completedChallenges = new ArrayList<Integer>();
 				return stats;
 			} catch(FileNotFoundException e) {
 				// If there's nothing to load, start fresh.

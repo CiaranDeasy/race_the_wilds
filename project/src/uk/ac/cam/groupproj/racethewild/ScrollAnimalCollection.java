@@ -119,19 +119,22 @@ public class ScrollAnimalCollection extends Activity implements OnTouchListener 
 		
 		for(Integer animalInt : e.getStats().getGreyAnimals())
 		{
-			Animal a = e.getAnimal(animalInt);
+			try {
+				Animal a = e.getAnimal(animalInt);
 				CollectionDisplayAnimal animal = new CollectionDisplayAnimal(xcoord, ycoord, a.getID(), null,a.getColour(), a.getSpritePath());
 				animal.alive=false;
 				animals.add(animal);
 			
 		
 			
-			if(xcoord > (screenwidth-400))
-			{
-				ycoord+=200;
-				xcoord=40;
-			} else xcoord+=200;
-			
+				if(xcoord > (screenwidth-400))
+				{
+					ycoord+=200;
+					xcoord=40;
+				} else xcoord+=200;
+			} catch(AnimalNotFoundException e) {
+				System.err.println("Animal #" + animalInt + " in stats.greyAnimals doesn't exist!");
+			}
 			
 		}
 		ycoord+=250;
@@ -151,8 +154,8 @@ public class ScrollAnimalCollection extends Activity implements OnTouchListener 
 		
 		for(Integer animalInt : e.getStats().getBlackAnimals())
 		{
-			Animal a = e.getAnimal(animalInt);
 			try {
+				Animal a = e.getAnimal(animalInt);
 				InputStream is = getAssets().open(a.getSpritePath());
 				Bitmap bitmap = BitmapFactory.decodeStream(is);
 				is.close();
@@ -161,6 +164,8 @@ public class ScrollAnimalCollection extends Activity implements OnTouchListener 
 			} catch (IOException e1) {
 				
 				e1.printStackTrace();
+			} catch (AnimalNotFoundException e) {
+				System.err.println("Animal #" + animalInt + " in stats.blackAnimals doesn't exist!");
 			}
 
 			if(xcoord > (screenwidth-400))

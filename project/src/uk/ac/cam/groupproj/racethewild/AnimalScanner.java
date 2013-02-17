@@ -39,7 +39,14 @@ public class AnimalScanner extends Activity implements OnTouchListener {
 		
 		Intent intent = getIntent();
 	    int animalID = intent.getIntExtra(MainMenu.ANIMAL_ID, 0);
-		animal = engine.getAnimal(animalID);
+	    try {
+	    	animal = engine.getAnimal(animalID);
+	    } catch (AnimalNotFoundException e) {
+	    	// Shouldn't be possible, just kill the app if this happens.
+	    	System.err.println("Animal #" + animalID + 
+	    			" passed to the AnimalScanner doesn't exist. Killing the app.");
+	    	System.exit(-4);
+	    }
 		String toLoadAnimal = animal.getSpritePath();
 		
 		DisplayMetrics displaymetrics = new DisplayMetrics();

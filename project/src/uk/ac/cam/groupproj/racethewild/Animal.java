@@ -13,6 +13,7 @@ public class Animal implements Comparable<Animal> {
 	private Colour colour;
 	private String hint; // Description shown for grey animals.
 	private int distancePerDay;
+	private boolean challenge; // True if the animal is a challenge reward.
 	
 	public int getID() { return id; }
 	public String getGraphicPath() { return graphic; }
@@ -23,6 +24,7 @@ public class Animal implements Comparable<Animal> {
 	public Colour getColour() { return colour; }
 	public String getHint() { return hint; }
 	public int getDistancePerDay() { return distancePerDay; }
+	public boolean isChallenge() { return challenge; }
 	
 	/** Comparison by ID in ascending order. */
 	public int compareTo(Animal other) {
@@ -32,6 +34,11 @@ public class Animal implements Comparable<Animal> {
 	public void setColour(Colour colour) { 
 		this.colour = colour;
 		System.out.println("Colour of " + name + " set to " + colour);
+	}
+	
+	/** Marks the animal as only available through challenges. */
+	public void setChallenge() {
+		this.challenge = true;
 	}
 	
 	public Animal(int id, String name, String description, String hint, String graphic, 

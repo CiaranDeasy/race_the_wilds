@@ -32,7 +32,8 @@ public class CheckInScene extends Activity {
 		int closest = Integer.MAX_VALUE;
 		Animal chosen = null;
 		for(Animal a:animals){
-			if((a.getDistancePerDay() < closest) && a.getColour()==Colour.White){
+			if((a.getDistancePerDay() < closest) && a.getColour()==Colour.White && 
+					(!a.isChallenge())){
 				closest = a.getDistancePerDay();
 				chosen = a;
 			}
