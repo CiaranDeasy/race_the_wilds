@@ -27,5 +27,7 @@
     <string name="title_activity_main">Animal Scanner</string>
     <string name="back_button_text">Back</string>
     <string name="title_activity_animal_scanner">Animal Scanner</string>
+    <string name="points_spent">Points Spent: </string>
+    <string name="animal_percent_scanned">Percent Scanned: </string>
 
 </resources>

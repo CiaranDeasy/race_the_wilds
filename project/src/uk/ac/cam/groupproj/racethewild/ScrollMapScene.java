@@ -162,6 +162,23 @@ public class ScrollMapScene extends Activity implements OnTouchListener{
 	{
 		super.onResume();
 		mapDisplay.resume();
+		
+		for (BitmapDisplayAnimal a : animals)
+		{
+			//checks if an animal has changed colour due to the animal scanner.
+			if(a.colour == Colour.Grey){
+				Animal anima;
+				try {
+					anima = e.getAnimal(a.animalCode);
+					if(anima.getColour()==Colour.Black)
+						a.colour = Colour.Black;
+				} catch (AnimalNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
+			}
+		}
 	}
 
 	class ScrollViewer extends SurfaceView implements Runnable
@@ -257,13 +274,9 @@ public class ScrollMapScene extends Activity implements OnTouchListener{
 				if(a.collisionCheck(xForCollisionChecker,yForCollisionChecker))
 				{
 					if(a.colour == Colour.Grey) {
-						e.changeColour(a.animalCode, Colour.Black, this);//Call to engine to change the colour of the Animal
-						a.colour = Colour.Black;
-						
-
-
+								
 						Intent intent = new Intent(this, AnimalScanner.class);  
-						//TODO: change to proper scene when implemented properly!
+						//Moves us to the scanner scene.
 						intent.putExtra(MainMenu.ANIMAL_ID, a.animalCode);
 						startActivity(intent);
 				

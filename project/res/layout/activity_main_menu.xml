@@ -5,70 +5,85 @@
     android:gravity="top"
     tools:context=".MainMenu" >
 
-    <Button
-        android:id="@+id/worldButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:onClick="moveToNodeMap"
-        android:layout_marginLeft="77dp"
-        android:layout_marginTop="40dp"
-        android:text="@string/worldMap" />
+    <!-- move this to top bar sometime -->
 
-    <Button
-        android:id="@+id/collectionButton"
+    <LinearLayout
+        android:id="@+id/linearLayout1"
         android:layout_width="wrap_content"
-        android:onClick="moveToCollection"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/worldButton"
-        android:layout_centerHorizontal="true"
-        android:text="@string/collection" />
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/checkinButton"
+        <Button
+            android:id="@+id/resetButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="reset"
+            android:text="@string/reset" />
+
+        <Button
+            android:id="@+id/gpsDebugButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="gpsdebug"
+            android:text="GPS debug" />
+
+        <Button
+            android:id="@+id/gpsToggleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="toggleGPS"
+            android:text="Toggle GPS useage" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/collectionButton"
-        android:layout_centerHorizontal="true"
-        android:onClick="checkIn"
-        android:text="@string/checkIn" />
-    
-    <Button
-        android:id="@+id/resetButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/checkinButton"
-        android:layout_centerHorizontal="true"
-        android:onClick="reset"
-        android:text="@string/reset" />
-    
-    <Button
-        android:id="@+id/gpsDebugButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/resetButton"
-        android:layout_centerHorizontal="true"
-        android:onClick="gpsdebug"
-        android:text="GPS debug" />
-    
-    <Button
-        android:id="@+id/gpsToggleButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/gpsDebugButton"
-        android:layout_centerHorizontal="true"
-        android:onClick="toggleGPS"
-        android:text="Toggle GPS useage" />                <!--  move this to top bar sometime -->
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/worldButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="moveToNodeMap"
+            android:text="@string/worldMap" />
+
+        <Button
+            android:id="@+id/collectionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="moveToCollection"
+            android:text="@string/collection" />
+
+        <Button
+            android:id="@+id/checkinButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="checkIn"
+            android:text="@string/checkIn" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/infoText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/gpsToggleButton"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="28dp"
         android:text="Check-in text placeholder"
         android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:contentDescription="RTW Logo"
+        android:src="@drawable/ic_launcher" />
 
 </RelativeLayout>

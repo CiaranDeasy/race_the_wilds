@@ -8,10 +8,30 @@
         android:id="@+id/backbutton"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
+        android:onClick="backButton"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:text="@string/back_button_text"
         android:typeface="normal" />
+
+    <TextView
+        android:id="@+id/pointscost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/points_spent"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+
+    <TextView
+        android:id="@+id/scanpercentage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/animal_percent_scanned"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </RelativeLayout>
