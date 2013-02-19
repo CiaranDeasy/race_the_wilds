@@ -39,12 +39,12 @@ public class CheckInScene extends Activity {
 			}
 		}
 		Bitmap background = null;
-		int ratio = 2;
+		float ratio = Float.MAX_VALUE;
 		if(distance != 0){
-			ratio = ((chosen.getDistancePerDay()*10)/distance)-1;
+			ratio = chosen.getDistancePerDay()/distance;
 		}
 		
-		
+		int movePoints = e.fetchSatNavData(getApplicationContext()).getMovePoints();
 		if(chosen != null){
 			
 			if(ratio<=1){
@@ -61,7 +61,7 @@ public class CheckInScene extends Activity {
 		}
 			
 			TextView textView2 = (TextView) findViewById(R.id.checkInAmount);
-			textView2.setText("You have gained " + e.fetchSatNavData(getApplicationContext()).getMovePoints() + " movement points");
+			textView2.setText("You have gained " + movePoints + " movement points");
 
 
 			try {
