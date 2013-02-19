@@ -84,4 +84,13 @@
         android:text="Check-in text placeholder"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
+    <Button
+        android:id="@+id/addMovementButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="addMovement"
+        android:text="@string/addMovement" />
+
 </RelativeLayout>

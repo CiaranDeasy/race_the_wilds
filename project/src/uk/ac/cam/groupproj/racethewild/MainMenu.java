@@ -78,6 +78,14 @@ public class MainMenu extends Activity {
 			toggleButton.setText("Turn GPS requests off");
 		}
 	}
+	
+	public void addMovement(View view) {
+		SharedPreferences sharedPref = this.getSharedPreferences(this.getString(R.string.gps_main_file_key), Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedPref.edit();
+		editor.putInt("movement_points", sharedPref.getInt("movement_points", 0) + 100);
+		editor.putInt("distance", sharedPref.getInt("distance", 0) + 50);
+		editor.commit();
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

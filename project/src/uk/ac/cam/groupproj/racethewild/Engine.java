@@ -49,10 +49,16 @@ public class Engine {
 	 *   Currently resets your movement points to 100, rather than 0
 	 *   to allow for testing of the other components without having to move around a lot
 	 */
-	public void resetSatNavData(Context context) {
+	public void resetSatNavMovement(Context context) {
 		SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.gps_main_file_key), Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharedPref.edit();
 		editor.putInt("movement_points",100);
+		editor.commit();
+	}
+	
+	public void resetSatNavDistance(Context context) {
+		SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.gps_main_file_key), Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedPref.edit();
 		editor.putInt("distance",0);
 		editor.commit();
 	}
@@ -144,12 +150,15 @@ public class Engine {
 	
 	/** Releases the given animal and resets distance and movement point accumulation. */
 	public void checkIn(Animal animal, Context c) {
+		// If an animal is released, release it and process distance.
 		if(animal != null) {
 			this.changeColour(animal.getID(), Colour.Grey, c);
+			stats.processSatNavDistance(fetchSatNavData(c).getDistance());
+			this.resetSatNavDistance(c);
 		}
-		// Update playerstats.
-		stats.processSatNav(fetchSatNavData(c));
-		this.resetSatNavData(c);
+		// Always process movement points.
+		stats.processSatNavMovement(fetchSatNavData(c).getMovePoints());
+		this.resetSatNavMovement(c);
 		stats.save(c);
 	}
 	

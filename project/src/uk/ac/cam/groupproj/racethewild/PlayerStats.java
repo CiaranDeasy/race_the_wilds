@@ -80,10 +80,14 @@ import android.content.Context;
 			greyAnimals.remove((Integer) id);
 		}
 		
-		/** Adds distance and movement points from a SatNavUpdate. */
-		public void processSatNav(SatNavUpdate snu) {
-			this.currentMovePoints += snu.getMovePoints();
-			this.totalDistance += snu.getDistance();
+		/** Adds movement points from the sat nav. */
+		public void processSatNavMovement(int movement) {
+			this.currentMovePoints += movement;
+		}
+		
+		/** Adds distance from the sat nav. */
+		public void processSatNavDistance(int distance) {
+			this.totalDistance += distance;
 		}
 		
 		/** Adds the challenge to the list of completed challenges. */
