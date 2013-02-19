@@ -14,39 +14,43 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int animalFact=0x7f080002;
-        public static final int animalFacts=0x7f080005;
-        public static final int animalImg=0x7f080003;
-        public static final int animalName=0x7f080001;
+        public static final int animalFact=0x7f080004;
+        public static final int animalFacts=0x7f080007;
+        public static final int animalImg=0x7f080005;
+        public static final int animalName=0x7f080003;
         public static final int backbutton=0x7f080000;
-        public static final int button1=0x7f08001f;
-        public static final int center_point=0x7f080018;
-        public static final int checkInAmount=0x7f080004;
-        public static final int checkMovementPoints=0x7f08000f;
-        public static final int checkinButton=0x7f080013;
-        public static final int collectionButton=0x7f080012;
-        public static final int currentMovePointsText=0x7f08001b;
+        public static final int button1=0x7f080023;
+        public static final int center_point=0x7f08001c;
+        public static final int checkInAmount=0x7f080006;
+        public static final int checkMovementPoints=0x7f080011;
+        public static final int checkinButton=0x7f080019;
+        public static final int collectionButton=0x7f080018;
+        public static final int currentMovePointsText=0x7f08001f;
         public static final int gpsDebugButton=0x7f080015;
         public static final int gpsToggleButton=0x7f080016;
-        public static final int gps_coeff_A=0x7f080009;
-        public static final int gps_coeff_b=0x7f08000a;
-        public static final int gps_coeff_c=0x7f08000b;
-        public static final int gps_coeff_d=0x7f08000c;
-        public static final int gps_coeff_e=0x7f08000d;
-        public static final int gps_poll_time=0x7f080008;
-        public static final int infoText=0x7f080017;
-        public static final int left_layout=0x7f080019;
-        public static final int menu_settings=0x7f080020;
-        public static final int moveCostText=0x7f08001e;
-        public static final int mp=0x7f080010;
-        public static final int nodeNameText=0x7f08001d;
-        public static final int nodeViewPic=0x7f08001c;
+        public static final int gps_coeff_A=0x7f08000b;
+        public static final int gps_coeff_b=0x7f08000c;
+        public static final int gps_coeff_c=0x7f08000d;
+        public static final int gps_coeff_d=0x7f08000e;
+        public static final int gps_coeff_e=0x7f08000f;
+        public static final int gps_poll_time=0x7f08000a;
+        public static final int imageView1=0x7f08001b;
+        public static final int infoText=0x7f08001a;
+        public static final int left_layout=0x7f08001d;
+        public static final int linearLayout1=0x7f080013;
+        public static final int menu_settings=0x7f080024;
+        public static final int moveCostText=0x7f080022;
+        public static final int mp=0x7f080012;
+        public static final int nodeNameText=0x7f080021;
+        public static final int nodeViewPic=0x7f080020;
+        public static final int pointscost=0x7f080001;
         public static final int resetButton=0x7f080014;
-        public static final int right_layout=0x7f08001a;
-        public static final int start_gps_button=0x7f080006;
-        public static final int update_poll_time=0x7f080007;
-        public static final int updatemc=0x7f08000e;
-        public static final int worldButton=0x7f080011;
+        public static final int right_layout=0x7f08001e;
+        public static final int scanpercentage=0x7f080002;
+        public static final int start_gps_button=0x7f080008;
+        public static final int update_poll_time=0x7f080009;
+        public static final int updatemc=0x7f080010;
+        public static final int worldButton=0x7f080017;
     }
     public static final class layout {
         public static final int activity_animal_scanner=0x7f030000;
@@ -71,6 +75,7 @@ public final class R {
         public static final int activity_scroll_map_scene=0x7f070009;
     }
     public static final class string {
+        public static final int animal_percent_scanned=0x7f05001a;
         public static final int app_name=0x7f050000;
         public static final int back_button_text=0x7f050017;
         public static final int checkIn=0x7f050005;
@@ -86,6 +91,7 @@ public final class R {
         public static final int hello_world=0x7f050001;
         public static final int menu_settings=0x7f050002;
         public static final int movement_cost=0x7f05000e;
+        public static final int points_spent=0x7f050019;
         public static final int reset=0x7f050006;
         public static final int scene_name=0x7f05000f;
         public static final int scenepicturestring=0x7f05000d;
@@ -129,6 +135,7 @@ public final class R {
     }
     public static final class xml {
         public static final int animaldata=0x7f040000;
-        public static final int nodedata=0x7f040001;
+        public static final int challengedata=0x7f040001;
+        public static final int nodedata=0x7f040002;
     }
 }

@@ -37,11 +37,15 @@ public class ScrollAnimalCollection extends Activity implements OnTouchListener 
 	int screenwidth;  //you get the idea.
 	int screenheight;
 	
+	
 	float xcoord = 40; //coord of last animal
 	float ycoord = 40;
 
+	
 	float PreTouchy;
 	float RelTouchy; //most recent touch point.
+	private float RelTouchx;
+	
 	
 
 	private void reloadAnimals()
@@ -290,23 +294,10 @@ public class ScrollAnimalCollection extends Activity implements OnTouchListener 
 		case MotionEvent.ACTION_DOWN:{
 	
 			PreTouchy = currentCentery;
-			float RelTouchx = arg1.getX();
+			RelTouchx = arg1.getX();
 			RelTouchy = arg1.getY();
 
-			float xForCollisionChecker = RelTouchx;
-			float yForCollisionChecker = currentCentery - screenheight/2 + RelTouchy;
 			
-			for (CollectionDisplayAnimal a : animals)
-			{
-					
-				if(a.alive && a.collisionCheck(xForCollisionChecker,yForCollisionChecker))
-				{
-						Intent intent = new Intent(this, AnimalScene.class);  
-						intent.putExtra(MainMenu.ANIMAL_ID, a.animalCode);
-						startActivity(intent);
-					//moves us to animal screen.
-				}
-			}
 
 
 
@@ -322,6 +313,39 @@ public class ScrollAnimalCollection extends Activity implements OnTouchListener 
 			
 
 			break;
+		}
+		case MotionEvent.ACTION_UP: {
+		 float finTouchX=arg1.getX();
+		 float finTouchY = arg1.getY();
+		 
+		 float dist = (finTouchX-RelTouchx);
+		 dist *=dist;
+		 
+		 float disty = (finTouchY - RelTouchy);
+		 disty*=disty;
+		 
+		 dist+=disty;
+
+			if(dist<400)
+			{
+				 
+				 float xForCollisionChecker = RelTouchx;
+				float yForCollisionChecker = currentCentery - screenheight/2 + RelTouchy;
+					
+				for (CollectionDisplayAnimal a : animals)
+				{
+					
+					if(a.alive && a.collisionCheck(xForCollisionChecker,yForCollisionChecker))
+					{
+						Intent intent = new Intent(this, AnimalScene.class);  
+						intent.putExtra(MainMenu.ANIMAL_ID, a.animalCode);
+						startActivity(intent);
+						//moves us to animal screen.
+					}
+				}
+			}
+		 
+		 break;
 		}
 
 		}

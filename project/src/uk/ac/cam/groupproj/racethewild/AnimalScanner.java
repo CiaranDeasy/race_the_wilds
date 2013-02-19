@@ -10,6 +10,10 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.LightingColorFilter;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.DisplayMetrics;
 import android.view.Menu;
@@ -19,12 +23,14 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class AnimalScanner extends Activity implements OnTouchListener {
 
 	public int screenwidth;
 	public int screenheight;
 	private Bitmap background;
+	private int movePoints;
 	private Animal animal;
 	private ScAnimal scanimal;
 	private ScanViewer scanviewer;
@@ -35,6 +41,7 @@ public class AnimalScanner extends Activity implements OnTouchListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		engine = Engine.get();
+		movePoints = engine.getStats().getCurrentMovePoints();
 		
 		
 		Intent intent = getIntent();
@@ -54,7 +61,19 @@ public class AnimalScanner extends Activity implements OnTouchListener {
 		screenwidth = displaymetrics.widthPixels;
 		screenheight = displaymetrics.heightPixels;
 		
-		scanimal = new ScAnimal(screenwidth>>1, screenheight>>1, toLoadAnimal);
+		try {
+
+			InputStream BGinputstream = getAssets().open("jumperwarped.jpg");
+
+			background = BitmapFactory.decodeStream(BGinputstream);
+			BGinputstream.close();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		
+		scanimal = new ScAnimal(screenwidth>>1, screenheight>>1, toLoadAnimal, 500, 20);
 		scanviewer = new ScanViewer(this);
 		scanviewer.setOnTouchListener(this);
 		
@@ -69,12 +88,15 @@ public class AnimalScanner extends Activity implements OnTouchListener {
 		
 	}
 	
-	@Override
-	public void onBackPressed() { 
+	//@Override
+	//public void onBackPressed() { 
 		//HAHAHAHAHA This stops people backing out for now.
 		
+	//}
+	public void backButton (View view){
+		onBackPressed();
 	}
-
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -101,16 +123,31 @@ public class AnimalScanner extends Activity implements OnTouchListener {
 	class ScAnimal implements Runnable {
 		
 		Bitmap animalSprite;
+		Paint color;
 		Thread t = null;
 		Boolean alive = false;
+		ColorFilter[] colours = {new LightingColorFilter(Color.WHITE,1),
+				new LightingColorFilter(Color.RED,1),
+				new LightingColorFilter(Color.BLUE,1),
+				new LightingColorFilter(Color.GREEN,1),
+				new LightingColorFilter(Color.YELLOW,1),
+				new LightingColorFilter(Color.BLACK,1)};
+		int colouritem=0;
 		float x;
-		int hp = 50;
+		int maxhp;
+		int hp;
 		float y;
+		int speed;
 		
-		public ScAnimal(float x, float y, String Sprite)
+		public ScAnimal(float x, float y, String Sprite, int HP, int speed)
 		{
 			this.x=x;
 			this.y=y;
+			color = new Paint();
+			this.hp = HP;
+			maxhp = HP;
+			this.speed = speed;
+			color.setColorFilter(new LightingColorFilter(Color.WHITE,1));
 			try {
 				InputStream is = getAssets().open(Sprite);
 			
@@ -124,16 +161,25 @@ public class AnimalScanner extends Activity implements OnTouchListener {
 			
 		}
 		
+		
+		
 		public void onDraw(Canvas c){
-			c.drawBitmap(animalSprite,x,y, null);
+			c.drawBitmap(animalSprite,x,y, color);
+		}
+		
+		public void updateColour()
+		{
+			colouritem++;
+			if(colouritem >= colours.length) colouritem=0;
+			color.setColorFilter(colours[colouritem]);
 		}
 		
 		public boolean collisionCheck (float touchX, float touchY)
 		{
-			if((touchX > x-animalSprite.getWidth()/2) 
-					&& (touchX < x+animalSprite.getWidth()/2) 
-					&& (touchY > y-animalSprite.getHeight()/2)
-					&& (touchY < y +animalSprite.getHeight()/2))
+			if((touchX > x) 
+					&& (touchX < x+animalSprite.getWidth()) 
+					&& (touchY > y)
+					&& (touchY < y +animalSprite.getHeight()))
 				return true;
 			
 			return false;
@@ -168,13 +214,13 @@ public class AnimalScanner extends Activity implements OnTouchListener {
 			
 			while(alive)
 			{
-				x+=-20 + Math.random()*40;
-				y+=-20 + Math.random()*40;
+				x+=-speed + Math.random()*(speed<<1);
+				y+=-speed + Math.random()*(speed<<1);
 				
-				if(x>screenwidth) x=screenwidth-10;
-				if(y>screenheight) y = screenheight-10;
-				if(x<0)x=10;
-				if(y<0)y=10;
+				if(x>screenwidth-animalSprite.getWidth()) x=screenwidth-animalSprite.getWidth();
+				if(y>screenheight-animalSprite.getHeight()) y = screenheight-animalSprite.getHeight();
+				if(x<0)x=0;
+				if(y<0)y=0;
 				
 				try {
 					Thread.sleep(16);
@@ -236,6 +282,11 @@ public class AnimalScanner extends Activity implements OnTouchListener {
 				}
 
 				Canvas c = holder.lockCanvas();
+				c.drawBitmap(background, new Rect(0,
+						0,
+						background.getWidth(),
+						background.getHeight()), new Rect(0,0,screenwidth,screenheight) , null);
+			
 				scanimal.onDraw(c);
 				holder.unlockCanvasAndPost(c);
 			}
@@ -264,12 +315,22 @@ public class AnimalScanner extends Activity implements OnTouchListener {
 			if(scanimal.collisionCheck(Touchx, Touchy))
 			{
 				scanimal.hp--;
+				scanimal.updateColour();
 				
 			}  
 			
-			pointscosted++;
+			if(movePoints>pointscosted/2)
+			{
+				pointscosted++;
+			}
+			
+			updateText();
+			
 			if(scanimal.hp==0)
 			{
+				scanimal.hp--;
+				engine.getStats().payMovePoints(pointscosted/2);
+				engine.changeColour(animal.getID(), Colour.Black, this);
 				Intent intent = new Intent(this, AnimalScene.class);  
 				intent.putExtra(MainMenu.ANIMAL_ID, animal.getID());
 	
@@ -282,6 +343,20 @@ public class AnimalScanner extends Activity implements OnTouchListener {
 		}
 
 		return true;
+	}
+	
+	void updateText()
+	{
+	
+		TextView movepointsText = (TextView) findViewById(R.id.pointscost);
+		movepointsText.setText(getString(R.string.points_spent) + pointscosted/2);
+		
+
+		TextView percent = (TextView) findViewById(R.id.scanpercentage);
+		percent.setText(getString(R.string.animal_percent_scanned) + ((scanimal.maxhp-scanimal.hp) * 100/ scanimal.maxhp));
+	
+		
+		
 	}
 
 	
