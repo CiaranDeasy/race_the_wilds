@@ -21,6 +21,8 @@ public abstract class XmlParser {
 	private static final String photoTag = "photo";
 	private static final String spriteTag = "sprite";
 	private static final String distanceTag = "distance";
+	private static final String hitpointTag = "hitpoints";
+	private static final String speedTag = "speed";
 	private static final String foundInTag = "node";
 	
 	private static final String nodeListTag = "nodelist";
@@ -157,10 +159,13 @@ public abstract class XmlParser {
 		String photo = parseTag(parser, photoTag);
 		String sprite = parseTag(parser, spriteTag);
 		int distancePerDay = parseIntegerTag(parser, distanceTag);
+		int hitpoints = parseIntegerTag(parser, hitpointTag);
+		int speed = parseIntegerTag(parser, speedTag);
 		List<String> nodes = parseSequence(parser, foundInTag);
 		
 		// And return a new Animal object containing the extracted data.
-		return new Animal(id, name, description, hint, photo, sprite, distancePerDay, nodes);
+		return new Animal(id, name, description, hint, photo, sprite, distancePerDay, hitpoints, 
+				speed, nodes);
 	}
 	
 	/** Parse XML node data, given a parser pointing at the opening tag of the first data item. 
@@ -180,8 +185,8 @@ public abstract class XmlParser {
 		return new Node(name, background, preview, sprite, relativeX, relativeY);
 	}
 	
-	/** Parse XML node data, given a parser pointing at the opening tag of the first data item. 
-	 * */
+	/** Parse XML challenge data, given a parser pointing at the opening tag of the first data 
+	 * item. */
 	private static Challenge readNewChallenge(XmlPullParser parser) 
 			throws IOException, XmlPullParserException, XmlReadException {
 		

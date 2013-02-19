@@ -8,6 +8,8 @@
         <photo>GiraffePhoto.jpg</photo>
         <sprite>giraffesprite2.png</sprite>
         <distance>60</distance>
+        <hitpoints>50</hitpoints>
+        <speed>10</speed>
         <node>Arctic</node>
         <node>Island</node>
     </animal>
@@ -19,6 +21,8 @@
         <photo>ZebraPhoto.jpg</photo>
         <sprite>ZebraSprite.png</sprite>
         <distance>120</distance>
+        <hitpoints>100</hitpoints>
+        <speed>20</speed>
         <node>Forest</node>
     </animal>
     <animal>
@@ -29,6 +33,8 @@
         <photo>kangaroosprite.png</photo>
         <sprite>kangaroosprite.png</sprite>
         <distance>180</distance>
+        <hitpoints>150</hitpoints>
+        <speed>30</speed>
         <node>Island</node>
     </animal>
     <animal>
@@ -39,6 +45,8 @@
         <photo>DogPhoto.jpg</photo>
         <sprite>DogSprite.png</sprite>
         <distance>240</distance>
+        <hitpoints>120</hitpoints>
+        <speed>25</speed>
         <node>Arctic</node>
     </animal>
     <animal>
@@ -49,6 +57,8 @@
         <photo>HippoPhoto.jpg</photo>
         <sprite>hipposprite2.png</sprite>
         <distance>300</distance>
+        <hitpoints>400</hitpoints>
+        <speed>5</speed>
         <node>Arctic</node>
         <node>Island</node>
     </animal>
@@ -60,6 +70,8 @@
         <photo>DonkeyPhoto.jpg</photo>
         <sprite>donkey.png</sprite>
         <distance>360</distance>
+        <hitpoints>250</hitpoints>
+        <speed>20</speed>
         <node>Arctic</node>
     </animal>
      <animal>
@@ -70,6 +82,8 @@
         <photo>PenguinPhoto.jpg</photo>
         <sprite>penguin.png</sprite>
         <distance>450</distance>
+        <hitpoints>75</hitpoints>
+        <speed>10</speed>
         <node>Arctic</node>
     </animal>
     
