@@ -38,15 +38,27 @@ public class CheckInScene extends Activity {
 				chosen = a;
 			}
 		}
-		
-		e.checkIn(chosen, this);
 		Bitmap background = null;
+		int ratio = 2;
+		if(distance != 0){
+			ratio = ((chosen.getDistancePerDay()*10)/distance)-1;
+		}
+		
+		
 		if(chosen != null){
+			
+			if(ratio<=1){
+			e.checkIn(chosen, this);
 			TextView textView = (TextView) findViewById(R.id.animalName);
 			textView.setText("A " + chosen.getName() + " has been released into the wild");
 
 			TextView textView1 = (TextView) findViewById(R.id.animalFacts);
 			textView1.setText(chosen.getHint());
+		} else {
+			e.checkIn(null, this);
+			TextView textView = (TextView) findViewById(R.id.animalName);
+			textView.setText("Move "+(chosen.getDistancePerDay()-distance)+" more meters to release a "+ chosen.getName());
+		}
 			
 			TextView textView2 = (TextView) findViewById(R.id.checkInAmount);
 			textView2.setText("You have gained " + e.fetchSatNavData(getApplicationContext()).getMovePoints() + " movement points");
