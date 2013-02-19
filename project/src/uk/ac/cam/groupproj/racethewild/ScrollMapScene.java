@@ -265,32 +265,7 @@ public class ScrollMapScene extends Activity implements OnTouchListener{
 			RelTouchx = arg1.getX();
 			RelTouchy = arg1.getY();
 
-			float xForCollisionChecker = currentCenterx - screenwidth/2 + RelTouchx;
-			float yForCollisionChecker = currentCentery - screenheight/2 + RelTouchy;
-			
-			for (BitmapDisplayAnimal a : animals)
-			{
 	
-				if(a.collisionCheck(xForCollisionChecker,yForCollisionChecker))
-				{
-					if(a.colour == Colour.Grey) {
-								
-						Intent intent = new Intent(this, AnimalScanner.class);  
-						//Moves us to the scanner scene.
-						intent.putExtra(MainMenu.ANIMAL_ID, a.animalCode);
-						startActivity(intent);
-				
-					
-					//The real method here which moves us to animal screen.
-				
-						
-					}
-					
-					//TODO: Implement the real method here which moves us to animal screen.
-
-				}
-			}
-
 
 
 			break;
@@ -304,6 +279,46 @@ public class ScrollMapScene extends Activity implements OnTouchListener{
 			if(currentCentery>bgHeight-screenheight/2) currentCentery = bgHeight-screenheight/2;
 			if(currentCentery<screenheight/2) currentCentery = screenheight/2;
 
+			break;
+		}
+		case MotionEvent.ACTION_UP:{
+			 float finTouchX=arg1.getX();
+			 float finTouchY = arg1.getY();
+			 
+			 float dist = (finTouchX-RelTouchx);
+			 dist *=dist;
+			 
+			 float disty = (finTouchY - RelTouchy);
+			 disty*=disty;
+			 
+			 dist+=disty;
+
+				if(dist<400)  //This is a check to see if we've tapped, or been scrolling.
+				{
+					float xForCollisionChecker = currentCenterx - screenwidth/2 + RelTouchx;
+					float yForCollisionChecker = currentCentery - screenheight/2 + RelTouchy;
+					
+					for (BitmapDisplayAnimal a : animals)
+					{
+			
+						if(a.collisionCheck(xForCollisionChecker,yForCollisionChecker))
+						{
+							if(a.colour == Colour.Grey) {
+										
+								Intent intent = new Intent(this, AnimalScanner.class);  
+								//Moves us to the scanner scene.
+								intent.putExtra(MainMenu.ANIMAL_ID, a.animalCode);
+								startActivity(intent);
+						
+							
+							//The real method here which moves us to animal scan screen.
+						
+								
+							}
+						}
+					}
+
+				}
 			break;
 		}
 

@@ -73,7 +73,7 @@ public class AnimalScanner extends Activity implements OnTouchListener {
 		}
 		
 		
-		scanimal = new ScAnimal(screenwidth>>1, screenheight>>1, toLoadAnimal, 500, 20);
+		scanimal = new ScAnimal(screenwidth>>1, screenheight>>1, toLoadAnimal, animal.getHitpoints(), animal.getSpeed());
 		scanviewer = new ScanViewer(this);
 		scanviewer.setOnTouchListener(this);
 		

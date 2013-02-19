@@ -7,6 +7,13 @@
 
     <!-- move this to top bar sometime -->
 
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:contentDescription="RTW Logo"
+        android:src="@drawable/otherlogo" />
+
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="wrap_content"
@@ -76,14 +83,5 @@
         android:layout_centerHorizontal="true"
         android:text="Check-in text placeholder"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:contentDescription="RTW Logo"
-        android:src="@drawable/ic_launcher" />
 
 </RelativeLayout>
