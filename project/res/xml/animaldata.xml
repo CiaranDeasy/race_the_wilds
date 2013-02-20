@@ -86,5 +86,64 @@
         <speed>5</speed>
         <node>Arctic</node>
     </animal>
-    
+     <animal>
+        <id>8</id>
+        <name>Cheetah</name>
+        <description>Hold ALL the places!</description>
+        <hint>An appropriate arctic hint.</hint>
+        <photo>Cheetah.jpg</photo>
+        <sprite>donkey.png</sprite>
+        <distance>450</distance>
+        <hitpoints>125</hitpoints>
+        <speed>5</speed>
+        <node>Arctic</node>
+    </animal>
+     <animal>
+        <id>9</id>
+        <name>Ostrich</name>
+        <description>Hold ALL the places!</description>
+        <hint>An appropriate foresty hint.</hint>
+        <photo>Ostrich.jpg</photo>
+        <sprite>donkey.png</sprite>
+        <distance>450</distance>
+        <hitpoints>125</hitpoints>
+        <speed>5</speed>
+        <node>Forest</node>
+    </animal>
+     <animal>
+        <id>10</id>
+        <name>Nautilus</name>
+        <description>Hold ALL the places!</description>
+        <hint>An appropriate island hint.</hint>
+        <photo>Nautilus.jpg</photo>
+        <sprite>donkey.png</sprite>
+        <distance>450</distance>
+        <hitpoints>125</hitpoints>
+        <speed>5</speed>
+        <node>Island</node>
+    </animal>
+     <animal>
+        <id>11</id>
+        <name>Chicken</name>
+        <description>Hold ALL the places!</description>
+        <hint>An appropriate arctic hint.</hint>
+        <photo>Chicken.jpg</photo>
+        <sprite>donkey.png</sprite>
+        <distance>450</distance>
+        <hitpoints>125</hitpoints>
+        <speed>5</speed>
+        <node>Arctic</node>
+    </animal>
+     <animal>
+        <id>12</id>
+        <name>Llama</name>
+        <description>Hold ALL the places!</description>
+        <hint>An appropriate foresty hint.</hint>
+        <photo>Llama.jpg</photo>
+        <sprite>donkey.png</sprite>
+        <distance>450</distance>
+        <hitpoints>125</hitpoints>
+        <speed>5</speed>
+        <node>Forest</node>
+    </animal>
 </animaldictionary>

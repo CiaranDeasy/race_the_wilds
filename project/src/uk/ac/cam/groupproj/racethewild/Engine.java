@@ -46,8 +46,6 @@ public class Engine {
 	
 	/*
 	 *   Reset data from the satellite navigation
-	 *   Currently resets your movement points to 100, rather than 0
-	 *   to allow for testing of the other components without having to move around a lot
 	 */
 	public void resetSatNavMovement(Context context) {
 		SharedPreferences sharedPref = 
