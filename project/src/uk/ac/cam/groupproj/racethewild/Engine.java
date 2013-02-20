@@ -50,14 +50,18 @@ public class Engine {
 	 *   to allow for testing of the other components without having to move around a lot
 	 */
 	public void resetSatNavMovement(Context context) {
-		SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.gps_main_file_key), Context.MODE_PRIVATE);
+		SharedPreferences sharedPref = 
+				context.getSharedPreferences(context.getString(R.string.gps_main_file_key), 
+						Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharedPref.edit();
-		editor.putInt("movement_points",100);
+		editor.putInt("movement_points",0);
 		editor.commit();
 	}
 	
 	public void resetSatNavDistance(Context context) {
-		SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.gps_main_file_key), Context.MODE_PRIVATE);
+		SharedPreferences sharedPref = 
+				context.getSharedPreferences(context.getString(R.string.gps_main_file_key), 
+						Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharedPref.edit();
 		editor.putInt("distance",0);
 		editor.commit();
@@ -96,7 +100,8 @@ public class Engine {
 		
 		// Load animal data.
 		try {
-			engine.animalDictionary = XmlParser.createDictionary(engine.resources.getXml(R.xml.animaldata));
+			engine.animalDictionary = 
+					XmlParser.createDictionary(engine.resources.getXml(R.xml.animaldata));
 		} catch(XmlReadException e) {
 			System.err.println(e.getMessage());
 			System.err.println("Failed to load animal dictionary, killing the app.");
