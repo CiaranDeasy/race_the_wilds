@@ -51,6 +51,11 @@ public class MainMenu extends Activity {
 		startActivity(intent);
 	}
 	
+	public void challengeList(View view) {
+		Intent intent = new Intent(this, ChallengeList.class); 
+		startActivity(intent);
+	}
+	
 	public void checkIn(View view){
 		Intent intent = new Intent(this, CheckInScene.class);
 		startActivity(intent);		

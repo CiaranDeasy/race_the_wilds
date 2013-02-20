@@ -73,6 +73,14 @@
             android:layout_height="wrap_content"
             android:onClick="checkIn"
             android:text="@string/checkIn" />
+        
+        <Button
+        android:id="@+id/chllengeListButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:onClick="challengeList"
+        android:text="Challengewoo" />
     </LinearLayout>
 
     <TextView
@@ -92,5 +100,6 @@
         android:layout_centerHorizontal="true"
         android:onClick="addMovement"
         android:text="@string/addMovement" />
+    
 
 </RelativeLayout>

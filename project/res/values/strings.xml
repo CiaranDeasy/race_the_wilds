@@ -30,5 +30,7 @@
     <string name="title_activity_animal_scanner">Animal Scanner</string>
     <string name="points_spent">Points Spent: </string>
     <string name="animal_percent_scanned">Percent Scanned: </string>
+    <string name="title_activity_challenge_list">ChallengeList</string>
+    <string name="title_activity_challenge">ChallengeActivity</string>
 
 </resources>
