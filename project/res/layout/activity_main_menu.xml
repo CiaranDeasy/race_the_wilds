@@ -80,7 +80,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:onClick="challengeList"
-        android:text="Challengewoo" />
+        android:text="Challenge List" />
     </LinearLayout>
 
     <TextView
