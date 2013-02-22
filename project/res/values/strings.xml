@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="white">#FFFFFF</color>
     <string name="app_name">Race the Wild</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
