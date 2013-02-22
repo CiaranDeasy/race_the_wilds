@@ -43,6 +43,13 @@
             android:layout_height="wrap_content"
             android:onClick="toggleGPS"
             android:text="Toggle GPS useage" />
+        
+                <Button
+            android:id="@+id/gpsSettingsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="gpsSettings"
+            android:text="GPS settings" />
     </LinearLayout>
 
     <LinearLayout
