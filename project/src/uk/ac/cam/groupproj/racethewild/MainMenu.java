@@ -90,6 +90,11 @@ public class MainMenu extends Activity {
 		}
 	}
 	
+	public void gpsSettings(View view) {
+		Intent intent = new Intent(this, GPSsettings.class);
+		startActivity(intent);
+	}
+	
 	public void addMovement(View view) {
 		SharedPreferences sharedPref = this.getSharedPreferences(this.getString(R.string.gps_main_file_key), Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharedPref.edit();
