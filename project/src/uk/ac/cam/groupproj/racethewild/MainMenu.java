@@ -27,12 +27,13 @@ public class MainMenu extends Activity {
 		setContentView(R.layout.activity_main_menu);
 		Engine.initialise(this); // Initialise the engine.
 		engine = Engine.get();
-		snu = engine.fetchSatNavData(getApplicationContext());
+		
 	}
 	
 	@Override
 	protected void onResume(){
 		super.onResume();
+		snu = engine.fetchSatNavData(getApplicationContext());
 		movePoints = snu.getMovePoints();
 		TextView textView = (TextView) findViewById(R.id.infoText);
 		textView.setText("Check in now for " + movePoints + " movement points");
@@ -95,6 +96,13 @@ public class MainMenu extends Activity {
 		editor.putInt("movement_points", sharedPref.getInt("movement_points", 0) + 100);
 		editor.putInt("distance", sharedPref.getInt("distance", 0) + 50);
 		editor.commit();
+		
+		snu = engine.fetchSatNavData(getApplicationContext());
+		movePoints = snu.getMovePoints();
+		TextView textView = (TextView) findViewById(R.id.infoText);
+		textView.setText("Check in now for " + movePoints + " movement points");
+
+		
 	}
 
 	@Override

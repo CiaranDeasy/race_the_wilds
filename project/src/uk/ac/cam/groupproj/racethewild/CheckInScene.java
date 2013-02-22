@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,6 +23,10 @@ public class CheckInScene extends Activity {
 	// Displays the number of movement points awarded, the released animal's graphic, some exciting
 	// text, and a hint for finding it.
 
+
+	public void backButton (View view){
+		onBackPressed();
+	}
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

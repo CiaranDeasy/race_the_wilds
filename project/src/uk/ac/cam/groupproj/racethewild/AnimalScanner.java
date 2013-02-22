@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class AnimalScanner extends Activity implements OnTouchListener {
 
@@ -34,6 +35,7 @@ public class AnimalScanner extends Activity implements OnTouchListener {
 	private Animal animal;
 	private ScAnimal scanimal;
 	private ScanViewer scanviewer;
+	static boolean tutorial_displayed=false;
 	int pointscosted=0;
 	Engine engine;
 	
@@ -63,7 +65,7 @@ public class AnimalScanner extends Activity implements OnTouchListener {
 		
 		try {
 
-			InputStream BGinputstream = getAssets().open("jumperwarped.jpg");
+			InputStream BGinputstream = getAssets().open("jumperwarped2.jpg");
 
 			background = BitmapFactory.decodeStream(BGinputstream);
 			BGinputstream.close();
@@ -84,6 +86,15 @@ public class AnimalScanner extends Activity implements OnTouchListener {
 
 		setContentView(layout);
 
+		if(!tutorial_displayed)
+		{
+			tutorial_displayed=true;
+			Context context = getApplicationContext();
+			CharSequence text = getString(R.string.scanner_map_tutorial_text);
+			int duration = Toast.LENGTH_SHORT;
+
+			Toast.makeText(context, text, duration).show();
+		}
 		
 		
 	}
@@ -137,7 +148,8 @@ public class AnimalScanner extends Activity implements OnTouchListener {
 		int maxhp;
 		int hp;
 		float y;
-		int speed;
+		double speed;
+		double angle;
 		
 		public ScAnimal(float x, float y, String Sprite, int HP, int speed)
 		{
@@ -147,6 +159,9 @@ public class AnimalScanner extends Activity implements OnTouchListener {
 			this.hp = HP;
 			maxhp = HP;
 			this.speed = speed;
+			
+			angle = Math.random()*Math.PI*2;
+			
 			color.setColorFilter(new LightingColorFilter(Color.WHITE,1));
 			try {
 				InputStream is = getAssets().open(Sprite);
@@ -214,13 +229,28 @@ public class AnimalScanner extends Activity implements OnTouchListener {
 			
 			while(alive)
 			{
-				x+=-speed + Math.random()*(speed<<1);
-				y+=-speed + Math.random()*(speed<<1);
+				angle += -0.4 + Math.random()*(0.8);
+				x+=speed*Math.cos(angle);
+				y+=speed*Math.sin(angle);
 				
-				if(x>screenwidth-animalSprite.getWidth()) x=screenwidth-animalSprite.getWidth();
-				if(y>screenheight-animalSprite.getHeight()) y = screenheight-animalSprite.getHeight();
-				if(x<0)x=0;
-				if(y<0)y=0;
+				if(x>screenwidth-animalSprite.getWidth()){
+					x=screenwidth-animalSprite.getWidth();
+					angle-=Math.PI;
+				}
+				
+				if(y>screenheight-animalSprite.getHeight())
+					{
+						y = screenheight-animalSprite.getHeight();
+						angle+=Math.PI;
+					}
+				if(x<0){
+					x=0;
+					angle +=Math.PI;
+				}
+				if(y<0){
+					y=0;
+					angle -=Math.PI;
+				}
 				
 				try {
 					Thread.sleep(16);

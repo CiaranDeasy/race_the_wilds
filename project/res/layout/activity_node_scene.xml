@@ -20,7 +20,9 @@
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:layout_alignParentLeft="true"
-      android:layout_alignRight="@+id/center_point"/>
+      android:layout_alignRight="@+id/center_point">
+
+ </LinearLayout>
 
     <LinearLayout
         android:id="@+id/right_layout"
@@ -68,5 +70,16 @@
                    android:onClick="moveToScrollMap"
                    android:text="@string/go_to_node_button" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/backbutton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:onClick="backButton"
+        android:text="@string/back_button_text"
+        android:typeface="normal" />
 
 </RelativeLayout>

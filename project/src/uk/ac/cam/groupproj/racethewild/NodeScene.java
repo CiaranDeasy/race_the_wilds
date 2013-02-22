@@ -26,16 +26,18 @@ import android.view.View.OnTouchListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.support.v4.app.NavUtils;
 
 public class NodeScene extends Activity implements OnTouchListener {
 
-	public final static int movePointCostMultiplier=50;
+	public final static int movePointCostMultiplier=500;
 
 	NodeViewer nodeDisplay;
 	Engine e;
 	Bitmap worldMapBG;
 	ArrayList<DisplayNode> displayNodes;
+	static boolean tutorial_displayed = false;
 	Node selectedScene;
 	int movecost =0;
 
@@ -48,7 +50,10 @@ public class NodeScene extends Activity implements OnTouchListener {
 	float PreTouchy;
 	float RelTouchy; //most recent touch point.
 
-
+	public void backButton (View view){
+		onBackPressed();
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -102,6 +107,15 @@ public class NodeScene extends Activity implements OnTouchListener {
 		movepointsText.setText(getString(R.string.current_movement_points) + " " + e.getStats().getCurrentMovePoints());
 		
 		
+		if(!tutorial_displayed)
+		{
+			tutorial_displayed=true;
+			Context context = getApplicationContext();
+			CharSequence text = getString(R.string.node_map_tutorial_text);
+			int duration = Toast.LENGTH_SHORT;
+
+			Toast.makeText(context, text, duration).show();
+		}
 		
 	}
 
