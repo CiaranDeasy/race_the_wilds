@@ -24,17 +24,69 @@ As such, the project can be considered a success.
 
 \section{Specification}
 
+After being assigned to the project, the team immediately began brainstorming a concept for the app and setting up infrastructure, including a repository and Facebook page. 
+A proposal was put together, detailing the game concept that the team came up with. 
+This was presented at the first client meeting and, after some discussion, approved by the client.
 
+During the week that followed, the team refined this proposal into a formal requirements specification. 
+The app was thoroughly described, both at the level of the user experience and in terms of the underlying code structure. 
+In addition, abstract Java classes were prepared to give the code an niitial structure. 
+Following from the client discussion, the decision was made to develop the app iteratively, and a schedule of four prototypes was prepared, with some slack in later weeks to allow for additions according to client feedback. 
+The requirements document was delivered to the client and group project organisers on January 31st, two weeks into the project as was ideal.
+
+The specification phase of the project was mostly successful. 
+The team did a very good job of being co-ordinated and agreeing on a singular vision for the project. 
+The spec was complete, delivered on-time, and well thought out. 
+The team's greatest failing at this phase, however, was an insufficient amount of research into Android's standard libraries and mechanisms. 
+It would subsequently become clear that our code was structured to solve problems that Android itself already covered. 
+The basic interface scheme was ultimately discarded, as was the planned GPS structure. 
+A valuable lesson was learned about researching the target platform in advance.
 
 \section{Features and Implementation}
 
+The implementation of the project occurred in four week-long prototype phases. 
+The first prototype was delivered with most of the fundamental code. 
+However, some planned features were only partially written and couldn't be included. 
+Nonetheless, a short demonstration video was filmed and sent to the client, showing a basic, but functional, iteration of the app.
+
+The second phase proceeded better than the first, with more active work on implementing the code throughout the week. 
+However, the complexity of the GPS feature - the main addition of the prototype - was greater than expected, and the feature was only partially implemented in the second prototype. 
+Otherwise, all implementation expectations were met.
+
+The third phase was primarily focused around adding a new challenge system proposed by the client in response to the app's progress to date. 
+The client's initial suggestion was too extensive to be fully realised, but the team did some additional design and specification and came up with a more constrained implementation that could be added to the project safely. 
+The system was successfully implemented, although once again it was slightly incomplete by the deadline for the third prototype.
+
 \section{Testing}
+
+Testing was by far the greatest failing of the project. 
+There was no real plan of action on this front: there was an approximate sentiment that manual weekly testing would take place, but this was never pushed strictly. 
+There was a reliance on cursory runs of newly-written code to ``see that nothing blows up''. 
+As a result, debugging was haphazard and bugs surfaced at unexpected moments from code that had been in the repository for days.
+
+The project didn't particularly suffer from this. 
+To the team's credit, the quality of coding was excellent and bugs were infrequent. 
+When they did occur, they were usually found and corrected very quickly. 
+However, the team acknowledges that this is very bad software engineering practice and that a larger project could have suffered severe detriment as a result of this lack of rigour.
+
+The team maintains that a manual testing approach was appropriate for the project, and a formal test suite was written up and executed late in the project to establish confidence in the final product. 
+However, the team has learned the most important lesson of the project: testing should be thoroughly planned and executed.
 
 \section{Personal Reports}
 
-The following sections, written individually by each group member, detail their contributions to the project and their brief evaluations of their peers' contributions.
+The following sections, written individually by each group member, detail their contributions to the project and their brief evaluations of their peers' contributions. 
 
 \subsection{Ciaran Deasy}
+
+As the project manager, my primary role was to direct our efforts, distribute tasks and ensure that the project came to fruition. I declared meetings, directed them and summarised the key decisions in writing on the Facebook group. I provided frequent clarification of team members' roles and reminded about important dates.
+
+Everyone, including myself, contributed to the design phase. I volunteered ideas during concept, and wrote part of the requirements documentation. I directed the discussion so that the team focused in the right places and considered every angle.
+
+During implementation, I was responsible for the core engine that co-ordinated communication between modules, as well as data management. It was necessary for the app to keep data on all the animals, locations and challenges present in the game. I elected to do this using XML: I designed simple, clear XML files to contain the data, and wrote a parser to read the XML and load in the data at application start. The data was then kept in the engine, with appropriate access methods, so that it could be accessed from anywhere in the app.
+
+\subsubsection{Evaluation of team-mates}
+
+TODO
 
 \subsection{Sam Ainsworth}
 
