@@ -222,6 +222,8 @@ public class Engine {
 	/** Do not call this. Ever.
 	 *  Used for debugging to reset save data. */
 	public static void reset(Context c) {
+		engine.resetSatNavDistance(c);
+		engine.resetSatNavMovement(c);
 		engine.stats = new PlayerStats();
 		engine.stats.save(c);
 		engine = null;

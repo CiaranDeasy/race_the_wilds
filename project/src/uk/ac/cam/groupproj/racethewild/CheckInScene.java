@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,6 +23,10 @@ public class CheckInScene extends Activity {
 	// Displays the number of movement points awarded, the released animal's graphic, some exciting
 	// text, and a hint for finding it.
 
+
+	public void backButton (View view){
+		onBackPressed();
+	}
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -40,26 +45,25 @@ public class CheckInScene extends Activity {
 		}
 		Bitmap background = null;
 		float ratio = Float.MAX_VALUE;
-		if(distance != 0){
-			ratio = chosen.getDistancePerDay()/distance;
-		}
 		
 		int movePoints = e.fetchSatNavData(getApplicationContext()).getMovePoints();
 		if(chosen != null){
-			
-			if(ratio<=1){
-			e.checkIn(chosen, this);
-			TextView textView = (TextView) findViewById(R.id.animalName);
-			textView.setText("A " + chosen.getName() + " has been released into the wild");
 
-			TextView textView1 = (TextView) findViewById(R.id.animalFacts);
-			textView1.setText(chosen.getHint());
-		} else {
-			e.checkIn(null, this);
-			TextView textView = (TextView) findViewById(R.id.animalName);
-			textView.setText("Move "+(chosen.getDistancePerDay()-distance)+" more meters to release a "+ chosen.getName());
-		}
-			
+			if(distance != 0){
+				ratio = chosen.getDistancePerDay()/distance;
+			}
+			if(ratio<=1){
+				e.checkIn(chosen, this);
+				TextView textView = (TextView) findViewById(R.id.animalName);
+				textView.setText("A " + chosen.getName() + " has been released into the wild");
+	
+				TextView textView1 = (TextView) findViewById(R.id.animalFacts);
+				textView1.setText(chosen.getHint());
+			} else {
+				e.checkIn(null, this);
+				TextView textView = (TextView) findViewById(R.id.animalName);
+				textView.setText("Move "+(chosen.getDistancePerDay()-distance)+" more meters to release a "+ chosen.getName());
+			}
 			TextView textView2 = (TextView) findViewById(R.id.checkInAmount);
 			textView2.setText("You have gained " + movePoints + " movement points");
 
@@ -79,6 +83,14 @@ public class CheckInScene extends Activity {
 				imageView.setImageBitmap(background);
 			}
 		}
+		// Handle the case where all animals have been released already.
+		else {
+			TextView textView2 = (TextView) findViewById(R.id.checkInAmount);
+			textView2.setText("You have gained " + movePoints + " movement points");
+			e.checkIn(null, this);
+			TextView textView = (TextView) findViewById(R.id.animalName);
+			textView.setText("You have already released all the animals!");
+		} 
 
 	}
 

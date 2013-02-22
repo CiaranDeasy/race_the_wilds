@@ -3,9 +3,6 @@ package uk.ac.cam.groupproj.racethewild;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collections;
-
-import uk.ac.cam.groupproj.racethewild.ScrollMapScene.ScrollViewer;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
@@ -22,6 +19,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 public class ScrollAnimalCollection extends Activity implements OnTouchListener {
 
@@ -36,6 +34,8 @@ public class ScrollAnimalCollection extends Activity implements OnTouchListener 
 
 	int screenwidth;  //you get the idea.
 	int screenheight;
+	
+	static boolean tutorial_displayed=false;
 	
 	
 	float xcoord = 40; //coord of last animal
@@ -191,7 +191,22 @@ public class ScrollAnimalCollection extends Activity implements OnTouchListener 
 		layout.addView(backgroundDisplay,0);
 
 		setContentView(layout);
+		
+		if(!tutorial_displayed)
+		{
+			tutorial_displayed=true;
+			Context context = getApplicationContext();
+			CharSequence text = getString(R.string.collection_tutorial_text);
+			int duration = Toast.LENGTH_SHORT;
 
+			Toast.makeText(context, text, duration).show();
+		}
+	
+
+	}
+	
+	public void backButton (View view){
+		onBackPressed();
 	}
 
 	@Override

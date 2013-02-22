@@ -1,23 +1,32 @@
+/*
+ *  TODO:
+ *    - get to work with other GPS
+ */
+
 package uk.ac.cam.groupproj.racethewild;
 
-import java.util.Random;
-
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 
 public class ChallengeController {                                // mti20 TODO
 
-	boolean challengeInProgress;
+	static boolean challengeInProgress;
+	static long totalTime;             static long currentTime;
+	static long startTime;
+	static int totalDistance;          static long currentDistance;
 
-	public static enum ChallengeStatus {
-		inProgress, success, failure
-	}
 
 	/*
 	 *  Called to initiate a challenge. Will get initial location.
 	 *  Returns true if it's OK to do a challenge and false otherwise.
 	 *  Leave a 10s delay after calling this before calling startMovementChallenge()
 	 */
-	public static boolean requestMovementChallenge(Context context) {
+	public static boolean requestMovementChallenge(Context context, long totalTime, int totalDistance) {
+		ChallengeController.totalTime = totalTime*1000;
+		ChallengeController.totalDistance = totalDistance;
+		Intent intent = new Intent(context,ChallengeGPS.class);
+		context.startService(intent);
 		return true;
 	}
 
@@ -25,25 +34,27 @@ public class ChallengeController {                                // mti20 TODO
 	 *  Call 10s after requestMovementChallenge() to start the challenge
 	 */
 	public static void startMovementChallenge(Context context) {
-		return;
+		startTime = System.currentTimeMillis();
 	}
 
 	/*
 	 *  Used to poll the status of the challenge
 	 */
 	public static ChallengeStatus checkMovementChallengeStatus(Context context) {
-		Random generator = new Random();
+		int distance;      long time;
 
-		long startTime = System.currentTimeMillis();
-		int waitSeconds = generator.nextInt(10)+7;
-		while ((System.currentTimeMillis() - startTime) <  waitSeconds*1000) {
-
-		}
-
-		if (generator.nextInt(2) == 1) {
-			return ChallengeStatus.success;
+		time = System.currentTimeMillis() - startTime;
+		SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.gps_challenge_file_key), Context.MODE_PRIVATE); 
+		distance = sharedPref.getInt("distance_moved",0);; 
+		
+		if (totalTime < time) {
+			return new ChallengeStatus(0,distance,time);
+		} else if ((time > totalTime) & (distance < totalDistance)) {
+			context.stopService(new Intent(context, ChallengeGPS.class));
+			return new ChallengeStatus(1,distance,time);
 		} else {
-			return ChallengeStatus.failure;
+			context.stopService(new Intent(context, ChallengeGPS.class));
+			return new ChallengeStatus(2,distance,time);
 		}
 	}
 

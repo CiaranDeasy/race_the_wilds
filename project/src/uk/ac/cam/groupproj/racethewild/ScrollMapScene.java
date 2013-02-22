@@ -22,6 +22,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 public class ScrollMapScene extends Activity implements OnTouchListener{
 
@@ -40,6 +41,8 @@ public class ScrollMapScene extends Activity implements OnTouchListener{
 	
 	int bgWidth;
 	int bgHeight;
+	
+	static boolean tutorial_displayed=false;
 
 	float PreTouchx; //for when we scroll.
 	float RelTouchx;
@@ -141,9 +144,29 @@ public class ScrollMapScene extends Activity implements OnTouchListener{
 		layout.addView(mapDisplay,0);
 
 		setContentView(layout);
+		
+		
+		
+
+		if(!tutorial_displayed)
+		{
+			tutorial_displayed=true;
+			Context context = getApplicationContext();
+			CharSequence text = getString(R.string.scroll_map_tutorial_text);
+			int duration = Toast.LENGTH_SHORT;
+
+			Toast.makeText(context, text, duration).show();
+		}
+
+		
+		
 
 	}
 
+	public void backButton (View view){
+		onBackPressed();
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.

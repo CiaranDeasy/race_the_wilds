@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="white">#FFFFFF</color>
     <string name="app_name">Race the Wild</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
@@ -21,6 +22,7 @@
     <string name="title_activity_gpsdebug">GPSdebug</string>
     <string name="gps_coefficients_file_key">uk.ac.cam.groupproj.racethewild.GPS_COEFFICIENTS_FILE_KEY</string>
     <string name="gps_log_file_key">uk.ac.cam.groupproj.racethewild.GPS_LOG_FILE_KEY</string>
+    <string name="gps_challenge_file_key">uk.ac.cam.groupproj.racethewild.GPS_CHALLENGE_FILE_KEY</string>
     <string name="addMovement">Add Movement</string>
     <!-- currently unused -->
     <string name="gps_main_file_key">uk.ac.cam.groupproj.racethewild.GPS_MAIN_FILE_KEY</string>
@@ -32,5 +34,10 @@
     <string name="animal_percent_scanned">Percent Scanned: </string>
     <string name="title_activity_challenge_list">ChallengeList</string>
     <string name="title_activity_challenge">ChallengeActivity</string>
+    <string name="scroll_map_tutorial_text">Scroll around this scene and tap animals you haven\'t found yet.</string>
+    <string name="node_map_tutorial_text">Tap a node on the world map to select it, and press Go To Node to enter it.</string>
+    <string name="scanner_map_tutorial_text">Keep touching an animal to scan it.</string>
+    <string name="collection_tutorial_text">Animals you have released but haven\'t found yet are at the top of the screen. Touch animals for more information.</string>
+    <string name="title_activity_gpssettings">GPSsettings</string>
 
 </resources>

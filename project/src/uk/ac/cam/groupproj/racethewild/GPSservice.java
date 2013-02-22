@@ -342,7 +342,7 @@ public class GPSservice extends Service {   	// to stop call stopSelf()
 		b = 0;
 		c = 0;
 		d = 1;
-		e = 10;
+		e = 0.2;
 		
 		double movementPoints = e * (A*Math.exp((-1)*b*v)+c*v+d) * x;
 		return (int)Math.round(movementPoints);

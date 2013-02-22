@@ -40,4 +40,15 @@
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/backbutton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:onClick="backButton"
+        android:text="@string/back_button_text"
+        android:typeface="normal" />
+
 </RelativeLayout>
