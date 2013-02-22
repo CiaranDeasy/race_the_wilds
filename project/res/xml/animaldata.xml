@@ -3,63 +3,75 @@
     <animal>
         <id>1</id>
         <name>Giraffe</name>
-        <description>A single plausible giraffe fact.</description>
+        <description>The giraffe has both the longest neck and the longest tail of any land mammal.</description>
         <hint>An appropriate arctic hint.</hint>
         <photo>GiraffePhoto.jpg</photo>
         <sprite>giraffesprite2.png</sprite>
         <distance>60</distance>
+        <hitpoints>60</hitpoints>
+        <speed>10</speed>
         <node>Arctic</node>
         <node>Island</node>
     </animal>
     <animal>
         <id>2</id>
         <name>Zebra</name>
-        <description>A single plausible zebra fact.</description>
+        <description>Unlike horses, Zebras have never been truly domesticated.</description>
         <hint>An appropriate foresty hint.</hint>
         <photo>ZebraPhoto.jpg</photo>
         <sprite>ZebraSprite.png</sprite>
         <distance>120</distance>
+        <hitpoints>200</hitpoints>
+        <speed>20</speed>
         <node>Forest</node>
     </animal>
     <animal>
         <id>3</id>
         <name>Kangaroo</name>
-        <description>A single plausible kangaroo fact.</description>
+        <description>The kangaroo is an unofficial symbol of Australia, appearing on the country's coat of arms. </description>
         <hint>An appropriate island hint.</hint>
-        <photo>donkey.png</photo>
-        <sprite>donkey.png</sprite>
+        <photo>kangaroosprite.png</photo>
+        <sprite>kangaroosprite.png</sprite>
         <distance>180</distance>
+        <hitpoints>180</hitpoints>
+        <speed>30</speed>
         <node>Island</node>
     </animal>
     <animal>
         <id>4</id>
         <name>Dog</name>
-        <description>A single plausible dog fact.</description>
+        <description>There are thought to be over 400 million dogs in the world. The dog is the species with the most variation in appearance between members of the same species.</description>
         <hint>An appropriate arctic hint.</hint>
         <photo>DogPhoto.jpg</photo>
         <sprite>DogSprite.png</sprite>
         <distance>240</distance>
+        <hitpoints>150</hitpoints>
+        <speed>25</speed>
         <node>Arctic</node>
     </animal>
     <animal>
         <id>5</id>
         <name>Hippo</name>
-        <description>A single plausible hippo fact.</description>
+        <description>The closest living relatives to Hippopotami are whales and porpoises.</description>
         <hint>An appropriate arctic hint.</hint>
         <photo>HippoPhoto.jpg</photo>
         <sprite>hipposprite2.png</sprite>
         <distance>300</distance>
+        <hitpoints>700</hitpoints>
+        <speed>5</speed>
         <node>Arctic</node>
         <node>Island</node>
     </animal>
     <animal>
         <id>6</id>
         <name>Donkey</name>
-        <description>A single of plausible donkey fact.</description>
+        <description>There are more than 40 million donkeys in the world.</description>
         <hint>An appropriate arctic hint.</hint>
         <photo>DonkeyPhoto.jpg</photo>
         <sprite>donkey.png</sprite>
         <distance>360</distance>
+        <hitpoints>350</hitpoints>
+        <speed>20</speed>
         <node>Arctic</node>
     </animal>
      <animal>
@@ -70,7 +82,68 @@
         <photo>PenguinPhoto.jpg</photo>
         <sprite>penguin.png</sprite>
         <distance>450</distance>
+        <hitpoints>125</hitpoints>
+        <speed>5</speed>
         <node>Arctic</node>
     </animal>
-    
+     <animal>
+        <id>8</id>
+        <name>Cheetah</name>
+        <description>Hold ALL the places!</description>
+        <hint>An appropriate arctic hint.</hint>
+        <photo>Cheetah.jpg</photo>
+        <sprite>donkey.png</sprite>
+        <distance>450</distance>
+        <hitpoints>125</hitpoints>
+        <speed>5</speed>
+        <node>Arctic</node>
+    </animal>
+     <animal>
+        <id>9</id>
+        <name>Ostrich</name>
+        <description>Hold ALL the places!</description>
+        <hint>An appropriate foresty hint.</hint>
+        <photo>Ostrich.jpg</photo>
+        <sprite>donkey.png</sprite>
+        <distance>450</distance>
+        <hitpoints>125</hitpoints>
+        <speed>5</speed>
+        <node>Forest</node>
+    </animal>
+     <animal>
+        <id>10</id>
+        <name>Nautilus</name>
+        <description>Hold ALL the places!</description>
+        <hint>An appropriate island hint.</hint>
+        <photo>Nautilus.jpg</photo>
+        <sprite>donkey.png</sprite>
+        <distance>450</distance>
+        <hitpoints>125</hitpoints>
+        <speed>5</speed>
+        <node>Island</node>
+    </animal>
+     <animal>
+        <id>11</id>
+        <name>Chicken</name>
+        <description>Hold ALL the places!</description>
+        <hint>An appropriate arctic hint.</hint>
+        <photo>Chicken.jpg</photo>
+        <sprite>donkey.png</sprite>
+        <distance>450</distance>
+        <hitpoints>125</hitpoints>
+        <speed>5</speed>
+        <node>Arctic</node>
+    </animal>
+     <animal>
+        <id>12</id>
+        <name>Llama</name>
+        <description>Hold ALL the places!</description>
+        <hint>An appropriate foresty hint.</hint>
+        <photo>Llama.jpg</photo>
+        <sprite>donkey.png</sprite>
+        <distance>450</distance>
+        <hitpoints>125</hitpoints>
+        <speed>5</speed>
+        <node>Forest</node>
+    </animal>
 </animaldictionary>

@@ -21,6 +21,8 @@ public abstract class XmlParser {
 	private static final String photoTag = "photo";
 	private static final String spriteTag = "sprite";
 	private static final String distanceTag = "distance";
+	private static final String hitpointTag = "hitpoints";
+	private static final String speedTag = "speed";
 	private static final String foundInTag = "node";
 	
 	private static final String nodeListTag = "nodelist";
@@ -31,6 +33,18 @@ public abstract class XmlParser {
 	private static final String nodeSpriteTag = "sprite";
 	private static final String relativeXTag = "relX";
 	private static final String relativeYTag = "relY";
+	
+	private static final String challengeListTag = "challengelist";
+	private static final String challengeTag = "challenge";
+	private static final String challengeIDTag = "id";
+	private static final String challengeTypeTag = "type";
+	private static final String repetitionsTag = "repetitions";
+	private static final String timeTag = "time";
+	private static final String textTag = "text";
+	private static final String challengeAnimalIDTag = "animal";
+	
+	private static final String challengeTypeDistanceTime = "distancetime";
+	private static final String challengeTypeAccelerometer = "accelerometer";
 	
 	/** Reads the XML file to produce a dictionary of animal data. */
 	public static Map<Integer, Animal> createDictionary(XmlPullParser parser) 
@@ -62,7 +76,7 @@ public abstract class XmlParser {
 			throw new XmlReadException(
 					"Experienced an XmlPullParserException, trace was printed.");
 		} catch(IOException e) {
-			throw new XmlReadException("IOException when reading dictionary.");
+			throw new XmlReadException("IOException when reading animals.");
 		}
 	}
 	
@@ -95,7 +109,40 @@ public abstract class XmlParser {
 			throw new XmlReadException(
 					"Experienced an XmlPullParserException, trace was printed.");
 		} catch(IOException e) {
-			throw new XmlReadException("IOException when reading dictionary.");
+			throw new XmlReadException("IOException when reading animals.");
+		}
+	}
+	
+	/** Reads an XML file to produce a list of node data objects. */
+	public static List<Challenge> createChallenges(XmlPullParser parser) 
+			throws XmlReadException {
+		List<Challenge> challenges = new ArrayList<Challenge>();
+		try {
+			// Skip the preamble.
+			parser.next();
+			parser.next();
+			// Check the <challengelist> tag.
+			parseOpeningTag(parser, challengeListTag);
+			
+			// Loop and read nodes.
+			while(parser.getName().equals(challengeTag)) {
+				// Read the opening <challenge> tag.
+				parseOpeningTag(parser, challengeTag);
+				// Read the challenge data.
+				challenges.add(readNewChallenge(parser));
+				// Read the closing </challenge> tag.
+				parseClosingTag(parser, challengeTag);
+			}
+			// Read the closing </challengelist> tag.
+			parseClosingTag(parser, challengeListTag);
+			return challenges;
+			
+		} catch(XmlPullParserException e) {
+			e.printStackTrace();
+			throw new XmlReadException(
+					"Experienced an XmlPullParserException, trace was printed.");
+		} catch(IOException e) {
+			throw new XmlReadException("IOException when reading challenges.");
 		}
 	}
 	
@@ -105,29 +152,20 @@ public abstract class XmlParser {
 			throws IOException, XmlPullParserException, XmlReadException {
 		
 		// Parse each data item in turn.
-		int id = 0;
-		try {
-			id = Integer.parseInt(parseTag(parser, idTag));
-		} catch(NumberFormatException e) {
-			throw new XmlReadException(
-					"Non-integer found in integer field.");
-		}
+		int id = parseIntegerTag(parser, idTag);
 		String name = parseTag(parser, nameTag);
 		String description = parseTag(parser, descriptionTag);
 		String hint = parseTag(parser, hintTag);
 		String photo = parseTag(parser, photoTag);
 		String sprite = parseTag(parser, spriteTag);
-		int distancePerDay = 0;
-		try {
-			distancePerDay = Integer.parseInt(parseTag(parser, distanceTag));
-		} catch(NumberFormatException e) {
-			throw new XmlReadException(
-					"Non-integer found in integer field.");
-		}
+		int distancePerDay = parseIntegerTag(parser, distanceTag);
+		int hitpoints = parseIntegerTag(parser, hitpointTag);
+		int speed = parseIntegerTag(parser, speedTag);
 		List<String> nodes = parseSequence(parser, foundInTag);
 		
 		// And return a new Animal object containing the extracted data.
-		return new Animal(id, name, description, hint, photo, sprite, distancePerDay, nodes);
+		return new Animal(id, name, description, hint, photo, sprite, distancePerDay, hitpoints, 
+				speed, nodes);
 	}
 	
 	/** Parse XML node data, given a parser pointing at the opening tag of the first data item. 
@@ -140,18 +178,42 @@ public abstract class XmlParser {
 		String background = parseTag(parser, backgroundTag);
 		String preview = parseTag(parser, previewTag);
 		String sprite = parseTag(parser, nodeSpriteTag);
-		float relativeX = 0;
-		float relativeY = 0;
-		try {
-			relativeX = Float.parseFloat(parseTag(parser, relativeXTag));
-			relativeY = Float.parseFloat(parseTag(parser, relativeYTag));
-		} catch(NumberFormatException e) {
-			throw new XmlReadException(
-					"Non-float found in float field.");
-		}
+		float relativeX = parseFloatTag(parser, relativeXTag);
+		float relativeY = parseFloatTag(parser, relativeYTag);
 		
 		// And return a new Node object containing the extracted data.
 		return new Node(name, background, preview, sprite, relativeX, relativeY);
+	}
+	
+	/** Parse XML challenge data, given a parser pointing at the opening tag of the first data 
+	 * item. */
+	private static Challenge readNewChallenge(XmlPullParser parser) 
+			throws IOException, XmlPullParserException, XmlReadException {
+		
+		// Parse each data item in turn.
+		int id = parseIntegerTag(parser, challengeIDTag);
+		String rawType = parseTag(parser, challengeTypeTag);
+		
+		// Handle the challenge type
+		ChallengeType type = null;
+		if(rawType.equals(challengeTypeDistanceTime)) {
+			type = ChallengeType.distanceTime;
+		}
+		else if(rawType.equals(challengeTypeAccelerometer)) {
+			type = ChallengeType.accelerometer;
+		}
+		else {
+			throw new XmlReadException("Invalid challenge type for challenge #" + id + 
+					", exterminate!");
+		}
+		// Resume regular parsing.
+		int repetitions = parseIntegerTag(parser, repetitionsTag);
+		int time = parseIntegerTag(parser, timeTag);
+		String text = parseTag(parser, textTag);
+		int animalID = parseIntegerTag(parser, challengeAnimalIDTag);
+		
+		// And return a new Challenge object containing the extracted data.
+		return new Challenge(id, repetitions, time, text, animalID, type);
 	}
 	
 	/** Parses a variable-length (possibly empty) sequence of the same tag. */
@@ -214,6 +276,37 @@ public abstract class XmlParser {
 		// Accept it.
 		parser.next();
 		return;
+	}
+	
+	/** Parses a boolean tag and throws an exception if the contents aren't valid. */
+	public static boolean parseBooleanTag(XmlPullParser parser, String tag) 
+			throws XmlPullParserException, XmlReadException, IOException {
+		String raw = parseTag(parser, tag);
+		if (raw.equals("true")) return true;
+		else if (raw.equals("false")) return false;
+		else throw new XmlReadException("Tag <" + tag + "> didn't contain a valid boolean.");
+	}
+	
+	/** Parses an integer tag and throws an exception if the contents aren't valid. */
+	public static int parseIntegerTag(XmlPullParser parser, String tag) 
+			throws XmlPullParserException, XmlReadException, IOException {
+		String raw = parseTag(parser, tag);
+		try {
+			return Integer.parseInt(raw);
+		} catch(NumberFormatException e) {
+			throw new XmlReadException("Tag <" + tag + "> didn't contain a valid integer.");
+		}
+	}
+	
+	/** Parses a float tag and throws an exception if the contents aren't valid. */
+	public static float parseFloatTag(XmlPullParser parser, String tag) 
+			throws XmlPullParserException, XmlReadException, IOException {
+		String raw = parseTag(parser, tag);
+		try {
+			return Float.parseFloat(raw);
+		} catch(NumberFormatException e) {
+			throw new XmlReadException("Tag <" + tag + "> didn't contain a valid float.");
+		}
 	}
 	
 }

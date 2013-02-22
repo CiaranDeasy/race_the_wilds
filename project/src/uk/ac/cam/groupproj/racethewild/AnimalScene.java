@@ -23,37 +23,42 @@ public class AnimalScene extends Activity {
 		// Get the message from the intent
 	    Intent intent = getIntent();
 	    int animalID = intent.getIntExtra(MainMenu.ANIMAL_ID, 0);
-	    Animal animal = e.getAnimal(animalID);
-	    String name = animal.getName();
-	    // Create the text view
-	    TextView textView = (TextView) findViewById(R.id.animalName);
-	    textView.setText(name);
-	    TextView textview2 = (TextView) findViewById(R.id.animalFact);
-	    
-	    if(animal.getColour() == Colour.Black){
-	    	String facts = animal.getFacts();
-	    	textview2.setText(facts);
-	    } else if(animal.getColour()==Colour.Grey){
-	    	String hints = animal.getHint();
-	    	textview2.setText(hints);
+	    try {
+	    	Animal animal = e.getAnimal(animalID);
+	    	String name = animal.getName();
+		    // Create the text view
+		    TextView textView = (TextView) findViewById(R.id.animalName);
+		    textView.setText(name);
+		    TextView textview2 = (TextView) findViewById(R.id.animalFact);
+		    
+		    if(animal.getColour() == Colour.Black){
+		    	String facts = animal.getFacts();
+		    	textview2.setText(facts);
+		    } else if(animal.getColour()==Colour.Grey){
+		    	String hints = animal.getHint();
+		    	textview2.setText(hints);
+		    }
+		    
+		    Bitmap image = null;
+		    
+			try {
+	
+				InputStream BGinputstream = getAssets().open(animal.getGraphicPath());
+	
+				image = BitmapFactory.decodeStream(BGinputstream);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+	
+			if(image != null){
+				ImageView imageView = (ImageView) findViewById(R.id.animalImg);
+				imageView.setImageBitmap(image);
+			}
+	    } catch(AnimalNotFoundException e) {
+	    	System.err.println("Attempted to draw animal screen for non-existent animal #" + 
+	    			animalID);
 	    }
-	    
-	    Bitmap image = null;
-	    
-		try {
-
-			InputStream BGinputstream = getAssets().open(animal.getGraphicPath());
-
-			image = BitmapFactory.decodeStream(BGinputstream);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
-		if(image != null){
-			ImageView imageView = (ImageView) findViewById(R.id.animalImg);
-			imageView.setImageBitmap(image);
-		}
 	}
 
 	@Override

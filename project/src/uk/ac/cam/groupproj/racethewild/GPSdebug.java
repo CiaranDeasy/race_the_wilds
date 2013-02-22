@@ -105,7 +105,7 @@ public class GPSdebug extends Activity {
 	
 	public void resetMovementPoints(View view) {
 		Engine e = Engine.get();
-		e.resetSatNavData(getApplicationContext());
+		e.resetSatNavMovement(getApplicationContext());
 	}
 	
 }

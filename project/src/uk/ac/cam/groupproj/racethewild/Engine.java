@@ -18,6 +18,7 @@ public class Engine {
 	private PlayerStats stats;
 	private List<Node> nodes;
 	private Map<Integer, Animal> animalDictionary;
+	private List<Challenge> challenges;
 	private Resources resources;
 	
 	private static Engine engine;
@@ -45,13 +46,21 @@ public class Engine {
 	
 	/*
 	 *   Reset data from the satellite navigation
-	 *   Currently resets your movement points to 100, rather than 0
-	 *   to allow for testing of the other components without having to move around a lot
 	 */
-	public void resetSatNavData(Context context) {
-		SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.gps_main_file_key), Context.MODE_PRIVATE);
+	public void resetSatNavMovement(Context context) {
+		SharedPreferences sharedPref = 
+				context.getSharedPreferences(context.getString(R.string.gps_main_file_key), 
+						Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharedPref.edit();
-		editor.putInt("movement_points",100);
+		editor.putInt("movement_points",0);
+		editor.commit();
+	}
+	
+	public void resetSatNavDistance(Context context) {
+		SharedPreferences sharedPref = 
+				context.getSharedPreferences(context.getString(R.string.gps_main_file_key), 
+						Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedPref.edit();
 		editor.putInt("distance",0);
 		editor.commit();
 	}
@@ -68,15 +77,16 @@ public class Engine {
 	}
 	
 	/** Returns the animal corresponding to the input ID */
-	public Animal getAnimal(int ID) {
-		return animalDictionary.get(ID);
+	public Animal getAnimal(int ID) throws AnimalNotFoundException {
+		Animal animal = animalDictionary.get(ID);
+		if(animal == null) throw new AnimalNotFoundException();
+		else return animal;
 	}
 
 	/** Called at start-up to create the engine and initialise it. */
 	public static void initialise(Context c) { // Initial setup when app is started.
 		if (engine != null) return; // Ignore subsequent calls.
 		engine = new Engine(c);
-		// TODO: Start the sat-nav process, if not running.
 		// Load node data.
 		try {
 			engine.nodes = XmlParser.createNodes(engine.resources.getXml(R.xml.nodedata));
@@ -88,12 +98,15 @@ public class Engine {
 		
 		// Load animal data.
 		try {
-			engine.animalDictionary = XmlParser.createDictionary(engine.resources.getXml(R.xml.animaldata));
+			engine.animalDictionary = 
+					XmlParser.createDictionary(engine.resources.getXml(R.xml.animaldata));
 		} catch(XmlReadException e) {
 			System.err.println(e.getMessage());
 			System.err.println("Failed to load animal dictionary, killing the app.");
 			System.exit(-2);
 		}
+		// Load the challenge data.
+		engine.loadChallenges();
 		// Load the player's stats.
 		engine.stats = PlayerStats.load(c);
 		// Update animal colours based on loaded data.
@@ -101,12 +114,28 @@ public class Engine {
 			Engine.get().changeColour(id, Colour.Grey, c);
 		for(Integer id : engine.stats.getBlackAnimals()) 
 			Engine.get().changeColour(id, Colour.Black, c);
+		// Update challenge completion based on loaded data.
+		for(Integer id : engine.stats.getCompletedChallenges()) {
+			try {
+				engine.getChallenge(id).setState(ChallengeState.complete);
+			} catch(ChallengeNotFoundException e) {
+				System.err.println("Challenge id #" + id + 
+						" was referenced in the save data but doesn't exist!");
+			}
+		}
 	}
 	
-	/** Sets the colour of the animal with the given ID to the given colour. */
+	/** Sets the colour of the animal with the given ID to the given colour. 
+	 *  Populates the animal in the world. */
 	public void changeColour(int animalID, Colour colour, Context c) {
 		// Update the Animal object.
-		Animal animal = this.getAnimal(animalID);
+		Animal animal = null;
+		try {
+			animal = this.getAnimal(animalID);
+		} catch(AnimalNotFoundException e) {
+			System.err.println("Attempted to change colour of animal #" + animalID + 
+					": animal not found!");
+		}
 		animal.setColour(colour);
 		// Populate the animal in the world.
 		populateAnimal(animal);
@@ -124,12 +153,15 @@ public class Engine {
 	
 	/** Releases the given animal and resets distance and movement point accumulation. */
 	public void checkIn(Animal animal, Context c) {
+		// If an animal is released, release it and process distance.
 		if(animal != null) {
 			this.changeColour(animal.getID(), Colour.Grey, c);
+			stats.processSatNavDistance(fetchSatNavData(c).getDistance());
+			this.resetSatNavDistance(c);
 		}
-		// Update playerstats.
-		stats.processSatNav(fetchSatNavData(c));
-		this.resetSatNavData(c);
+		// Always process movement points.
+		stats.processSatNavMovement(fetchSatNavData(c).getMovePoints());
+		this.resetSatNavMovement(c);
 		stats.save(c);
 	}
 	
@@ -142,8 +174,41 @@ public class Engine {
 		throw new NodeNotFoundException();
 	}
 	
+	/** Returns the challenge with the given ID. */
+	public Challenge getChallenge(int challengeID) throws ChallengeNotFoundException {
+		for (Challenge challenge : challenges) {
+			if(challenge.getChallengeID() == challengeID) return challenge;
+		}
+		// Fail if the challenge isn't found.
+		throw new ChallengeNotFoundException();
+	}
+	
+	/** Returns a list of all challenges, sorted by ID. */
+	public List<Challenge> getAllChallenges() {
+		return challenges;
+	}
+	
+	/** Updates internal data to reflect challenge completion.
+	 *  Marks the challenge complete, releases the animal, and saves. */
+	public void completeChallenge(int challengeID, Context c) {
+		// Check that the challengeID is valid.
+		Challenge challenge = null;
+		try {
+			challenge = this.getChallenge(challengeID);
+		} catch(ChallengeNotFoundException e) {
+			System.err.println("Attempted to complete challenge ID #" + challengeID + 
+					": challenge not found!");
+		}
+		// Mark the challenge complete.
+		this.stats.completeChallenge(challengeID);
+		// Release the animal.
+		this.changeColour(challenge.getAnimalID(), Colour.Grey, c);
+		// And save.
+		stats.save(c);
+	}
+	
 	/** Adds an animal to its associated nodes. */
-	protected void populateAnimal(Animal animal) {
+	private void populateAnimal(Animal animal) {
 		// Don't populate undiscovered animals.
 		if (animal.getColour() == Colour.White) return;
 		
@@ -167,6 +232,27 @@ public class Engine {
 	 *  Takes a Context to access the filesystem. */
 	private Engine(Context c) {
 		this.resources = c.getResources();
+	}
+	
+	private void loadChallenges() {
+		// Load the challenges from XML.
+		try {
+			engine.challenges = XmlParser.createChallenges(
+					engine.resources.getXml(R.xml.challengedata));
+		} catch(XmlReadException e) {
+			System.err.println(e.getMessage());
+			System.err.println("Failed to load challenges, killing the app.");
+			System.exit(-3);
+		}
+		// Mark animals as challenge-only.
+		for(Challenge challenge : challenges) {
+			try {
+				getAnimal(challenge.getAnimalID()).setChallenge();
+			} catch(AnimalNotFoundException e) {
+				System.err.println("Challenge #" + challenge.getChallengeID() + 
+						" awards an animal that doesn't exist!");
+			}
+		}
 	}
 	
 }

@@ -32,22 +32,36 @@ public class CheckInScene extends Activity {
 		int closest = Integer.MAX_VALUE;
 		Animal chosen = null;
 		for(Animal a:animals){
-			if((a.getDistancePerDay() < closest) && a.getColour()==Colour.White){
-				closest = a.getDistancePerDay();
+			if((Math.abs(a.getDistancePerDay()-distance) < closest) && a.getColour()==Colour.White && 
+					(!a.isChallenge())){
+				closest = Math.abs(a.getDistancePerDay()-distance);
 				chosen = a;
 			}
 		}
-		e.checkIn(chosen, this);
 		Bitmap background = null;
+		float ratio = Float.MAX_VALUE;
+		if(distance != 0){
+			ratio = chosen.getDistancePerDay()/distance;
+		}
+		
+		int movePoints = e.fetchSatNavData(getApplicationContext()).getMovePoints();
 		if(chosen != null){
+			
+			if(ratio<=1){
+			e.checkIn(chosen, this);
 			TextView textView = (TextView) findViewById(R.id.animalName);
 			textView.setText("A " + chosen.getName() + " has been released into the wild");
 
 			TextView textView1 = (TextView) findViewById(R.id.animalFacts);
 			textView1.setText(chosen.getHint());
+		} else {
+			e.checkIn(null, this);
+			TextView textView = (TextView) findViewById(R.id.animalName);
+			textView.setText("Move "+(chosen.getDistancePerDay()-distance)+" more meters to release a "+ chosen.getName());
+		}
 			
 			TextView textView2 = (TextView) findViewById(R.id.checkInAmount);
-			textView2.setText("You have gained " + e.fetchSatNavData(getApplicationContext()).getMovePoints() + " movement points");
+			textView2.setText("You have gained " + movePoints + " movement points");
 
 
 			try {

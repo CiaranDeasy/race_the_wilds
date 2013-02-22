@@ -82,7 +82,23 @@
         <activity
             android:name="uk.ac.cam.groupproj.racethewild.AnimalScene"
             android:label="@string/title_activity_animal_scene"
-            android:screenOrientation="landscape"  >
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name="uk.ac.cam.groupproj.racethewild.MainActivity"
+            android:label="@string/title_activity_main" >
+        </activity>
+        <activity
+            android:name="uk.ac.cam.groupproj.racethewild.AnimalScanner"
+            android:label="@string/title_activity_animal_scanner" >
+        </activity>
+        <activity
+            android:name="uk.ac.cam.groupproj.racethewild.ChallengeList"
+            android:label="@string/title_activity_challenge_list" >
+        </activity>
+        <activity
+            android:name="uk.ac.cam.groupproj.racethewild.ChallengeActivity"
+            android:label="@string/title_activity_challenge" >
         </activity>
     </application>
 

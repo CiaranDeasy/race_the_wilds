@@ -80,6 +80,7 @@ public class ScrollMapScene extends Activity implements OnTouchListener{
 			options.inPreferredConfig = Config.RGB_565;
 			background = BitmapFactory.decodeStream(BGinputstream, null, options);
 			bgHeight = background.getHeight()*3;
+			
 			bgWidth = background.getWidth()*3;
 			//background = BitmapFactory.decodeStream(BGinputstream);
 			BGinputstream.close();
@@ -161,6 +162,23 @@ public class ScrollMapScene extends Activity implements OnTouchListener{
 	{
 		super.onResume();
 		mapDisplay.resume();
+		
+		for (BitmapDisplayAnimal a : animals)
+		{
+			//checks if an animal has changed colour due to the animal scanner.
+			if(a.colour == Colour.Grey){
+				Animal anima;
+				try {
+					anima = e.getAnimal(a.animalCode);
+					if(anima.getColour()==Colour.Black)
+						a.colour = Colour.Black;
+				} catch (AnimalNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
+			}
+		}
 	}
 
 	class ScrollViewer extends SurfaceView implements Runnable
@@ -247,36 +265,7 @@ public class ScrollMapScene extends Activity implements OnTouchListener{
 			RelTouchx = arg1.getX();
 			RelTouchy = arg1.getY();
 
-			float xForCollisionChecker = currentCenterx - screenwidth/2 + RelTouchx;
-			float yForCollisionChecker = currentCentery - screenheight/2 + RelTouchy;
-			
-			for (BitmapDisplayAnimal a : animals)
-			{
 	
-				if(a.collisionCheck(xForCollisionChecker,yForCollisionChecker))
-				{
-					if(a.colour == Colour.Grey) {
-						e.changeColour(a.animalCode, Colour.Black, this);//Call to engine to change the colour of the Animal
-						a.colour = Colour.Black;
-						
-
-
-						Intent intent = new Intent(this, AnimalScene.class);  
-						//TODO: change to proper scene when implemented properly!
-						intent.putExtra(MainMenu.ANIMAL_ID, a.animalCode);
-						startActivity(intent);
-				
-					
-					//The real method here which moves us to animal screen.
-				
-						
-					}
-					
-					//TODO: Implement the real method here which moves us to animal screen.
-
-				}
-			}
-
 
 
 			break;
@@ -290,6 +279,46 @@ public class ScrollMapScene extends Activity implements OnTouchListener{
 			if(currentCentery>bgHeight-screenheight/2) currentCentery = bgHeight-screenheight/2;
 			if(currentCentery<screenheight/2) currentCentery = screenheight/2;
 
+			break;
+		}
+		case MotionEvent.ACTION_UP:{
+			 float finTouchX=arg1.getX();
+			 float finTouchY = arg1.getY();
+			 
+			 float dist = (finTouchX-RelTouchx);
+			 dist *=dist;
+			 
+			 float disty = (finTouchY - RelTouchy);
+			 disty*=disty;
+			 
+			 dist+=disty;
+
+				if(dist<400)  //This is a check to see if we've tapped, or been scrolling.
+				{
+					float xForCollisionChecker = currentCenterx - screenwidth/2 + RelTouchx;
+					float yForCollisionChecker = currentCentery - screenheight/2 + RelTouchy;
+					
+					for (BitmapDisplayAnimal a : animals)
+					{
+			
+						if(a.collisionCheck(xForCollisionChecker,yForCollisionChecker))
+						{
+							if(a.colour == Colour.Grey) {
+										
+								Intent intent = new Intent(this, AnimalScanner.class);  
+								//Moves us to the scanner scene.
+								intent.putExtra(MainMenu.ANIMAL_ID, a.animalCode);
+								startActivity(intent);
+						
+							
+							//The real method here which moves us to animal scan screen.
+						
+								
+							}
+						}
+					}
+
+				}
 			break;
 		}
 

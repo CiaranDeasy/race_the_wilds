@@ -142,9 +142,6 @@ public class NodeScene extends Activity implements OnTouchListener {
 			e.getStats().save(this);
 			startActivity(intent);
 			
-			TextView textView = (TextView) findViewById(R.id.moveCostText);
-			textView.setText(getString(R.string.movement_cost) + " " + 0);
-			System.out.println("hello");
 			
 		}
 	}
@@ -160,6 +157,7 @@ public class NodeScene extends Activity implements OnTouchListener {
 	{
 		super.onResume();
 		nodeDisplay.resume();
+		updateMoveCosts(selectedScene);
 	}
 
 	class NodeViewer extends SurfaceView implements Runnable
@@ -254,13 +252,10 @@ public class NodeScene extends Activity implements OnTouchListener {
 						try {
 							Node selectedScene = e.lookupNode(node.nodeName);
 							
-							TextView textView = (TextView) findViewById(R.id.moveCostText);
-							//set moveCost here.
-							Node n = e.lookupNode(e.getStats().getCurrentNode());
-							movecost = (int)(movePointCostMultiplier
-									*Math.sqrt(Math.pow(selectedScene.getRelX()-n.getRelX(), 2)
-											+ Math.pow(selectedScene.getRelY()-n.getRelY(), 2)));
-							textView.setText(getString(R.string.movement_cost) + " " + movecost);
+							updateMoveCosts(selectedScene);
+							
+							
+
 							
 							ImageView imageView = (ImageView) findViewById(R.id.nodeViewPic);
 							InputStream nodeViewPic;
@@ -285,13 +280,7 @@ public class NodeScene extends Activity implements OnTouchListener {
 							}
 
 
-							TextView textView1 = (TextView) findViewById(R.id.nodeNameText);
-							textView1.setText(selectedScene.getName());
 							
-							TextView movepointsText = (TextView) findViewById(R.id.currentMovePointsText);
-							movepointsText.setText(getString(R.string.current_movement_points) + " " + e.getStats().getCurrentMovePoints());
-							
-
 							
 						} catch (NodeNotFoundException e) {
 							// TODO Auto-generated catch block
@@ -314,4 +303,33 @@ public class NodeScene extends Activity implements OnTouchListener {
 		return true;
 	}
 
+	
+	void updateMoveCosts(Node selectedScene2){
+		if(selectedScene2!=null)
+		{
+			TextView textView = (TextView) findViewById(R.id.moveCostText);
+			//set moveCost here.
+			Node n;
+			try {
+				n = e.lookupNode(e.getStats().getCurrentNode());
+				movecost = (int)(movePointCostMultiplier
+						*Math.sqrt(Math.pow(selectedScene2.getRelX()-n.getRelX(), 2)
+								+ Math.pow(selectedScene2.getRelY()-n.getRelY(), 2)));
+			
+			} catch (NodeNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			textView.setText(getString(R.string.movement_cost) + " " + movecost);
+				TextView textView1 = (TextView) findViewById(R.id.nodeNameText);
+				textView1.setText(selectedScene2.getName());
+			
+			TextView movepointsText = (TextView) findViewById(R.id.currentMovePointsText);
+			movepointsText.setText(getString(R.string.current_movement_points) + " " + e.getStats().getCurrentMovePoints());
+			
+		
+		}
+	}
+	
+	
 }

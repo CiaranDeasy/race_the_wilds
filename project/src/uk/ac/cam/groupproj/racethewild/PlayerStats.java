@@ -21,6 +21,7 @@ import android.content.Context;
 		private List<Integer> blackAnimals;
 		private List<Integer> greyAnimals;
 		private String currentNode;
+		private List<Integer> completedChallenges;
 		
 		// The filename under which player data is saved.
 		private static final String fileName = "PlayerStats";
@@ -34,6 +35,7 @@ import android.content.Context;
 			this.currentNode = startingNode;
 			this.blackAnimals = new ArrayList<Integer>();
 			this.greyAnimals = new ArrayList<Integer>();
+			this.completedChallenges = new ArrayList<Integer>();
 		}
 
 		public int getCurrentMovePoints(){return currentMovePoints;}
@@ -42,6 +44,7 @@ import android.content.Context;
 		public List<Integer> getBlackAnimals(){return blackAnimals;}
 		public List<Integer> getGreyAnimals(){return greyAnimals;}
 		public String getCurrentNode(){return currentNode;}
+		public List<Integer> getCompletedChallenges() { return completedChallenges; }
 		
 		public void addMovePoints(int movePoints){
 			this.currentMovePoints =  this.currentMovePoints + movePoints;
@@ -77,10 +80,20 @@ import android.content.Context;
 			greyAnimals.remove((Integer) id);
 		}
 		
-		/** Adds distance and movement points from a SatNavUpdate. */
-		public void processSatNav(SatNavUpdate snu) {
-			this.currentMovePoints += snu.getMovePoints();
-			this.totalDistance += snu.getDistance();
+		/** Adds movement points from the sat nav. */
+		public void processSatNavMovement(int movement) {
+			this.currentMovePoints += movement;
+		}
+		
+		/** Adds distance from the sat nav. */
+		public void processSatNavDistance(int distance) {
+			this.totalDistance += distance;
+		}
+		
+		/** Adds the challenge to the list of completed challenges. */
+		public void completeChallenge(int challengeID) {
+			if (!completedChallenges.contains(challengeID))
+				this.completedChallenges.add(challengeID);
 		}
 		
 		/** Loads savedata and gives back a stats object. 
@@ -92,11 +105,9 @@ import android.content.Context;
 				PlayerStats stats = (PlayerStats) is.readObject();
 				is.close();
 				System.out.println("Loaded existing save data.");
-				System.out.println("Loaded movement points are " + stats.currentMovePoints);
-				System.out.println("GREY:");
-				for(Integer animal : stats.greyAnimals) System.out.println(animal);
-				System.out.println("BLACK:");
-				for(Integer animal : stats.blackAnimals) System.out.println(animal);
+				// TODO: remove workaround
+				if(stats.completedChallenges == null) 
+					stats.completedChallenges = new ArrayList<Integer>();
 				return stats;
 			} catch(FileNotFoundException e) {
 				// If there's nothing to load, start fresh.

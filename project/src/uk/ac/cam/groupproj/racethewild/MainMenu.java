@@ -28,6 +28,11 @@ public class MainMenu extends Activity {
 		Engine.initialise(this); // Initialise the engine.
 		engine = Engine.get();
 		snu = engine.fetchSatNavData(getApplicationContext());
+	}
+	
+	@Override
+	protected void onResume(){
+		super.onResume();
 		movePoints = snu.getMovePoints();
 		TextView textView = (TextView) findViewById(R.id.infoText);
 		textView.setText("Check in now for " + movePoints + " movement points");
@@ -43,6 +48,11 @@ public class MainMenu extends Activity {
 
 	public void moveToNodeMap(View view) {
 		Intent intent = new Intent(this, NodeScene.class); 
+		startActivity(intent);
+	}
+	
+	public void challengeList(View view) {
+		Intent intent = new Intent(this, ChallengeList.class); 
 		startActivity(intent);
 	}
 	
@@ -77,6 +87,14 @@ public class MainMenu extends Activity {
 			editor.commit();
 			toggleButton.setText("Turn GPS requests off");
 		}
+	}
+	
+	public void addMovement(View view) {
+		SharedPreferences sharedPref = this.getSharedPreferences(this.getString(R.string.gps_main_file_key), Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedPref.edit();
+		editor.putInt("movement_points", sharedPref.getInt("movement_points", 0) + 100);
+		editor.putInt("distance", sharedPref.getInt("distance", 0) + 50);
+		editor.commit();
 	}
 
 	@Override
