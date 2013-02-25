@@ -75,8 +75,7 @@ public class GPSdebug extends Activity {
 	 */
 	public void startListeningToGPS(View view){
 		Context context = getApplicationContext();
-		SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.gps_main_file_key), Context.MODE_PRIVATE); 
-		int pollTime = sharedPref.getInt("gps_poll_update", 60);
+		int pollTime = 300;         // 5 minute poll time
 		
 		System.out.println("GPS start button pressed");
 		Intent intent = new Intent(context,GPSservice.class);
