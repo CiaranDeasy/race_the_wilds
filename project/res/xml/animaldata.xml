@@ -145,5 +145,92 @@
         <hitpoints>125</hitpoints>
         <speed>5</speed>
         <node>Forest</node>
+        <node>Mountain</node>
+    </animal>
+    <animal>
+        <id>13</id>
+        <name>European Robin</name>
+        <description>Description of a Robin.</description>
+        <hint>Lives in trees in temporate climates.</hint>
+        <photo>robin_photo.jpg</photo>
+        <sprite>robin_sprite.png</sprite>
+        <distance>450</distance>
+        <hitpoints>125</hitpoints>
+        <speed>5</speed>
+        <node>Forest</node>
+        <node>River</node>
+    </animal>
+    <animal>
+        <id>14</id>
+        <name>Barn owl</name>
+        <description>Description of a barn own</description>
+        <hint>Hunts in open spaces and lives in trees.</hint>
+        <photo>barnowl_photo.jpg</photo>
+        <sprite>barnown_sprite.png</sprite>
+        <distance>450</distance>
+        <hitpoints>125</hitpoints>
+        <speed>5</speed>
+        <node>Forest</node>
+        <node>Mountain</node>
+    </animal>
+    <animal>
+        <id>15</id>
+        <name>Mountain goat</name>
+        <description>Description of a mountain goat.</description>
+        <hint>Thrives in steep, high, barren climates.</hint>
+        <photo>mountaingoat_photo.jpg</photo>
+        <sprite>mountaingoat_sprite.png</sprite>
+        <distance>450</distance>
+        <hitpoints>125</hitpoints>
+        <speed>5</speed>
+        <node>Mountain</node>
+    </animal>
+    <animal>
+        <id>16</id>
+        <name>Bighorn sheep</name>
+        <description>Description of a bighorn sheep.</description>
+        <hint>Is able to survive and hunt in very dry climates.</hint>
+        <photo>bighornsheep_photo.jpg</photo>
+        <sprite>bighornsheep_sprite</sprite>
+        <distance>450</distance>
+        <hitpoints>125</hitpoints>
+        <speed>5</speed>
+        <node>Desert</node>
+    </animal>
+    <animal>
+        <id>17</id>
+        <name>Arctic tern</name>
+        <description>Description of an arctic tern</description>
+        <hint>Thrives in cold climates.</hint>
+        <photo>arctictern_photo.jpg</photo>
+        <sprite>arctictern_sprite.png</sprite>
+        <distance>450</distance>
+        <hitpoints>125</hitpoints>
+        <speed>5</speed>
+        <node>Arctic</node>
+    </animal>
+    <animal>
+        <id>18</id>
+        <name>Canada goose</name>
+        <description>Description of a Canada goose</description>
+        <hint>Swims and eats fish.</hint>
+        <photo>canadagoose_photo.jpg</photo>
+        <sprite>canadagoose_sprite.png</sprite>
+        <distance>450</distance>
+        <hitpoints>125</hitpoints>
+        <speed>5</speed>
+        <node>River</node>
+    </animal>
+    <animal>
+        <id>19</id>
+        <name>Whooper swan</name>
+        <description>Description of a whooper swan</description>
+        <hint>Swims and eats fish</hint>
+        <photo>whooperswan_photo.jpg</photo>
+        <sprite>whooperswan_sprite.png</sprite>
+        <distance>450</distance>
+        <hitpoints>125</hitpoints>
+        <speed>5</speed>
+        <node>River</node>
     </animal>
 </animaldictionary>
