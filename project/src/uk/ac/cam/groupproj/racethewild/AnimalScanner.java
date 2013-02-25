@@ -224,7 +224,6 @@ public class AnimalScanner extends Activity implements OnTouchListener {
 		}
 	
 
-		@Override
 		public void run() {
 			
 			while(alive)
@@ -327,7 +326,6 @@ public class AnimalScanner extends Activity implements OnTouchListener {
 
 	}
 
-	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 		try {
 			Thread.sleep(16);

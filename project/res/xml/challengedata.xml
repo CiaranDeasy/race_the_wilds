@@ -40,4 +40,12 @@
         <text>Run 2500 metres in 25 minutes!</text>
         <animal>12</animal>
     </challenge>
+        <challenge>
+        <id>6</id>
+        <type>accelerometer</type>
+        <repetitions>10</repetitions>
+        <time>60</time>
+        <text>Jump 10 times in 1 minute!</text>
+        <animal>12</animal>
+    </challenge>
 </challengelist>

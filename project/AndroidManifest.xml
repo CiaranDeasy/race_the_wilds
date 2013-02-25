@@ -101,6 +101,12 @@
             android:label="@string/title_activity_challenge"
             android:screenOrientation="landscape" >
         </activity>
+        
+        <service
+            android:name ="uk.ac.cam.groupproj.racethewild.AccelerometerListerner"
+            android:enabled="true"
+            android:exported="false" >
+        </service>
     </application>
 
 </manifest>

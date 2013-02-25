@@ -15,6 +15,9 @@ public class ChallengeController {                                // mti20 TODO
 	static long totalTime;             static long currentTime;
 	static long startTime;
 	static int totalDistance;          static long currentDistance;
+	static int totalJumps;
+	private static ChallengeJump jumpChal;
+
 
 
 	/*
@@ -58,12 +61,47 @@ public class ChallengeController {                                // mti20 TODO
 		}
 	}
 
-	public static boolean requestAccelChallenge(Context context) {
-		return true;
+	public static boolean requestJumpChallenge(Context context,long totalTime, int totalJumps) {
+		try {
+			jumpChal = new ChallengeJump(context);
+			ChallengeController.totalTime = totalTime*1000;
+			ChallengeController.totalJumps = totalJumps;
+			return true;
+		} catch (Exception e) {
+			System.err.println("Can not initialize jump Challenge");
+			return false;
+		}
 	}
 
-	public static void startAccelChallenge(Context context) {
-		return;
+	public static void startJumpChallenge(Context context) {
+		try {
+			startTime = System.currentTimeMillis();
+			jumpChal.startChallengeJump();
+		} catch (Exception e) {
+			System.err.println("Can not start jump Challenge");
+		}
+	}
+	
+	public static ChallengeStatus checkJumpChallengeStatus(Context context) {
+		int jumps;
+		long time;
+		
+		time = System.currentTimeMillis() - startTime;
+		jumps = jumpChal.getJumps();
+		
+		if ((time <= totalTime) && (jumps <totalJumps)){
+			return new ChallengeStatus(0,jumps,time);
+		} else if ((time <= totalTime) && (jumps >=totalJumps)) {
+			jumpChal.haltChallengeJump();
+			System.out.println("Challenge complete.");
+			return new ChallengeStatus(1,jumps,time);
+		} else {
+			jumpChal.haltChallengeJump();
+			System.out.println("Challenge failed due to time out.");
+			return new ChallengeStatus(2,jumps,time);
+		}
+				
+		
 	}
 
 //	public static ChallengeStatus checkMovementChallengeStatus(Context context) {
