@@ -91,7 +91,7 @@ public class GPSservice extends Service {   	// to stop call stopSelf()
 		
 		Context context = getApplicationContext();
 		SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.gps_main_file_key), Context.MODE_PRIVATE); 
-		checkIntervalSeconds = sharedPref.getInt("gps_poll_update", 60);
+		checkIntervalSeconds = 300;                                            // gps poll frequency - currently set to 5 minutes
 		// moving > 1mph (with safety margin in case of fast refresh rate)
 		int minThresholdDistance = (int)Math.round(0.4 * checkIntervalSeconds);
 		thresholdDistance = (minThresholdDistance > 135) ? minThresholdDistance : 135;
@@ -331,18 +331,11 @@ public class GPSservice extends Service {   	// to stop call stopSelf()
 		double v = averageSpeed;
 		double x = distance;
 		
-		Context context = getApplicationContext();
-		SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.gps_coefficients_file_key), Context.MODE_PRIVATE); 
-		//A = (double)sharedPref.getFloat("gps_A",(float)0.005);
-		//b = (double)sharedPref.getFloat("gps_b",(float)0.3);
-		//c = (double)sharedPref.getFloat("gps_c",(float)0);
-		//d = (double)sharedPref.getFloat("gps_d",(float)0.001);
-		//e = (double)sharedPref.getFloat("gps_e",(float)15);
-		A = 0;
-		b = 0;
-		c = 0;
-		d = 1;
-		e = 0.2;
+		A = 0.04997;
+		b = 0.8068;
+		c = -0.007349;
+		d = 0.6175;
+		e = 31.7;
 		
 		double movementPoints = e * (A*Math.exp((-1)*b*v)+c*v+d) * x;
 		return (int)Math.round(movementPoints);
