@@ -55,8 +55,6 @@ public class ChallengeActivity extends Activity {
 		runChallenge.start();
 	}
 
-
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -75,7 +73,13 @@ public class ChallengeActivity extends Activity {
 		if(challenge==null){
 			return;
 		}
-		boolean tryChallenge = ChallengeController.requestMovementChallenge(getApplicationContext(), challenge.getTime(), challenge.getRepetitions());
+		boolean tryChallenge = false;
+		if(challenge.getType()==ChallengeType.distanceTime){
+			tryChallenge = ChallengeController.requestMovementChallenge(getApplicationContext(), challenge.getTime(), challenge.getRepetitions());
+		} else {
+			tryChallenge = ChallengeController.requestJumpChallenge(getApplicationContext(), challenge.getTime(), challenge.getRepetitions());
+		}
+		
 		if(!tryChallenge){
 			return;
 		}
@@ -86,6 +90,9 @@ public class ChallengeActivity extends Activity {
 		if(challenge.getType()==ChallengeType.distanceTime){
 			ChallengeController.startMovementChallenge(getApplicationContext());
 			distanceChallengeStatus(challenge);
+		} else {
+			ChallengeController.startJumpChallenge(getApplicationContext());
+			jumpChallengeStatus(challenge);
 		}
 	}
 
@@ -114,6 +121,32 @@ public class ChallengeActivity extends Activity {
 		}
 		handler.sendEmptyMessage(0);
 	}
+	
+	public void jumpChallengeStatus(Challenge challenge){
+		ChallengeStatus status = ChallengeController.checkJumpChallengeStatus(getApplicationContext());
+		int distanceRemaining = challenge.getRepetitions() - status.distanceMoved;
+		long timeRemaining = (challenge.getTime()) - (status.timeTaken/1000);
+		while ((distanceRemaining > 0)&&(timeRemaining > 0)){
+			status = ChallengeController.checkJumpChallengeStatus(getApplicationContext());
+			distanceRemaining = challenge.getRepetitions() - status.distanceMoved;
+			timeRemaining = (challenge.getTime()) - (status.timeTaken/1000);
+			String distance = Integer.toString(distanceRemaining);
+			String time = Long.toString(timeRemaining);
+			progress = "Jumps Remaining: " + distance + " Time Remaining: " + time;
+			handler.sendEmptyMessage(0);
+		}
+
+		// just in case for some reason the above loop exited erroneously
+		ChallengeController.stopAllGPSinteraction(getApplicationContext());
+		
+		if(distanceRemaining<0){
+			progress = "Challenge Passed!";
+			e.completeChallenge(challenge.getChallengeID(), this);
+		} else {
+			progress = "Challenge Failed";
+		}
+		handler.sendEmptyMessage(0);
+	}	
 
 	public void countDown(TextView tview){
 		try {
@@ -126,5 +159,4 @@ public class ChallengeActivity extends Activity {
 		} catch (InterruptedException e) {}
 
 	}
-
 }
