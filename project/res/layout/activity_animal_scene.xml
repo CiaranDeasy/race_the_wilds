@@ -12,7 +12,9 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="28dp"
         android:text="Animal Name"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textColor="#0000ff"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textStyle="bold|italic" />
 
     <LinearLayout
         android:id="@+id/linearLayout1"
