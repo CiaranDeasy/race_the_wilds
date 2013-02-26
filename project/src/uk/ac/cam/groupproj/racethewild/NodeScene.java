@@ -106,17 +106,23 @@ public class NodeScene extends Activity implements OnTouchListener {
 		TextView movepointsText = (TextView) findViewById(R.id.currentMovePointsText);
 		movepointsText.setText(getString(R.string.current_movement_points) + " " + e.getStats().getCurrentMovePoints());
 		
-		
-		if(!tutorial_displayed)
+		int noOfAnimals = e.getStats().getGreyAnimals().size();
+		if(noOfAnimals==0)
 		{
-			tutorial_displayed=true;
 			Context context = getApplicationContext();
-			CharSequence text = getString(R.string.node_map_tutorial_text);
-			int duration = Toast.LENGTH_SHORT;
+			CharSequence text = getString(R.string.node_map_no_animals);
+			int duration = Toast.LENGTH_LONG;
 
 			Toast.makeText(context, text, duration).show();
 		}
-		
+		else 
+		{
+			Context context = getApplicationContext();
+			CharSequence text = "There are " + noOfAnimals + " new animal(s) in the wild right now. " + getString(R.string.node_map_tutorial_text);
+			int duration = Toast.LENGTH_LONG;
+
+			Toast.makeText(context, text, duration).show();
+		}
 	}
 
 	@Override

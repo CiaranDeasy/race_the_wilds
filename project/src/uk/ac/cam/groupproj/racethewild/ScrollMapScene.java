@@ -98,13 +98,13 @@ public class ScrollMapScene extends Activity implements OnTouchListener{
 		PreTouchy = currentCentery;
 
 		animals = new ArrayList<BitmapDisplayAnimal>();
-
+		int greyAnimals=0;
 		for(Animal a : thisNode.getAnimalList()) //TODO: change to animal list
 		{
 			try {
 				if(a.getColour()==Colour.Grey)
 				{
-					
+					greyAnimals++;
 					InputStream is = getAssets().open(a.getSpritePath());
 					Bitmap bitmap = BitmapFactory.decodeStream(is);
 					is.close();
@@ -146,14 +146,20 @@ public class ScrollMapScene extends Activity implements OnTouchListener{
 		setContentView(layout);
 		
 		
-		
-
-		if(!tutorial_displayed)
+		if(greyAnimals==0)
 		{
-			tutorial_displayed=true;
 			Context context = getApplicationContext();
-			CharSequence text = getString(R.string.scroll_map_tutorial_text);
-			int duration = Toast.LENGTH_SHORT;
+			CharSequence text = getString(R.string.scroll_map_no_animals);
+			int duration = Toast.LENGTH_LONG;
+
+			Toast.makeText(context, text, duration).show();
+		}
+
+		else
+		{
+			Context context = getApplicationContext();
+			CharSequence text = "There are " + greyAnimals + " new animal(s) to find in this scene at the moment. " + getString(R.string.scroll_map_tutorial_text);
+			int duration = Toast.LENGTH_LONG;
 
 			Toast.makeText(context, text, duration).show();
 		}

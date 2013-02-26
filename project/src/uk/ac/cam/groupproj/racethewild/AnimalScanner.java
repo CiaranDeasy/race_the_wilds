@@ -136,7 +136,7 @@ public class AnimalScanner extends Activity implements OnTouchListener {
 		Bitmap animalSprite;
 		Paint color;
 		Thread t = null;
-		Boolean alive = false;
+		boolean alive = false;
 		ColorFilter[] colours = {new LightingColorFilter(Color.WHITE,1),
 				new LightingColorFilter(Color.RED,1),
 				new LightingColorFilter(Color.BLUE,1),
@@ -340,24 +340,25 @@ public class AnimalScanner extends Activity implements OnTouchListener {
 			float Touchx = event.getX();
 			float Touchy = event.getY();
 
-			if(scanimal.collisionCheck(Touchx, Touchy))
+
+			if(movePoints>pointscosted && scanimal.hp>=1)
+			{
+				pointscosted++;
+			}
+			if(scanimal.collisionCheck(Touchx, Touchy) && scanimal.hp>=1)
 			{
 				scanimal.hp--;
 				scanimal.updateColour();
 				
 			}  
 			
-			if(movePoints>pointscosted/2)
-			{
-				pointscosted++;
-			}
 			
 			updateText();
 			
 			if(scanimal.hp==0)
 			{
 				scanimal.hp--;
-				engine.getStats().payMovePoints(pointscosted/2);
+				engine.getStats().payMovePoints(pointscosted);
 				engine.changeColour(animal.getID(), Colour.Black, this);
 				Intent intent = new Intent(this, AnimalScene.class);  
 				intent.putExtra(MainMenu.ANIMAL_ID, animal.getID());
@@ -377,7 +378,7 @@ public class AnimalScanner extends Activity implements OnTouchListener {
 	{
 	
 		TextView movepointsText = (TextView) findViewById(R.id.pointscost);
-		movepointsText.setText(getString(R.string.points_spent) + pointscosted/2);
+		movepointsText.setText(getString(R.string.points_spent) + pointscosted);
 		
 
 		TextView percent = (TextView) findViewById(R.id.scanpercentage);

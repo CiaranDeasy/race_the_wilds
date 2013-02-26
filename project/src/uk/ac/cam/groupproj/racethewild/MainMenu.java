@@ -11,6 +11,8 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,15 +22,58 @@ import android.widget.TextView;
 
 public class MainMenu extends Activity {
 
-	// public final static String ENGINE_MESSAGE =
-	// "uk.ac.cam.groupproj.racethewild.ENGINE";
 	
 	public final static String ANIMAL_ID ="uk.ac.cam.groupproj.racethewild.MESSAGE";
 
 	Engine engine;
 	SatNavUpdate snu;
 	int movePoints;
+	Updater updater = new Updater();
+	
+	class Updater implements Runnable{
+		
+		Thread t;
+		public boolean threadalive;
+		
+		public void resume(){
+			threadalive=true;
+			t = new Thread(this);
+			
+			t.start();
+			
+		}
+		
+		public void pause(){
+			threadalive=false;
+			while(true)
+			{
+				try{
+					t.interrupt();
+					t.join();
 
+				} catch (InterruptedException e)
+				{
+					e.printStackTrace();
+				}
+				break;
+
+			}
+		}
+		
+		@Override
+		public void run(){
+			while(threadalive)
+			{
+				try {
+					Thread.sleep(50000);
+				} catch (InterruptedException e) { //haha I'm making my exception do something bitches.
+						//empty on purpose to let the thread continue so we can kill it.
+				}
+				handler.sendEmptyMessage(0);
+			}
+		}
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -42,6 +87,13 @@ public class MainMenu extends Activity {
 	protected void onResume(){
 		super.onResume();
 		updateScreen();
+		updater.resume();
+	}
+	
+	@Override
+	protected void onPause(){
+		super.onPause();
+		updater.pause();
 	}
 
 	public void moveToCollection(View view) {
@@ -76,7 +128,7 @@ public class MainMenu extends Activity {
 	public void toggleCheckin(View view) {
 		Context context = this;
 		SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.gps_main_file_key), Context.MODE_PRIVATE);
-		boolean currentStatus = sharedPref.getBoolean("gps_wanted", true);
+		boolean currentStatus = sharedPref.getBoolean("gps_wanted", false);
 		Button toggleButton = (Button)findViewById(R.id.checkin_button);
 		
 		if (currentStatus) {
@@ -103,6 +155,13 @@ public class MainMenu extends Activity {
 		startActivity(intent);
 	}
 	
+	public Handler handler = new Handler() { //handler for updating of GPS info.
+		@Override
+		public void handleMessage(Message message){
+			updateScreen();
+		}
+	};
+	
 	public void addMovement(View view) {
 		SharedPreferences sharedPref = this.getSharedPreferences(this.getString(R.string.gps_main_file_key), Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharedPref.edit();
@@ -122,8 +181,15 @@ public class MainMenu extends Activity {
 		SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.gps_main_file_key), Context.MODE_PRIVATE);
 		boolean currentStatus = sharedPref.getBoolean("gps_wanted", false);
 		
-		if(!currentStatus)
+		Button toggleButton = (Button)findViewById(R.id.checkin_button);
+		
+
+		
+			if(!currentStatus)
 		{
+
+				toggleButton.setText(getString(R.string.menu_start_tracking_text)); 
+			
 			TextView textView = (TextView) findViewById(R.id.infoText);
 			textView.setText("Press " + getString(R.string.menu_start_tracking_text) + " to start tracking yourself for movement points!");
 			
@@ -136,6 +202,9 @@ public class MainMenu extends Activity {
 			animalImage.setImageBitmap(logo);
 			return;
 		}
+			toggleButton.setText(getString(R.string.menu_check_in_text));
+			
+			
 		snu = engine.fetchSatNavData(getApplicationContext());
 		movePoints = snu.getMovePoints();
 		
@@ -213,12 +282,12 @@ public class MainMenu extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    // Handle item selection
 	    switch (item.getItemId()) {
-	        //case R.id.reset_save:
-	        //    reset(getCurrentFocus());
-	        //    return true;
-	        //case R.id.add_points:
-	        //    addMovement(getCurrentFocus());
-	        //    return true;
+	        case R.id.reset_save:
+	            reset(getCurrentFocus());
+	            return true;
+	        case R.id.add_points:
+	            addMovement(getCurrentFocus());
+	            return true;
 	        case R.id.gpsSettingsButton:
 	            gpsSettings(getCurrentFocus());
 	            return true;

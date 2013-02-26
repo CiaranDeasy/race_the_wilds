@@ -37,7 +37,9 @@
     <string name="title_activity_challenge_list">ChallengeList</string>
     <string name="title_activity_challenge">ChallengeActivity</string>
     <string name="scroll_map_tutorial_text">Scroll around this scene and tap animals you haven\'t found yet.</string>
+     <string name="scroll_map_no_animals">Looks like there are no new animals in this scene right now! Try another scene or track your movements to release more animals!</string>
     <string name="node_map_tutorial_text">Tap a node on the world map to select it, and press Go To Node to enter it.</string>
+    <string name="node_map_no_animals">There are no new animals to find right now. Go get some move points, and check back later!</string>
     <string name="scanner_map_tutorial_text">Keep touching an animal to scan it.</string>
     <string name="collection_tutorial_text">Animals you have released but haven\'t found yet are at the top of the screen. Touch animals for more information.</string>
     <string name="title_activity_gpssettings">GPSsettings</string>
