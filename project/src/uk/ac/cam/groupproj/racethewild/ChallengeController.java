@@ -8,6 +8,7 @@ package uk.ac.cam.groupproj.racethewild;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.widget.Button;
 
 public class ChallengeController {                                // mti20 TODO
 
@@ -17,6 +18,7 @@ public class ChallengeController {                                // mti20 TODO
 	static int totalDistance;          static long currentDistance;
 	static int totalJumps;
 	private static ChallengeJump jumpChal;
+	static Intent gpsIntent;           static boolean wasTrackingMovement;
 
 
 
@@ -25,11 +27,30 @@ public class ChallengeController {                                // mti20 TODO
 	 *  Returns true if it's OK to do a challenge and false otherwise.
 	 *  Leave a 10s delay after calling this before calling startMovementChallenge()
 	 */
-	public static boolean requestMovementChallenge(Context context, long totalTime, int totalDistance) {
-		ChallengeController.totalTime = totalTime*1000;
+	public static boolean requestMovementChallenge(Context context, long time, int totalDistance) {
+		System.out.println("Movement challenge requested.");
+		
+		/** Reset distance moved **/
+		SharedPreferences sharedPref2 = context.getSharedPreferences(context.getString(R.string.gps_challenge_file_key), Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor2 = sharedPref2.edit();
+		editor2.putInt("distance_moved", 0);
+		editor2.commit();
+		
+		/** Stop other GPS process for duration of challenge **/
+		SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.gps_main_file_key), Context.MODE_PRIVATE);
+		boolean currentStatus = sharedPref.getBoolean("gps_wanted", false);
+		if (currentStatus) {
+			SharedPreferences.Editor editor = sharedPref.edit();
+			editor.putBoolean("gps_wanted", false);
+			editor.commit();
+		}
+		
+		/** Start the GPS service **/
+		totalTime = time*1000;
 		ChallengeController.totalDistance = totalDistance;
-		Intent intent = new Intent(context,ChallengeGPS.class);
-		context.startService(intent);
+		gpsIntent = new Intent(context,ChallengeGPS.class);
+		context.startService(gpsIntent);
+
 		return true;
 	}
 
@@ -37,28 +58,59 @@ public class ChallengeController {                                // mti20 TODO
 	 *  Call 10s after requestMovementChallenge() to start the challenge
 	 */
 	public static void startMovementChallenge(Context context) {
+		System.out.println("Movement challenge started.");
 		startTime = System.currentTimeMillis();
 	}
-
+	
+	/*
+	 *  If movement tracking was previously enabled and was disabled by the process of 
+	 *  undertaking a challenge, this method turns it back on
+	 */
+	private static void reenableMovementTracking(Context context) {
+		if (wasTrackingMovement) {
+			SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.gps_main_file_key), Context.MODE_PRIVATE);
+			SharedPreferences.Editor editor = sharedPref.edit();
+			editor.putBoolean("gps_wanted", true);
+			editor.commit();
+		}
+	}
+	
 	/*
 	 *  Used to poll the status of the challenge
 	 */
 	public static ChallengeStatus checkMovementChallengeStatus(Context context) {
 		int distance;      long time;
 
+		// prevent service from becoming starved of CPU time through eager polling
+		try{
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// do nothing
+		}
+
 		time = System.currentTimeMillis() - startTime;
 		SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.gps_challenge_file_key), Context.MODE_PRIVATE); 
-		distance = sharedPref.getInt("distance_moved",0);; 
+		distance = sharedPref.getInt("distance_moved",0);
 		
-		if (totalTime < time) {
+		if (time < totalTime) {
 			return new ChallengeStatus(0,distance,time);
 		} else if ((time > totalTime) & (distance < totalDistance)) {
-			context.stopService(new Intent(context, ChallengeGPS.class));
+			context.stopService(gpsIntent);
+			reenableMovementTracking(context);
 			return new ChallengeStatus(1,distance,time);
 		} else {
-			context.stopService(new Intent(context, ChallengeGPS.class));
+			context.stopService(gpsIntent);
+			reenableMovementTracking(context);
 			return new ChallengeStatus(2,distance,time);
 		}
+	}
+	
+	/*
+	 *  Can be called if challenge is erroneously exited to kill
+	 *  all interaction with the GPS
+	 */
+	public static void stopAllGPSinteraction(Context context) {
+		context.stopService(gpsIntent);
 	}
 
 	public static boolean requestJumpChallenge(Context context,long totalTime, int totalJumps) {

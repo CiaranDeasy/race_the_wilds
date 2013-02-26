@@ -30,6 +30,7 @@ public class ChallengeGPS extends Service {
 			summedDistance += m.distanceTo(l);
 			l = m;
 		}
+		System.out.println(summedDistance);
 		return summedDistance;
 	}
 	
@@ -43,17 +44,22 @@ public class ChallengeGPS extends Service {
 	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startID) {
-		System.out.println("GPSc service started");
+		System.out.println("GPSc service started.");
 		
 		pastLocations = new LinkedList<Location>();
-		
 		
 		try {
 			
 			locationListener = new LocationListener() {
 				
 				public void onLocationChanged(Location newLocation) {
+					System.out.println("GPSc received location update.");
 					pastLocations.add(newLocation);
+					try {
+						System.out.println(newLocation.getLatitude()+","+newLocation.getLongitude()+newLocation.distanceTo(pastLocations.get(pastLocations.size()-1)));
+					} catch (IndexOutOfBoundsException e) {
+						// do nothing
+					}
 					int td = sumDistances();
 					writeOutDistance(td);
 				}
@@ -69,7 +75,7 @@ public class ChallengeGPS extends Service {
 			};
 			
 			locationManager = (LocationManager)getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
-			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 20, 50, locationListener);  
+			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 20000, 10, locationListener);  
 			
 		} catch (NullPointerException e) {
 			System.err.println("GPS error. Is GPS turned on/is your emulator configured correctly?");
@@ -87,6 +93,7 @@ public class ChallengeGPS extends Service {
 	
 	@Override
 	public void onDestroy() {
+		System.out.println("GPS service destroyed.");
 		locationManager.removeUpdates(locationListener);
 	}
 	
