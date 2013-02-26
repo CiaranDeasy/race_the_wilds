@@ -40,7 +40,39 @@
         <text>Run 2500 metres in 25 minutes!</text>
         <animal>12</animal>
     </challenge>
-        <challenge>
+    <challenge>
+        <id>7</id>
+        <type>distancetime</type>
+        <repetitions>750</repetitions>
+        <time>1800</time>
+        <text>Punt 750m in 30 minutes!</text>
+        <animal>14</animal>
+    </challenge>
+    <challenge>
+        <id>10</id>
+        <type>distancetime</type>
+        <repetitions>750</repetitions>
+        <time>900</time>
+        <text>Punt 750m in 15 minutes!</text>
+        <animal>16</animal>
+    </challenge>
+    <challenge>
+        <id>8</id>
+        <type>distancetime</type>
+        <repetitions>1000</repetitions>
+        <time>900</time>
+        <text>Cycle 1000 metres in 15 minutes!</text>
+        <animal>15</animal>
+    </challenge>
+    <challenge>
+        <id>9</id>
+        <type>distancetime</type>
+        <repetitions>500</repetitions>
+        <time>1500</time>
+        <text>Run 500 metres in 2.5 minutes!</text>
+        <animal>16</animal>
+    </challenge>
+    <challenge>
         <id>6</id>
         <type>accelerometer</type>
         <repetitions>10</repetitions>

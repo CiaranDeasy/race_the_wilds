@@ -75,7 +75,7 @@ public class ChallengeActivity extends Activity {
 		if(challenge==null){
 			return;
 		}
-		boolean tryChallenge = ChallengeController.requestMovementChallenge(this, challenge.getTime(), challenge.getRepetitions());
+		boolean tryChallenge = ChallengeController.requestMovementChallenge(getApplicationContext(), challenge.getTime(), challenge.getRepetitions());
 		if(!tryChallenge){
 			return;
 		}
@@ -84,17 +84,17 @@ public class ChallengeActivity extends Activity {
 		progress = "Start Challenge";
 		handler.sendEmptyMessage(0);
 		if(challenge.getType()==ChallengeType.distanceTime){
-			ChallengeController.startMovementChallenge(this);
+			ChallengeController.startMovementChallenge(getApplicationContext());
 			distanceChallengeStatus(challenge);
 		}
 	}
 
 	public void distanceChallengeStatus(Challenge challenge){
-		ChallengeStatus status = ChallengeController.checkMovementChallengeStatus(this);
+		ChallengeStatus status = ChallengeController.checkMovementChallengeStatus(getApplicationContext());
 		int distanceRemaining = challenge.getRepetitions() - status.distanceMoved;
 		long timeRemaining = (challenge.getTime()) - (status.timeTaken/1000);
 		while ((distanceRemaining > 0)&&(timeRemaining > 0)){
-			status = ChallengeController.checkMovementChallengeStatus(this);
+			status = ChallengeController.checkMovementChallengeStatus(getApplicationContext());
 			distanceRemaining = challenge.getRepetitions() - status.distanceMoved;
 			timeRemaining = (challenge.getTime()) - (status.timeTaken/1000);
 			String distance = Integer.toString(distanceRemaining);
@@ -103,6 +103,9 @@ public class ChallengeActivity extends Activity {
 			handler.sendEmptyMessage(0);
 		}
 
+		// just in case for some reason the above loop exited erroneously
+		ChallengeController.stopAllGPSinteraction(getApplicationContext());
+		
 		if(distanceRemaining<0){
 			progress = "Challenge Passed!";
 			e.completeChallenge(challenge.getChallengeID(), this);

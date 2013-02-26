@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:gravity="center"
+    android:orientation="horizontal"
     tools:context=".MainMenu" >
 
     <!-- move this to top bar sometime -->

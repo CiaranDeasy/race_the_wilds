@@ -213,12 +213,12 @@ public class MainMenu extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    // Handle item selection
 	    switch (item.getItemId()) {
-	        case R.id.reset_save:
-	            reset(getCurrentFocus());
-	            return true;
-	        case R.id.add_points:
-	            addMovement(getCurrentFocus());
-	            return true;
+	        //case R.id.reset_save:
+	        //    reset(getCurrentFocus());
+	        //    return true;
+	        //case R.id.add_points:
+	        //    addMovement(getCurrentFocus());
+	        //    return true;
 	        case R.id.gpsSettingsButton:
 	            gpsSettings(getCurrentFocus());
 	            return true;

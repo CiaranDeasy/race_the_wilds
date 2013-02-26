@@ -83,9 +83,6 @@ public class GPSdebug extends Activity {
 		((AlarmManager)getSystemService(Context.ALARM_SERVICE)).setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pollTime*1000, pintent);
 	}
 	
-	/*
-	 *  Describe
-	 */
 	public void updatePollTime(View view){
 		Context context = getApplicationContext();
 		SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.gps_main_file_key), Context.MODE_PRIVATE);
@@ -98,8 +95,8 @@ public class GPSdebug extends Activity {
 	public void checkMovementPoints(View view) {
 		Engine e = Engine.get();
 		int movementPoints = e.fetchSatNavData(getApplicationContext()).getMovePoints();
-		//EditText textmc = (EditText) findViewById(R.id.mp);
-		//textmc.setText(((Integer)movementPoints).toString());
+		EditText textmc = (EditText) findViewById(R.id.mp);
+		textmc.setText(((Integer)movementPoints).toString());
 	}
 	
 	public void resetMovementPoints(View view) {

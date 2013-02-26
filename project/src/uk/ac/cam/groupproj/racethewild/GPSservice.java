@@ -17,7 +17,7 @@ import android.os.Environment;
 import android.os.IBinder;
 import android.widget.Toast;
 
-public class GPSservice extends Service {   	// to stop call stopSelf()
+public class GPSservice extends Service { 
 	
 	private LocationListener locationListener;	private LocationManager locationManager;
 	private int checkIntervalSeconds;           Location currentLocation;
@@ -260,9 +260,7 @@ public class GPSservice extends Service {   	// to stop call stopSelf()
 	}, "gpsWorkerThread");
 	
 	/*
-	 *  This is quite a hacky way of getting a single location update.
-	 *  We request multiple updates, then stop asking for updates when we get one.
-	 *  If elegance is required, this can be rewritten in the third iteration. 
+	 *  Get single location update
 	 */
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startID) {
@@ -323,7 +321,9 @@ public class GPSservice extends Service {   	// to stop call stopSelf()
 	
 	/* 
 	 *   Calculates the movement points
-	 *   Describe formula
+	 *   Movement points calculated according to M(x,v) = (Ae^{-bv}+cv+d)*xe
+	 *   where A, b, c, d and e are coefficients that have been fit to an
+	 *   appropriate model.
 	 */
 	private int calculateMovementPoints(Location newLocation, double averageSpeed, double distance) {
 		double A,b,c,d,e;
@@ -340,14 +340,6 @@ public class GPSservice extends Service {   	// to stop call stopSelf()
 		double movementPoints = e * (A*Math.exp((-1)*b*v)+c*v+d) * x;
 		return (int)Math.round(movementPoints);
 	}
-	
-	/*
-	 *  Location listener
-	 *  Location updated at least every 30s and if person moves more than 20m
-	 *  Interacts with the android GPS methods, calculates movement points
-	 *  and saves them using the saveData method
-	 */
-	
 
 }
 
