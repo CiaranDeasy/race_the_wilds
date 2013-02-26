@@ -22,14 +22,16 @@
                  android:layout_centerHorizontal="true"
                  android:layout_below="@id/gps_minus"
                  android:text="10" />
-             
+
                      <Button
                          android:id="@+id/gps_plus"
                          android:layout_width="wrap_content"
                          android:layout_height="wrap_content"
-                         android:layout_below="@id/gps_pt"
-                         android:layout_centerHorizontal="true"
-                         android:text="+" 
-                         android:onClick="plus" />
+                         android:layout_alignBaseline="@+id/gps_minus"
+                         android:layout_alignBottom="@+id/gps_minus"
+                         android:layout_alignRight="@+id/gps_pt"
+                         android:layout_marginRight="24dp"
+                         android:onClick="plus"
+                         android:text="+" />
 
 </RelativeLayout>
