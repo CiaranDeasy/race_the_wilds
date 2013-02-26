@@ -37,10 +37,13 @@ public class CheckInScene extends Activity {
 		int closest = Integer.MAX_VALUE;
 		Animal chosen = null;
 		for(Animal a:animals){
-			if((Math.abs(a.getDistancePerDay()-distance) < closest) && a.getColour()==Colour.White && 
+			if((Math.abs(a.getDistancePerDay()-distance) < Math.abs(closest)) && a.getColour()==Colour.White && 
 					(!a.isChallenge())){
-				closest = Math.abs(a.getDistancePerDay()-distance);
+				if(closest>0 || (a.getDistancePerDay()-distance) <0)  //make it so if we are giving an animal away we always display that.
+				{
+				closest = a.getDistancePerDay()-distance;
 				chosen = a;
+				}
 			}
 		}
 		Bitmap background = null;
@@ -50,7 +53,7 @@ public class CheckInScene extends Activity {
 		if(chosen != null){
 
 			if(distance != 0){
-				ratio = chosen.getDistancePerDay()/distance;
+				ratio = ((float)chosen.getDistancePerDay())/(float)distance;
 			}
 			if(ratio<=1){
 				e.checkIn(chosen, this);
@@ -73,6 +76,7 @@ public class CheckInScene extends Activity {
 				InputStream BGinputstream = getAssets().open(chosen.getGraphicPath());
 
 				background = BitmapFactory.decodeStream(BGinputstream);
+				BGinputstream.close();
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

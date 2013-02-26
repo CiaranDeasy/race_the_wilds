@@ -18,6 +18,8 @@
     <string name="scenepicturestring">Picture of scene</string>
     <string name="movement_cost">Cost to move:</string>
     <string name="scene_name">World Map</string>
+    <string name="menu_start_tracking_text">Start Tracking!</string>
+    <string name="menu_check_in_text">Check In!</string>
     <string name="current_movement_points">Current Movement Points:</string>
     <string name="title_activity_gpsdebug">GPSdebug</string>
     <string name="gps_coefficients_file_key">uk.ac.cam.groupproj.racethewild.GPS_COEFFICIENTS_FILE_KEY</string>

@@ -160,14 +160,8 @@ public class ScrollAnimalCollection extends Activity implements OnTouchListener 
 		{
 			try {
 				Animal a = e.getAnimal(animalInt);
-				InputStream is = getAssets().open(a.getSpritePath());
-				Bitmap bitmap = BitmapFactory.decodeStream(is);
-				is.close();
-				CollectionDisplayAnimal animal = new CollectionDisplayAnimal(xcoord, ycoord, a.getID(), bitmap,a.getColour(), a.getSpritePath());
+				CollectionDisplayAnimal animal = new CollectionDisplayAnimal(xcoord, ycoord, a.getID(), null,a.getColour(), a.getSpritePath());
 				animals.add(animal);
-			} catch (IOException e1) {
-				
-				e1.printStackTrace();
 			} catch (AnimalNotFoundException e) {
 				System.err.println("Animal #" + animalInt + " in stats.blackAnimals doesn't exist!");
 			}
@@ -197,7 +191,7 @@ public class ScrollAnimalCollection extends Activity implements OnTouchListener 
 			tutorial_displayed=true;
 			Context context = getApplicationContext();
 			CharSequence text = getString(R.string.collection_tutorial_text);
-			int duration = Toast.LENGTH_SHORT;
+			int duration = Toast.LENGTH_LONG;
 
 			Toast.makeText(context, text, duration).show();
 		}

@@ -166,7 +166,7 @@
         <description>Description of a barn own</description>
         <hint>Hunts in open spaces and lives in trees.</hint>
         <photo>barnowl_photo.jpg</photo>
-        <sprite>barnown_sprite.png</sprite>
+        <sprite>barnowl_sprite.png</sprite>
         <distance>450</distance>
         <hitpoints>125</hitpoints>
         <speed>5</speed>
@@ -191,7 +191,7 @@
         <description>Description of a bighorn sheep.</description>
         <hint>Is able to survive and hunt in very dry climates.</hint>
         <photo>bighornsheep_photo.jpg</photo>
-        <sprite>bighornsheep_sprite</sprite>
+        <sprite>bighornsheep_sprite.png</sprite>
         <distance>450</distance>
         <hitpoints>125</hitpoints>
         <speed>5</speed>
