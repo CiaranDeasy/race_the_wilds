@@ -24,5 +24,29 @@
 		<relX>0.3</relX>
 		<relY>0.8</relY>
     </node>
+    <node>
+        <name>Desert</name>
+		<background>desert.jpg</background>
+		<preview>desert.jpg</preview>
+		<sprite>sample_node.png</sprite>
+		<relX>0.4</relX>
+		<relY>0.7</relY>
+    </node>
+    <node>
+        <name>Mountain</name>
+		<background>mountain.jpg</background>
+		<preview>mountain.jpg</preview>
+		<sprite>sample_node.png</sprite>
+		<relX>0.2</relX>
+		<relY>0.4</relY>
+    </node>
+    <node>
+        <name>River</name>
+		<background>river.jpg</background>
+		<preview>river.jpg</preview>
+		<sprite>sample_node.png</sprite>
+		<relX>0.5</relX>
+		<relY>0.5</relY>
+    </node>
     
 </nodelist>
