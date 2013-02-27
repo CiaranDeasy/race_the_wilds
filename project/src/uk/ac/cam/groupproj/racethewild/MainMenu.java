@@ -133,22 +133,10 @@ public class MainMenu extends Activity {
 		boolean currentStatus = sharedPref.getBoolean("gps_wanted", false);
 		Button toggleButton = (Button)findViewById(R.id.checkin_button);
 		
-		/*System.out.println(PendingIntent.getBroadcast(context, 0,
-				                    new Intent(context,GPSservice.class),
-				                    PendingIntent.FLAG_NO_CREATE)); */
-		
+		@SuppressWarnings("unused")                             // it's not actually needed, but I may want it if my current method doesn't work
 		boolean alarmIsScheduled = (PendingIntent.getBroadcast(context, 0,              // returns true if already querying the GPS 
 				                    new Intent(context,GPSservice.class),               // (needed for ensuring this works across closing/opening app)
-				                    PendingIntent.FLAG_NO_CREATE) != null);
-		/*
-		if (!alarmIsScheduled) {                                  // first run, need to start querying GPS
-			System.out.println("Starting GPS");
-			final int pollTime = 300;                             // 5 minute poll time
-			Intent intent = new Intent(context,GPSservice.class);
-			PendingIntent pintent = PendingIntent.getService(context,0,intent,PendingIntent.FLAG_CANCEL_CURRENT);
-			((AlarmManager)getSystemService(Context.ALARM_SERVICE)).setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pollTime*1000, pintent);
-			currentStatus=false;
-		} */
+				                    PendingIntent.FLAG_NO_CREATE) != null);             
 		
 		if (currentStatus) {
 			System.out.println("Turning GPS off");
