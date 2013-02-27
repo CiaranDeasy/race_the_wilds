@@ -24,7 +24,7 @@
             android:screenOrientation="landscape" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+				<action android:name="uk.ac.cam.groupproj.racethewild.GPSservice" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

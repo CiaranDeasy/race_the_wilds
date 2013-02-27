@@ -335,7 +335,7 @@ public class GPSservice extends Service {
 		b = 0.8068;
 		c = -0.007349;
 		d = 0.6175;
-		e = 31.7;
+		e = 31.7/30;
 		
 		double movementPoints = e * (A*Math.exp((-1)*b*v)+c*v+d) * x;
 		return (int)Math.round(movementPoints);

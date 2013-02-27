@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -126,12 +128,30 @@ public class MainMenu extends Activity {
 	}
 	
 	public void toggleCheckin(View view) {
-		Context context = this;
+		Context context = getApplicationContext();
 		SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.gps_main_file_key), Context.MODE_PRIVATE);
 		boolean currentStatus = sharedPref.getBoolean("gps_wanted", false);
 		Button toggleButton = (Button)findViewById(R.id.checkin_button);
 		
+		/*System.out.println(PendingIntent.getBroadcast(context, 0,
+				                    new Intent(context,GPSservice.class),
+				                    PendingIntent.FLAG_NO_CREATE)); */
+		
+		boolean alarmIsScheduled = (PendingIntent.getBroadcast(context, 0,              // returns true if already querying the GPS 
+				                    new Intent(context,GPSservice.class),               // (needed for ensuring this works across closing/opening app)
+				                    PendingIntent.FLAG_NO_CREATE) != null);
+		/*
+		if (!alarmIsScheduled) {                                  // first run, need to start querying GPS
+			System.out.println("Starting GPS");
+			final int pollTime = 300;                             // 5 minute poll time
+			Intent intent = new Intent(context,GPSservice.class);
+			PendingIntent pintent = PendingIntent.getService(context,0,intent,PendingIntent.FLAG_CANCEL_CURRENT);
+			((AlarmManager)getSystemService(Context.ALARM_SERVICE)).setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pollTime*1000, pintent);
+			currentStatus=false;
+		} */
+		
 		if (currentStatus) {
+			System.out.println("Turning GPS off");
 			SharedPreferences.Editor editor = sharedPref.edit();  //turn off and check in
 			editor.putBoolean("gps_wanted", false);
 			editor.commit();
@@ -139,9 +159,14 @@ public class MainMenu extends Activity {
 			toggleButton.setText(getString(R.string.menu_start_tracking_text)); 
 			Intent intent = new Intent(this, CheckInScene.class);
 			startActivity(intent);		
-		
-		
 		} else {
+			System.out.println("Turning GPS on");
+			
+			final int pollTime = 300;                             // 5 minute poll time
+			Intent intent = new Intent(context,GPSservice.class);
+			PendingIntent pintent = PendingIntent.getService(context,0,intent,PendingIntent.FLAG_CANCEL_CURRENT);
+			((AlarmManager)getSystemService(Context.ALARM_SERVICE)).setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pollTime*1000, pintent);
+			
 			SharedPreferences.Editor editor = sharedPref.edit();  //turn on
 			editor.putBoolean("gps_wanted", true);
 			editor.commit();
