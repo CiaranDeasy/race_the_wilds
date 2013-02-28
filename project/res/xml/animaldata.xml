@@ -4,63 +4,66 @@
         <id>1</id>
         <name>Giraffe</name>
         <description>The giraffe has both the longest neck and the longest tail of any land mammal.</description>
-        <hint>An appropriate arctic hint.</hint>
+        <hint>Likes hot, dry grassland.</hint>
         <photo>GiraffePhoto.jpg</photo>
         <sprite>giraffesprite2.png</sprite>
         <distance>60</distance>
         <hitpoints>60</hitpoints>
         <speed>10</speed>
-        <node>Arctic</node>
-        <node>Island</node>
+        <node>Veld</node>
     </animal>
     <animal>
         <id>2</id>
         <name>Zebra</name>
         <description>Unlike horses, Zebras have never been truly domesticated.</description>
-        <hint>An appropriate foresty hint.</hint>
+        <hint>Happy in woodlands or plains.</hint>
         <photo>ZebraPhoto.jpg</photo>
         <sprite>ZebraSprite.png</sprite>
         <distance>120</distance>
         <hitpoints>200</hitpoints>
         <speed>20</speed>
         <node>Forest</node>
+        <node>Veld</node>
+        
     </animal>
     <animal>
         <id>3</id>
         <name>Kangaroo</name>
         <description>The kangaroo is an unofficial symbol of Australia, appearing on the country's coat of arms. </description>
-        <hint>An appropriate island hint.</hint>
+        <hint>Lives in habitats common to Australia.</hint>
         <photo>kangaroosprite.png</photo>
         <sprite>kangaroosprite.png</sprite>
         <distance>180</distance>
         <hitpoints>180</hitpoints>
         <speed>30</speed>
-        <node>Island</node>
+        <node>Forest</node>
+        <node>Veld</node>
+        <node>Desert</node>
+        
     </animal>
     <animal>
         <id>4</id>
         <name>Dog</name>
         <description>There are thought to be over 400 million dogs in the world. The dog is the species with the most variation in appearance between members of the same species.</description>
-        <hint>An appropriate arctic hint.</hint>
+        <hint>Likes wide open spaces to run around in.</hint>
         <photo>DogPhoto.jpg</photo>
         <sprite>DogSprite.png</sprite>
         <distance>240</distance>
         <hitpoints>150</hitpoints>
         <speed>25</speed>
-        <node>Arctic</node>
+        <node>Grassy Field</node>
     </animal>
     <animal>
         <id>5</id>
         <name>Hippo</name>
         <description>The closest living relatives to Hippopotami are whales and porpoises.</description>
-        <hint>An appropriate arctic hint.</hint>
+        <hint>Hippopotami like water.</hint>
         <photo>HippoPhoto.jpg</photo>
         <sprite>hipposprite2.png</sprite>
         <distance>300</distance>
         <hitpoints>700</hitpoints>
         <speed>5</speed>
-        <node>Arctic</node>
-        <node>Island</node>
+        <node>River</node>
     </animal>
     <animal>
         <id>6</id>
@@ -77,8 +80,8 @@
      <animal>
         <id>7</id>
         <name>Penguin</name>
-        <description>Penguins are amazing.</description>
-        <hint>An appropriate arctic hint.</hint>
+        <description>Not all penguins live in the arctic. The Galapagos penguin lives near the equator.</description>
+        <hint>Likes cold habitats.</hint>
         <photo>PenguinPhoto.jpg</photo>
         <sprite>penguin.png</sprite>
         <distance>450</distance>

@@ -151,17 +151,25 @@ public class NodeScene extends Activity implements OnTouchListener {
 
 
 	public void moveToScrollMap(View view) {
-		if(selectedScene!=null && e.getStats().payMovePoints(movecost)) 
+		if(selectedScene!=null) 
 		{
+			if(e.getStats().payMovePoints(movecost))
+			{
+				TextView movepointsText = (TextView) findViewById(R.id.currentMovePointsText);
+				movepointsText.setText(getString(R.string.current_movement_points) + " " + e.getStats().getCurrentMovePoints());
 			
-			TextView movepointsText = (TextView) findViewById(R.id.currentMovePointsText);
-			movepointsText.setText(getString(R.string.current_movement_points) + " " + e.getStats().getCurrentMovePoints());
-			
-			Intent intent = new Intent(this, ScrollMapScene.class); 
-			e.getStats().setCurrentNode(selectedScene.getName());
-			e.getStats().save(this);
-			startActivity(intent);
-			
+				Intent intent = new Intent(this, ScrollMapScene.class); 
+				e.getStats().setCurrentNode(selectedScene.getName());
+				e.getStats().save(this);
+				startActivity(intent);
+			}
+			else {
+				Context context = getApplicationContext();
+				CharSequence text = getString(R.string.node_map_not_enough_coin);
+				int duration = Toast.LENGTH_LONG;
+
+				Toast.makeText(context, text, duration).show();
+			}
 			
 		}
 	}

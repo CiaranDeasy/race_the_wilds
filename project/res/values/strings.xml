@@ -3,6 +3,7 @@
 
     <color name="white">#FFFFFF</color>
     <string name="app_name">Race the Wild</string>
+    <string name ="node_map_not_enough_coin">You don\'t have enough coins to move there!</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
     <string name="worldMap">Visit World</string>
