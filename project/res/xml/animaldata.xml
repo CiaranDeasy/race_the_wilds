@@ -51,7 +51,7 @@
         <distance>240</distance>
         <hitpoints>150</hitpoints>
         <speed>25</speed>
-        <node>Grassy Field</node>
+        <node>Grasslands</node>
     </animal>
     <animal>
         <id>5</id>
@@ -92,63 +92,64 @@
      <animal>
         <id>8</id>
         <name>Cheetah</name>
-        <description>Hold ALL the places!</description>
-        <hint>An appropriate arctic hint.</hint>
-        <photo>Cheetah.jpg</photo>
-        <sprite>donkey.png</sprite>
+        <description>The fastest land animal in the world. In addition, they are one of the only felines with rectractable claws.</description>
+        <hint>Stalks through tall, dry grass.</hint>
+        <photo>CheetahPhoto.jpg</photo>
+        <sprite>CheetahSprite.png</sprite>
         <distance>450</distance>
-        <hitpoints>125</hitpoints>
-        <speed>5</speed>
-        <node>Arctic</node>
+        <hitpoints>100</hitpoints>
+        <speed>50</speed>
+        <node>Grasslands</node>
+        <node>Veld</node>
     </animal>
      <animal>
         <id>9</id>
         <name>Ostrich</name>
         <description>Hold ALL the places!</description>
         <hint>An appropriate foresty hint.</hint>
-        <photo>Ostrich.jpg</photo>
-        <sprite>donkey.png</sprite>
+        <photo>OstrichPhoto.jpg</photo>
+        <sprite>OstrichSprite.png</sprite>
         <distance>450</distance>
         <hitpoints>125</hitpoints>
         <speed>5</speed>
-        <node>Forest</node>
+        <node>Desert</node>
+        <node>Veld</node>
     </animal>
      <animal>
         <id>10</id>
         <name>Nautilus</name>
         <description>Hold ALL the places!</description>
         <hint>An appropriate island hint.</hint>
-        <photo>Nautilus.jpg</photo>
-        <sprite>donkey.png</sprite>
+        <photo>NautilusPhoto.jpg</photo>
+        <sprite>NautilusSprite.png</sprite>
         <distance>450</distance>
         <hitpoints>125</hitpoints>
         <speed>5</speed>
-        <node>Island</node>
+        <node>River</node>
     </animal>
-     <animal>
+    <animal>
         <id>11</id>
-        <name>Chicken</name>
-        <description>Hold ALL the places!</description>
-        <hint>An appropriate arctic hint.</hint>
-        <photo>Chicken.jpg</photo>
-        <sprite>donkey.png</sprite>
+        <name>Pronghorn</name>
+        <description>TODO</description>
+        <hint>TODO</hint>
+        <photo>PronghornPhoto.png</photo>
+        <sprite>PronghornSprite.png</sprite>
         <distance>450</distance>
         <hitpoints>125</hitpoints>
         <speed>5</speed>
-        <node>Arctic</node>
+        <node>Grasslands</node>
     </animal>
      <animal>
         <id>12</id>
         <name>Llama</name>
         <description>Hold ALL the places!</description>
         <hint>An appropriate foresty hint.</hint>
-        <photo>Llama.jpg</photo>
-        <sprite>donkey.png</sprite>
+        <photo>LlamaPhoto.jpg</photo>
+        <sprite>LlamaSprite.png</sprite>
         <distance>450</distance>
         <hitpoints>125</hitpoints>
         <speed>5</speed>
-        <node>Forest</node>
-        <node>Mountain</node>
+        <node>Grasslands</node>
     </animal>
     <animal>
         <id>13</id>
@@ -235,5 +236,54 @@
         <hitpoints>125</hitpoints>
         <speed>5</speed>
         <node>River</node>
+    </animal>
+    <animal>
+        <id>20</id>
+        <name>African Wild Dog</name>
+        <description>TODO</description>
+        <hint>TODO</hint>
+        <photo>AfricanWildDogPhoto.jpg</photo>
+        <sprite>AfricanWildDogSprite.png</sprite>
+        <distance>450</distance>
+        <hitpoints>125</hitpoints>
+        <speed>5</speed>
+        <node>Veld</node>
+    </animal>
+    <animal>
+        <id>21</id>
+        <name>Dolphin</name>
+        <description>TODO</description>
+        <hint>TODO</hint>
+        <photo>DolphinPhoto.jpg</photo>
+        <sprite>DolphinSprite.png</sprite>
+        <distance>450</distance>
+        <hitpoints>125</hitpoints>
+        <speed>5</speed>
+        <node>River</node>
+    </animal>
+    <animal>
+        <id>22</id>
+        <name>Swordfish</name>
+        <description>TODO</description>
+        <hint>TODO</hint>
+        <photo>SwordfishPhoto.jpg</photo>
+        <sprite>SwordfishSprite.png</sprite>
+        <distance>450</distance>
+        <hitpoints>125</hitpoints>
+        <speed>5</speed>
+        <node>River</node>
+    </animal>
+    <animal>
+        <id>23</id>
+        <name>Coyote</name>
+        <description>TODO</description>
+        <hint>TODO</hint>
+        <photo>CoyotePhoto.jpg</photo>
+        <sprite>CoyoteSprite.png</sprite>
+        <distance>450</distance>
+        <hitpoints>125</hitpoints>
+        <speed>5</speed>
+        <node>Arctic</node>
+        <node>Desert</node>
     </animal>
 </animaldictionary>

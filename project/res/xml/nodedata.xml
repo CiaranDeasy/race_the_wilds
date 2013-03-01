@@ -33,7 +33,7 @@
 		<relY>0.7</relY>
     </node>
      <node>
-        <name>Grassy Field</name>
+        <name>Grasslands</name>
 		<background>green-view.jpg</background>
 		<preview>green-view.jpg</preview>
 		<sprite>sample_node.png</sprite>
