@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import javax.xml.datatype.Duration;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
@@ -31,6 +33,8 @@ public class ScrollMapScene extends Activity implements OnTouchListener{
 	Engine e;
 	ArrayList<BitmapDisplayAnimal> animals;  //Change to a special displayAnimal class in future.
 	Node thisNode;
+	
+	static Toast onscreenToast;
 	
 	
 	float currentCenterx;  //current center of the screen, in terms of (0,0) being the top leftmost part of the bg image.
@@ -152,7 +156,13 @@ public class ScrollMapScene extends Activity implements OnTouchListener{
 			CharSequence text = getString(R.string.scroll_map_no_animals);
 			int duration = Toast.LENGTH_LONG;
 
-			Toast.makeText(context, text, duration).show();
+			if(onscreenToast!=null)
+			{
+				
+				onscreenToast.cancel();
+			}
+			onscreenToast = Toast.makeText(context, text, duration);
+			onscreenToast.show();
 		}
 
 		else
@@ -160,8 +170,14 @@ public class ScrollMapScene extends Activity implements OnTouchListener{
 			Context context = getApplicationContext();
 			CharSequence text = "There are " + greyAnimals + " new animal(s) to find in this scene at the moment. " + getString(R.string.scroll_map_tutorial_text);
 			int duration = Toast.LENGTH_LONG;
+			if(onscreenToast!=null)
+			{
+				
+				onscreenToast.cancel();
+			}
 
-			Toast.makeText(context, text, duration).show();
+			onscreenToast = Toast.makeText(context, text, duration);
+			onscreenToast.show();
 		}
 
 		
@@ -185,6 +201,11 @@ public class ScrollMapScene extends Activity implements OnTouchListener{
 	{
 		super.onPause();
 		mapDisplay.pause();
+		if(onscreenToast!=null)
+		{
+			
+			onscreenToast.cancel();
+		}
 	}
 
 	protected void onResume()

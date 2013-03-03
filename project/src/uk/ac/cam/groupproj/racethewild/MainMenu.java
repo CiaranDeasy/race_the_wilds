@@ -71,6 +71,7 @@ public class MainMenu extends Activity {
 				} catch (InterruptedException e) { //haha I'm making my exception do something bitches.
 						//empty on purpose to let the thread continue so we can kill it.
 				}
+				if(threadalive)
 				handler.sendEmptyMessage(0);
 			}
 		}
@@ -150,7 +151,7 @@ public class MainMenu extends Activity {
 		} else {
 			System.out.println("Turning GPS on");
 			
-			final int pollTime = 300;                             // 5 minute poll time
+			final int pollTime = 90;                             // 90 second poll time
 			Intent intent = new Intent(context,GPSservice.class);
 			PendingIntent pintent = PendingIntent.getService(context,0,intent,PendingIntent.FLAG_CANCEL_CURRENT);
 			((AlarmManager)getSystemService(Context.ALARM_SERVICE)).setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pollTime*1000, pintent);
