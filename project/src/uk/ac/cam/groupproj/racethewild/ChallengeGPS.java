@@ -13,10 +13,27 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
 
+/**
+ * @author Ciaran
+ *
+ *  This Service runs the challenge logic. An instance is created when the user requests a new 
+ *  distanceTime challenge. The service listens to the device's GPS to track distance traveled.
+ *  
+ *  IMPORTANT: The service copies ChallengeController's static totalDistance and totalTime
+ *  fields when it starts, to use as its challenge information. It also references continuously
+ *  to the ChallengeController's static startTime field. The service will start tracking when this
+ *  field is non-zero.
+ */
+
 public class ChallengeGPS extends Service {
 	
-	private LocationListener locationListener;	private LocationManager locationManager;
+	private LocationListener locationListener;	
+	private LocationManager locationManager;
 	List<Location> pastLocations;
+	private long totalTime; // Time allowed for the challenge, in milliseconds.
+	private int totalDistance; // Distance to be traveled for the challenge.
+	private boolean challengeOver = false;
+	private boolean challengePassed = false;
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -34,16 +51,23 @@ public class ChallengeGPS extends Service {
 		return summedDistance;
 	}
 	
-	private void writeOutDistance(int totalDistance) {
+	/** Writes information about the challenge progress to a publicly accessible location. */
+	private void writeOutStatus(int distanceLeft) {
 		Context context = getApplicationContext();
 		SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.gps_challenge_file_key), Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharedPref.edit();
-		editor.putInt("distance_moved", totalDistance);
+		editor.putInt("distance_left", distanceLeft);
+		editor.putBoolean("challenge_over", challengeOver);
+		editor.putBoolean("challenge_passed", challengePassed);
 		editor.commit();
 	}
 	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startID) {
+		// Get the challenge information from the ChallengeController.
+		this.totalTime = ChallengeController.totalTime;
+		this.totalDistance = ChallengeController.totalDistance;
+		
 		System.out.println("GPSc service started.");
 		
 		pastLocations = new LinkedList<Location>();
@@ -54,14 +78,36 @@ public class ChallengeGPS extends Service {
 				
 				public void onLocationChanged(Location newLocation) {
 					System.out.println("GPSc received location update.");
+					
+					// If the challenge hasn't started yet, ignore update.
+					if (ChallengeController.startTime == 0) return;
+					
+					// If the challenge is over, ignore update.
+					if (challengeOver) return;
+					
 					pastLocations.add(newLocation);
 					try {
 						System.out.println(newLocation.getLatitude()+","+newLocation.getLongitude()+newLocation.distanceTo(pastLocations.get(pastLocations.size()-1)));
 					} catch (IndexOutOfBoundsException e) {
 						// do nothing
 					}
-					int td = sumDistances();
-					writeOutDistance(td);
+					int distanceMoved = sumDistances();
+					long currentTime = System.currentTimeMillis() - ChallengeController.startTime;
+					int distanceLeft = totalDistance - distanceMoved;
+					long timeLeft = totalTime - currentTime;
+					
+					// Is it over yet?
+					if (distanceLeft <= 0) {
+						challengeOver = true;
+						challengePassed = true;
+					}
+					else if (timeLeft <= 0) {
+						challengeOver = true;
+						challengePassed = false;
+					}
+					
+					// Update the status.
+					writeOutStatus(distanceLeft);
 				}
 				
 				public void onProviderDisabled(String provider) {
@@ -91,9 +137,10 @@ public class ChallengeGPS extends Service {
 		return Service.START_STICKY;   // indicates service is explicitly started and stopped as needed
 	}
 	
+	/** Stop tracking GPS updates when service ends. */
 	@Override
 	public void onDestroy() {
-		System.out.println("GPS service destroyed.");
+		System.out.println("GPSc service destroyed.");
 		locationManager.removeUpdates(locationListener);
 	}
 	

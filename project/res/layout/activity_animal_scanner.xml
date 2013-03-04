@@ -15,6 +15,17 @@
         android:text="@string/back_button_text"
         android:typeface="normal" />
 
+    <Button
+        android:id="@+id/winbutton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:onClick="winButton"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:text="@string/win_button"
+        android:typeface="normal" />
+
     <TextView
         android:id="@+id/pointscost"
         android:layout_width="wrap_content"

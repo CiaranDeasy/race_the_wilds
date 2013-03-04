@@ -10,10 +10,10 @@
     </node>
     <node>
         <name>Arctic</name>
-		<background>arcticsample.jpg</background>
-		<preview>arcticsample.jpg</preview>
-		<sprite>sample_node.png</sprite>
-		<relX>0.6</relX>
+		<background>arctic.jpg</background>
+		<preview>arctic.jpg</preview>
+		<sprite>snowflakenode.png</sprite>
+		<relX>0.75</relX>
 		<relY>0.85</relY>
     </node>
     <node>
@@ -31,6 +31,22 @@
 		<sprite>sample_node.png</sprite>
 		<relX>0.4</relX>
 		<relY>0.7</relY>
+    </node>
+     <node>
+        <name>Grasslands</name>
+		<background>green-view.jpg</background>
+		<preview>green-view.jpg</preview>
+		<sprite>sample_node.png</sprite>
+		<relX>0.1</relX>
+		<relY>0.6</relY>
+    </node>
+        <node>
+        <name>Veld</name>
+		<background>veld.jpg</background>
+		<preview>veld.jpg</preview>
+		<sprite>sample_node.png</sprite>
+		<relX>0.7</relX>
+		<relY>0.2</relY>
     </node>
     <node>
         <name>Mountain</name>

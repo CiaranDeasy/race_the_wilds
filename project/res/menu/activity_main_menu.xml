@@ -9,16 +9,5 @@
           android:showAsAction="ifRoom" android:visible="true" android:enabled="true" android:checked="true"
           />
     
-     
-    <item android:id="@+id/gpsSettingsButton"
-          android:title="GPS Settings"
-          android:showAsAction="ifRoom" android:visible="true" android:enabled="true" android:checked="true"
-          />
-    
-        <item android:id="@+id/gpsDebugButton"
-          android:title="GPS Debug"
-          android:showAsAction="ifRoom" android:visible="true" android:enabled="true" android:checked="true"
-          />
-    
  
 </menu>

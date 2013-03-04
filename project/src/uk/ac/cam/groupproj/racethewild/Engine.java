@@ -117,7 +117,7 @@ public class Engine {
 		// Update challenge completion based on loaded data.
 		for(Integer id : engine.stats.getCompletedChallenges()) {
 			try {
-				engine.getChallenge(id).setState(ChallengeState.complete);
+				engine.getChallenge(id).setComplete();
 			} catch(ChallengeNotFoundException e) {
 				System.err.println("Challenge id #" + id + 
 						" was referenced in the save data but doesn't exist!");
@@ -198,9 +198,11 @@ public class Engine {
 		} catch(ChallengeNotFoundException e) {
 			System.err.println("Attempted to complete challenge ID #" + challengeID + 
 					": challenge not found!");
+			return;
 		}
 		// Mark the challenge complete.
 		this.stats.completeChallenge(challengeID);
+		challenge.setComplete();
 		// Release the animal.
 		this.changeColour(challenge.getAnimalID(), Colour.Grey, c);
 		// And save.

@@ -1,21 +1,21 @@
 package uk.ac.cam.groupproj.racethewild;
 
 public class ChallengeStatus {
-	public enum Status {
-		inProgress, success, failure
-	};
-	public int distanceMoved;
-	public long timeTaken;
-	public Status status;
+
+	private final int distanceLeft;
+	private final int timeLeft;
+	private final boolean finished;
+	private final boolean passed;
+
+	public int getDistanceLeft() { return distanceLeft; }
+	public int getTimeLeft() { return timeLeft; }
+	public boolean isFinished() { return finished; }
+	public boolean success() { return passed; }
 	
-	public ChallengeStatus(int statCode, int distance, long time) {
-		distanceMoved = distance;
-		timeTaken = time;
-		switch(statCode) {
-			case 0 : status = Status.inProgress;
-			case 1 : status = Status.success;
-			case 2 : status = Status.failure;
-		}
-		
+	public ChallengeStatus(int distance, int time, boolean isFinished, boolean passed) {
+		this.distanceLeft = distance;
+		this.timeLeft = time;
+		this.finished = isFinished;
+		this.passed = passed;
 	}
 }

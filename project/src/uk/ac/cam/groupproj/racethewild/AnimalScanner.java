@@ -108,6 +108,10 @@ public class AnimalScanner extends Activity implements OnTouchListener {
 		onBackPressed();
 	}
 	
+	public void winButton (View view) {
+		scanimal.hp = 0;
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.

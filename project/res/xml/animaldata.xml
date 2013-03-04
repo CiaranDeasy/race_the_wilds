@@ -4,63 +4,65 @@
         <id>1</id>
         <name>Giraffe</name>
         <description>The giraffe has both the longest neck and the longest tail of any land mammal.</description>
-        <hint>An appropriate arctic hint.</hint>
+        <hint>Likes hot, dry grassland.</hint>
         <photo>GiraffePhoto.jpg</photo>
         <sprite>giraffesprite2.png</sprite>
         <distance>60</distance>
         <hitpoints>60</hitpoints>
         <speed>10</speed>
-        <node>Arctic</node>
-        <node>Island</node>
+        <node>Veld</node>
     </animal>
     <animal>
         <id>2</id>
-        <name>Zebra</name>
-        <description>Unlike horses, Zebras have never been truly domesticated.</description>
-        <hint>An appropriate foresty hint.</hint>
-        <photo>ZebraPhoto.jpg</photo>
-        <sprite>ZebraSprite.png</sprite>
-        <distance>120</distance>
-        <hitpoints>200</hitpoints>
-        <speed>20</speed>
-        <node>Forest</node>
+        <name>Coyote</name>
+        <description>Coyotes live in packs of about six, but hunt in pairs.</description>
+        <hint>Coyotes are adapted to live in both extremes of temperature.</hint>
+        <photo>CoyotePhoto.jpg</photo>
+        <sprite>CoyoteSprite.png</sprite>
+        <distance>450</distance>
+        <hitpoints>125</hitpoints>
+        <speed>5</speed>
+        <node>Arctic</node>
+        <node>Desert</node>
     </animal>
     <animal>
         <id>3</id>
         <name>Kangaroo</name>
         <description>The kangaroo is an unofficial symbol of Australia, appearing on the country's coat of arms. </description>
-        <hint>An appropriate island hint.</hint>
-        <photo>kangaroosprite.png</photo>
+        <hint>Lives in habitats common to Australia.</hint>
+        <photo>KangarooPhoto.jpg</photo>
         <sprite>kangaroosprite.png</sprite>
         <distance>180</distance>
         <hitpoints>180</hitpoints>
         <speed>30</speed>
-        <node>Island</node>
+        <node>Forest</node>
+        <node>Veld</node>
+        <node>Desert</node>
+        
     </animal>
     <animal>
         <id>4</id>
         <name>Dog</name>
         <description>There are thought to be over 400 million dogs in the world. The dog is the species with the most variation in appearance between members of the same species.</description>
-        <hint>An appropriate arctic hint.</hint>
+        <hint>Likes wide open spaces to run around in.</hint>
         <photo>DogPhoto.jpg</photo>
         <sprite>DogSprite.png</sprite>
         <distance>240</distance>
         <hitpoints>150</hitpoints>
         <speed>25</speed>
-        <node>Arctic</node>
+        <node>Grasslands</node>
     </animal>
     <animal>
         <id>5</id>
         <name>Hippo</name>
         <description>The closest living relatives to Hippopotami are whales and porpoises.</description>
-        <hint>An appropriate arctic hint.</hint>
+        <hint>Hippopotami like water.</hint>
         <photo>HippoPhoto.jpg</photo>
         <sprite>hipposprite2.png</sprite>
         <distance>300</distance>
         <hitpoints>700</hitpoints>
         <speed>5</speed>
-        <node>Arctic</node>
-        <node>Island</node>
+        <node>River</node>
     </animal>
     <animal>
         <id>6</id>
@@ -72,13 +74,14 @@
         <distance>360</distance>
         <hitpoints>350</hitpoints>
         <speed>20</speed>
+        <node>Grasslands</node>
         <node>Arctic</node>
     </animal>
      <animal>
         <id>7</id>
         <name>Penguin</name>
-        <description>Penguins are amazing.</description>
-        <hint>An appropriate arctic hint.</hint>
+        <description>Not all penguins live in arctic regions. The Galapagos penguin lives near the equator.</description>
+        <hint>Likes cold habitats.</hint>
         <photo>PenguinPhoto.jpg</photo>
         <sprite>penguin.png</sprite>
         <distance>450</distance>
@@ -89,68 +92,69 @@
      <animal>
         <id>8</id>
         <name>Cheetah</name>
-        <description>Hold ALL the places!</description>
-        <hint>An appropriate arctic hint.</hint>
-        <photo>Cheetah.jpg</photo>
-        <sprite>donkey.png</sprite>
+        <description>The fastest land animal in the world. In addition, they are one of the only felines with rectractable claws.</description>
+        <hint>Stalks through tall, dry grass.</hint>
+        <photo>CheetahPhoto.jpg</photo>
+        <sprite>CheetahSprite.png</sprite>
         <distance>450</distance>
-        <hitpoints>125</hitpoints>
-        <speed>5</speed>
-        <node>Arctic</node>
+        <hitpoints>100</hitpoints>
+        <speed>50</speed>
+        <node>Grasslands</node>
+        <node>Veld</node>
     </animal>
      <animal>
         <id>9</id>
         <name>Ostrich</name>
-        <description>Hold ALL the places!</description>
-        <hint>An appropriate foresty hint.</hint>
-        <photo>Ostrich.jpg</photo>
-        <sprite>donkey.png</sprite>
+        <description>Its powerful legs can be used to kick attackers in times of danger.</description>
+        <hint>An African native.</hint>
+        <photo>OstrichPhoto.jpg</photo>
+        <sprite>OstrichSprite.png</sprite>
         <distance>450</distance>
         <hitpoints>125</hitpoints>
         <speed>5</speed>
-        <node>Forest</node>
+        <node>Desert</node>
+        <node>Veld</node>
     </animal>
      <animal>
         <id>10</id>
         <name>Nautilus</name>
-        <description>Hold ALL the places!</description>
-        <hint>An appropriate island hint.</hint>
-        <photo>Nautilus.jpg</photo>
-        <sprite>donkey.png</sprite>
+        <description>The shell describes a perfect logarithmic spiral.</description>
+        <hint>Lives in deep water.</hint>
+        <photo>NautilusPhoto.jpg</photo>
+        <sprite>NautilusSprite.png</sprite>
         <distance>450</distance>
         <hitpoints>125</hitpoints>
         <speed>5</speed>
-        <node>Island</node>
+        <node>River</node>
     </animal>
-     <animal>
+    <animal>
         <id>11</id>
-        <name>Chicken</name>
-        <description>Hold ALL the places!</description>
-        <hint>An appropriate arctic hint.</hint>
-        <photo>Chicken.jpg</photo>
-        <sprite>donkey.png</sprite>
+        <name>Pronghorn</name>
+        <description>The pronghorn is one of the world's fastest land creatures.</description>
+        <hint>Lives in wide open grass.</hint>
+        <photo>PronghornPhoto.png</photo>
+        <sprite>PronghornSprite.png</sprite>
         <distance>450</distance>
         <hitpoints>125</hitpoints>
         <speed>5</speed>
-        <node>Arctic</node>
+        <node>Grasslands</node>
     </animal>
      <animal>
         <id>12</id>
         <name>Llama</name>
-        <description>Hold ALL the places!</description>
-        <hint>An appropriate foresty hint.</hint>
-        <photo>Llama.jpg</photo>
-        <sprite>donkey.png</sprite>
+        <description>Llamas are quite intelligent and can be taught basic tasks.</description>
+        <hint>Lives in open plains.</hint>
+        <photo>LlamaPhoto.jpg</photo>
+        <sprite>LlamaSprite.png</sprite>
         <distance>450</distance>
         <hitpoints>125</hitpoints>
         <speed>5</speed>
-        <node>Forest</node>
-        <node>Mountain</node>
+        <node>Grasslands</node>
     </animal>
     <animal>
         <id>13</id>
         <name>European Robin</name>
-        <description>Description of a Robin.</description>
+        <description>In the British Isles, robins are unwary of humans and will approach them.</description>
         <hint>Lives in trees in temporate climates.</hint>
         <photo>robin_photo.jpg</photo>
         <sprite>robin_sprite.png</sprite>
@@ -163,7 +167,7 @@
     <animal>
         <id>14</id>
         <name>Barn owl</name>
-        <description>Description of a barn own</description>
+        <description>Their ears are asymmetrically placed to give a better sense of location.</description>
         <hint>Hunts in open spaces and lives in trees.</hint>
         <photo>barnowl_photo.jpg</photo>
         <sprite>barnowl_sprite.png</sprite>
@@ -176,7 +180,7 @@
     <animal>
         <id>15</id>
         <name>Mountain goat</name>
-        <description>Description of a mountain goat.</description>
+        <description>The lifespan of wild mountain goats is limited by the wearing down of their teeth.</description>
         <hint>Thrives in steep, high, barren climates.</hint>
         <photo>mountaingoat_photo.jpg</photo>
         <sprite>mountaingoat_sprite.png</sprite>
@@ -188,7 +192,7 @@
     <animal>
         <id>16</id>
         <name>Bighorn sheep</name>
-        <description>Description of a bighorn sheep.</description>
+        <description>The males often fight for the right to mate with ewes.</description>
         <hint>Is able to survive and hunt in very dry climates.</hint>
         <photo>bighornsheep_photo.jpg</photo>
         <sprite>bighornsheep_sprite.png</sprite>
@@ -200,7 +204,7 @@
     <animal>
         <id>17</id>
         <name>Arctic tern</name>
-        <description>Description of an arctic tern</description>
+        <description>These birds sometimes sppok other birds to make them drop their caught food, so that the tern can steal it.</description>
         <hint>Thrives in cold climates.</hint>
         <photo>arctictern_photo.jpg</photo>
         <sprite>arctictern_sprite.png</sprite>
@@ -212,7 +216,7 @@
     <animal>
         <id>18</id>
         <name>Canada goose</name>
-        <description>Description of a Canada goose</description>
+        <description>They often feel threatened by humans, and spread their wings and make loud noise to ward us off.</description>
         <hint>Swims and eats fish.</hint>
         <photo>canadagoose_photo.jpg</photo>
         <sprite>canadagoose_sprite.png</sprite>
@@ -224,10 +228,46 @@
     <animal>
         <id>19</id>
         <name>Whooper swan</name>
-        <description>Description of a whooper swan</description>
+        <description>Even after their offspring have matured, they often return to their parents during winter.</description>
         <hint>Swims and eats fish</hint>
         <photo>whooperswan_photo.jpg</photo>
         <sprite>whooperswan_sprite.png</sprite>
+        <distance>450</distance>
+        <hitpoints>125</hitpoints>
+        <speed>5</speed>
+        <node>River</node>
+    </animal>
+    <animal>
+        <id>20</id>
+        <name>African Wild Dog</name>
+        <description>These canines don't fight for dominance, but agree their hierarchy by consensus.</description>
+        <hint>Their name is appropriate...!</hint>
+        <photo>AfricanWildDogPhoto.jpg</photo>
+        <sprite>AfricanWildDogSprite.png</sprite>
+        <distance>450</distance>
+        <hitpoints>125</hitpoints>
+        <speed>5</speed>
+        <node>Veld</node>
+    </animal>
+    <animal>
+        <id>21</id>
+        <name>Dolphin</name>
+        <description>Dolphins are believed to be one of the most intelligent species in the world.</description>
+        <hint>Splashes about in deep water.</hint>
+        <photo>DolphinPhoto.jpg</photo>
+        <sprite>DolphinSprite.png</sprite>
+        <distance>450</distance>
+        <hitpoints>125</hitpoints>
+        <speed>5</speed>
+        <node>River</node>
+    </animal>
+    <animal>
+        <id>22</id>
+        <name>Swordfish</name>
+        <description>Swordfish prefer to slash at their adversaries rather than impale them.</description>
+        <hint>Lives in deep water.</hint>
+        <photo>SwordfishPhoto.jpg</photo>
+        <sprite>SwordfishSprite.png</sprite>
         <distance>450</distance>
         <hitpoints>125</hitpoints>
         <speed>5</speed>

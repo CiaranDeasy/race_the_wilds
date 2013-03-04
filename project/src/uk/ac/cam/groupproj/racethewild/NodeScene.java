@@ -40,6 +40,7 @@ public class NodeScene extends Activity implements OnTouchListener {
 	static boolean tutorial_displayed = false;
 	Node selectedScene;
 	int movecost =0;
+	static Toast toasties;
 
 	//current center of the screen, in terms of (0,0) being the top leftmost part of the bg image.
 	float currentCentery;
@@ -112,16 +113,24 @@ public class NodeScene extends Activity implements OnTouchListener {
 			Context context = getApplicationContext();
 			CharSequence text = getString(R.string.node_map_no_animals);
 			int duration = Toast.LENGTH_LONG;
-
-			Toast.makeText(context, text, duration).show();
+			if(toasties!=null)
+			{
+				toasties.cancel();
+			}
+			toasties = Toast.makeText(context, text, duration);
+			toasties.show();
 		}
 		else 
 		{
 			Context context = getApplicationContext();
 			CharSequence text = "There are " + noOfAnimals + " new animal(s) in the wild right now. " + getString(R.string.node_map_tutorial_text);
 			int duration = Toast.LENGTH_LONG;
-
-			Toast.makeText(context, text, duration).show();
+			if(toasties!=null)
+			{
+				toasties.cancel();
+			}
+			toasties = Toast.makeText(context, text, duration);
+			toasties.show();
 		}
 	}
 
@@ -151,17 +160,28 @@ public class NodeScene extends Activity implements OnTouchListener {
 
 
 	public void moveToScrollMap(View view) {
-		if(selectedScene!=null && e.getStats().payMovePoints(movecost)) 
+		if(selectedScene!=null) 
 		{
-			
-			TextView movepointsText = (TextView) findViewById(R.id.currentMovePointsText);
-			movepointsText.setText(getString(R.string.current_movement_points) + " " + e.getStats().getCurrentMovePoints());
-			
-			Intent intent = new Intent(this, ScrollMapScene.class); 
-			e.getStats().setCurrentNode(selectedScene.getName());
-			e.getStats().save(this);
-			startActivity(intent);
-			
+			if(e.getStats().payMovePoints(movecost))
+			{
+				TextView movepointsText = (TextView) findViewById(R.id.currentMovePointsText);
+				movepointsText.setText(getString(R.string.current_movement_points) + " " + e.getStats().getCurrentMovePoints());
+				Intent intent = new Intent(this, ScrollMapScene.class); 
+				e.getStats().setCurrentNode(selectedScene.getName());
+				e.getStats().save(this);
+				startActivity(intent);
+			}
+			else {
+				Context context = getApplicationContext();
+				CharSequence text = getString(R.string.node_map_not_enough_coin);
+				int duration = Toast.LENGTH_LONG;
+				if(toasties!=null)
+				{
+					toasties.cancel();
+				}
+				toasties = Toast.makeText(context, text, duration);
+				toasties.show();
+			}
 			
 		}
 	}
@@ -171,6 +191,10 @@ public class NodeScene extends Activity implements OnTouchListener {
 	{
 		super.onPause();
 		nodeDisplay.pause();
+		if(toasties!=null)
+		{
+			toasties.cancel();
+		}
 	}
 
 	protected void onResume()
@@ -226,6 +250,11 @@ public class NodeScene extends Activity implements OnTouchListener {
 		public void run() {
 			while(isItOkToRender)
 			{
+				try {
+					Thread.sleep(16);
+				} catch (InterruptedException e) {
+					// This is okay
+				}
 				if (!holder.getSurface().isValid())
 				{
 					continue;
@@ -271,34 +300,35 @@ public class NodeScene extends Activity implements OnTouchListener {
 					{
 						try {
 							Node selectedScene = e.lookupNode(node.nodeName);
-							
-							updateMoveCosts(selectedScene);
-							
-							
+							if(selectedScene!= this.selectedScene)
+							{
+								updateMoveCosts(selectedScene);
 
-							
-							ImageView imageView = (ImageView) findViewById(R.id.nodeViewPic);
-							InputStream nodeViewPic;
-							try {
-								
-								nodeViewPic = getAssets().open(selectedScene.getPreview());
-								
-								BitmapFactory.Options options = new BitmapFactory.Options();
-								options.inSampleSize = 4;
-								options.inPreferredConfig = Config.RGB_565;
-								Bitmap pic = BitmapFactory.decodeStream(nodeViewPic, null, options);
-								
-								//Bitmap pic = BitmapFactory.decodeStream(nodeViewPic);
-								if(this.selectedScene!=null)
-								((BitmapDrawable)imageView.getDrawable()).getBitmap().recycle();
-								this.selectedScene=selectedScene;
-								imageView.setImageBitmap(pic);
-								nodeViewPic.close();
-							} catch (IOException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
+
+
+
+								ImageView imageView = (ImageView) findViewById(R.id.nodeViewPic);
+								InputStream nodeViewPic;
+								try {
+
+									nodeViewPic = getAssets().open(selectedScene.getPreview());
+
+									BitmapFactory.Options options = new BitmapFactory.Options();
+									options.inSampleSize = 4;
+									options.inPreferredConfig = Config.RGB_565;
+									Bitmap pic = BitmapFactory.decodeStream(nodeViewPic, null, options);
+
+									//Bitmap pic = BitmapFactory.decodeStream(nodeViewPic);
+									if(this.selectedScene!=null)
+										((BitmapDrawable)imageView.getDrawable()).getBitmap().recycle();
+									this.selectedScene=selectedScene;
+									imageView.setImageBitmap(pic);
+									nodeViewPic.close();
+								} catch (IOException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
 							}
-
 
 							
 							
