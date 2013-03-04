@@ -10,6 +10,19 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
+/**
+ * 
+ * @author Ciaran
+ *
+ * The challenge controller acts as a middleware for the challenge system. The GPS system sits
+ * below it, generating information about the challenge, which the challenge controller translates 
+ * for the Activity display for the user at the top.
+ * 
+ * IMPORTANT: The GPS service copies ChallengeController's static totalDistance and totalTime
+ *  fields when it starts, to use as its challenge information. It also references continuously
+ *  to the ChallengeController's static startTime field. The service will start tracking when this
+ *  field is non-zero.
+ */
 public class ChallengeController {                                // mti20 TODO
 
 	static Challenge currentChallenge;
@@ -128,7 +141,8 @@ public class ChallengeController {                                // mti20 TODO
 			return false;
 		}
 	}
-
+	
+	/** Jump challenges are omitted in final release. */
 	public static void startJumpChallenge(Context context) {
 		try {
 			startTime = System.currentTimeMillis();
@@ -138,6 +152,7 @@ public class ChallengeController {                                // mti20 TODO
 		}
 	}
 	
+	/** Jump challenges are omitted in final release. */
 	public static ChallengeStatus checkJumpChallengeStatus(Context context) {
 		int jumps;
 		long time;

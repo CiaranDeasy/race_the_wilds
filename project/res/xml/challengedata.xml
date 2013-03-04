@@ -6,7 +6,7 @@
         <repetitions>500</repetitions>
         <time>300</time>
         <text>Run 500 metres in 5 minutes!</text>
-        <animal>1</animal>
+        <animal>8</animal>
     </challenge>
     <challenge>
         <id>2</id>
@@ -41,20 +41,20 @@
         <animal>12</animal>
     </challenge>
     <challenge>
-        <id>7</id>
+        <id>6</id>
         <type>distancetime</type>
         <repetitions>750</repetitions>
         <time>1800</time>
         <text>Punt 750m in 30 minutes!</text>
-        <animal>14</animal>
+        <animal>13</animal>
     </challenge>
     <challenge>
-        <id>10</id>
+        <id>7</id>
         <type>distancetime</type>
         <repetitions>750</repetitions>
         <time>900</time>
         <text>Punt 750m in 15 minutes!</text>
-        <animal>16</animal>
+        <animal>17</animal>
     </challenge>
     <challenge>
         <id>8</id>

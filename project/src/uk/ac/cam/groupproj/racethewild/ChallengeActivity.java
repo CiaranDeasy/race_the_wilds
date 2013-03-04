@@ -107,7 +107,7 @@ public class ChallengeActivity extends Activity {
 		return true;
 	}
 
-	// The main loop, which queries challenge status every second and updates the display
+	/** The main loop, which queries challenge status every second and updates the display */
 	private void distanceChallengeStatus() {
 		ChallengeStatus status = ChallengeController.checkMovementChallengeStatus(this);
 		while (!status.isFinished() && status.getTimeLeft() > 0) {
@@ -124,7 +124,7 @@ public class ChallengeActivity extends Activity {
 		} else {
 			setProgressText("Challenge Failed.");
 			ChallengeController.stopChallenge(this);
-			
+			buttonEnabled = false;
 		}
 		
 		// Clean up.
@@ -152,6 +152,7 @@ public class ChallengeActivity extends Activity {
 		handler.sendEmptyMessage(0);
 	}	*/
 
+	/** Gives a ten-second countdown. */
 	private void countDown() {
 		this.counting = true;
 		try {
@@ -163,6 +164,7 @@ public class ChallengeActivity extends Activity {
 		this.counting = false;
 	}
 	
+	/** Requests a challenge, gives a countdown, and starts the tracking. */
 	private void startNewChallenge() {
 		// Disable the button during the countdown.
 		buttonEnabled = false;
@@ -217,12 +219,14 @@ public class ChallengeActivity extends Activity {
 		else super.onBackPressed();
 	}
 	
+	/** Tells the thread to kill itself when ending the activity. */
 	@Override
 	public void onDestroy() {
 		if(thread != null) threadAllowedToLive = false;
 		super.onDestroy();
 	}
 	
+	/** Update the display and the back-end data with challenge completion. */
 	private void completeChallenge() {
 		// Disable the cancel challenge button.
 		buttonEnabled = false;
@@ -242,9 +246,10 @@ public class ChallengeActivity extends Activity {
 		ChallengeController.stopChallenge(this);
 	}
 	
+	/** Returns a minutes-seconds string representation of an integer number of seconds. */
 	private String formatTime(int seconds) {
 		if (seconds < 60) return seconds + " seconds";
-		else return seconds%60 + "min, " + seconds/60 + "sec";
+		else return seconds/60 + "min, " + seconds%60 + "sec";
 	}
 	
 	/** Updates the on-screen text in a thread-safe manner. */
