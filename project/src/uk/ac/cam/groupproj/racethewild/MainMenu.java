@@ -62,7 +62,6 @@ public class MainMenu extends Activity {
 			}
 		}
 		
-		@Override
 		public void run(){
 			while(threadalive)
 			{
