@@ -13,20 +13,6 @@
         <node>Veld</node>
     </animal>
     <animal>
-        <id>2</id>
-        <name>Zebra</name>
-        <description>Unlike horses, Zebras have never been truly domesticated.</description>
-        <hint>Happy in woodlands or plains.</hint>
-        <photo>ZebraPhoto.jpg</photo>
-        <sprite>ZebraSprite.png</sprite>
-        <distance>120</distance>
-        <hitpoints>200</hitpoints>
-        <speed>20</speed>
-        <node>Forest</node>
-        <node>Veld</node>
-        
-    </animal>
-    <animal>
         <id>3</id>
         <name>Kangaroo</name>
         <description>The kangaroo is an unofficial symbol of Australia, appearing on the country's coat of arms. </description>

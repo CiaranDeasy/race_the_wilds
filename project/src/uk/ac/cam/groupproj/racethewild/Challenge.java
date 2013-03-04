@@ -7,7 +7,7 @@ public class Challenge {
 	private final int time; // in seconds.
 	private final String text;
 	private final int animalID; // of the animal awarded for the task.
-	private ChallengeState state;
+	private boolean complete;
 	private final ChallengeType type;
 	
 	public int getChallengeID() { return challengeID;} 
@@ -15,12 +15,11 @@ public class Challenge {
 	public int getTime() { return time; }
 	public String getText() { return text; }
 	public int getAnimalID() { return animalID; }
-	public boolean completed() { return state == ChallengeState.complete; }
-	public ChallengeState getState() { return state; }
+	public boolean isComplete() { return complete; }
 	public ChallengeType getType() { return type; }
 	
-	public void setState(ChallengeState state) {
-		this.state = state;
+	public void setComplete() {
+		this.complete = true;
 	}
 	
 	public Challenge(int challengeID, int repetitions, int time, String text, int animalID, ChallengeType type) {
@@ -30,6 +29,7 @@ public class Challenge {
 		this.text = text;
 		this.animalID = animalID;
 		this.type = type;
+		this.complete = false;
 	}
 	
 	

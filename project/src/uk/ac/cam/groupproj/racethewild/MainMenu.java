@@ -302,12 +302,6 @@ public class MainMenu extends Activity {
 	        case R.id.add_points:
 	            addMovement(getCurrentFocus());
 	            return true;
-	        case R.id.gpsSettingsButton:
-	            gpsSettings(getCurrentFocus());
-	            return true;
-	        case R.id.gpsDebugButton:
-	            gpsdebug(getCurrentFocus());
-	            return true;
 	            
 	        default:
 	            return super.onOptionsItemSelected(item);
